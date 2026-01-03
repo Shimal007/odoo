@@ -1,6 +1,7 @@
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import CreateTrip from './CreateTrip';
 import BuildItinerary from './BuildItinerary';
+import ItineraryView from './ItineraryView';
 import './index.css';
 
 function App() {
@@ -11,6 +12,7 @@ function App() {
           <Route path="/" element={<Navigate to="/create-trip" />} />
           <Route path="/create-trip" element={<CreateTrip />} />
           <Route path="/build-itinerary/:tripId" element={<BuildItinerary />} />
+          <Route path="/view-itinerary/:tripId" element={<ItineraryView />} />
         </Routes>
       </div>
     </Router>
