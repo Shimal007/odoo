@@ -18,8 +18,7 @@ const Packages = ({ user, onLogout }) => {
             discount: 28,
             rating: 4.9,
             reviews: 342,
-            image: '🏝️',
-            gradient: 'from-green-500 to-teal-500',
+            image: 'https://images.unsplash.com/photo-1537996194471-e657df975ab4?auto=format&fit=crop&q=80&w=800',
             type: 'beach',
             includes: ['✈️ Flights', '🏨 4-Star Hotels', '🍽️ Breakfast', '🚐 Transfers', '🎯 3 Activities'],
             highlights: ['Ubud Rice Terraces', 'Beach Sunset', 'Temple Tour', 'Spa Experience']
@@ -34,8 +33,7 @@ const Packages = ({ user, onLogout }) => {
             discount: 19,
             rating: 4.8,
             reviews: 567,
-            image: '🏰',
-            gradient: 'from-purple-500 to-pink-500',
+            image: 'https://images.unsplash.com/photo-1499856871958-5b9627545d1a?auto=format&fit=crop&q=80&w=800',
             type: 'culture',
             includes: ['✈️ Flights', '🏨 5-Star Hotels', '🍽️ Half Board', '🚄 Train Tickets', '👨‍🏫 Guided Tours'],
             highlights: ['Eiffel Tower', 'Colosseum', 'Sagrada Familia', 'Wine Tasting']
@@ -50,8 +48,7 @@ const Packages = ({ user, onLogout }) => {
             discount: 24,
             rating: 4.9,
             reviews: 234,
-            image: '🏔️',
-            gradient: 'from-blue-500 to-indigo-500',
+            image: 'https://images.unsplash.com/photo-1544735716-392fe2489ffa?auto=format&fit=crop&q=80&w=800',
             type: 'adventure',
             includes: ['✈️ Flights', '🏕️ Lodges & Hotels', '🍽️ Full Board', '🥾 Trekking Gear', '🧗 Adventure Activities'],
             highlights: ['Everest Base Camp', 'Tiger\'s Nest', 'Mountain Views', 'Local Culture']
@@ -66,8 +63,7 @@ const Packages = ({ user, onLogout }) => {
             discount: 24,
             rating: 4.7,
             reviews: 445,
-            image: '🏙️',
-            gradient: 'from-yellow-500 to-orange-500',
+            image: 'https://images.unsplash.com/photo-1512453979798-5ea266f8880c?auto=format&fit=crop&q=80&w=800',
             type: 'luxury',
             includes: ['✈️ First Class Flights', '🏨 7-Star Hotel', '🍽️ Gourmet Dining', '🚗 Luxury Transfers', '🎪 VIP Access'],
             highlights: ['Burj Khalifa', 'Desert Safari', 'Luxury Shopping', 'Yacht Tour']
@@ -82,8 +78,7 @@ const Packages = ({ user, onLogout }) => {
             discount: 22,
             rating: 5.0,
             reviews: 892,
-            image: '🏖️',
-            gradient: 'from-cyan-500 to-blue-500',
+            image: 'https://images.unsplash.com/photo-1514282401047-d79a71a590e8?auto=format&fit=crop&q=80&w=800',
             type: 'beach',
             includes: ['✈️ Seaplane Transfers', '🏝️ Overwater Villa', '🍽️ All Inclusive', '🤿 Water Sports', '💑 Spa for Two'],
             highlights: ['Private Beach', 'Snorkeling', 'Candlelight Dinner', 'Sunset Cruise']
@@ -98,8 +93,7 @@ const Packages = ({ user, onLogout }) => {
             discount: 22,
             rating: 4.9,
             reviews: 178,
-            image: '🦁',
-            gradient: 'from-orange-500 to-red-500',
+            image: 'https://images.unsplash.com/photo-1516426122078-c23e76319801?auto=format&fit=crop&q=80&w=800',
             type: 'adventure',
             includes: ['✈️ Flights', '🏕️ Safari Lodges', '🍽️ Full Board', '🚙 4x4 Game Drives', '📸 Photo Tours'],
             highlights: ['Serengeti', 'Big Five', 'Maasai Village', 'Hot Air Balloon']
@@ -114,8 +108,7 @@ const Packages = ({ user, onLogout }) => {
             discount: 19,
             rating: 4.8,
             reviews: 523,
-            image: '⛩️',
-            gradient: 'from-red-500 to-pink-500',
+            image: 'https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?auto=format&fit=crop&q=80&w=800',
             type: 'culture',
             includes: ['✈️ Flights', '🏨 Ryokan & Hotels', '🍽️ Japanese Breakfast', '🚄 JR Pass', '🎎 Cultural Experiences'],
             highlights: ['Mount Fuji', 'Tea Ceremony', 'Ancient Temples', 'Sushi Making']
@@ -130,8 +123,7 @@ const Packages = ({ user, onLogout }) => {
             discount: 23,
             rating: 4.7,
             reviews: 401,
-            image: '🌴',
-            gradient: 'from-teal-500 to-green-500',
+            image: 'https://images.unsplash.com/photo-1548574505-12737441edb2?auto=format&fit=crop&q=80&w=800',
             type: 'beach',
             includes: ['✈️ Flights', '🏖️ Beach Resorts', '🍽️ All Meals', '⛵ Island Tours', '🎵 Beach Parties'],
             highlights: ['Crystal Waters', 'Water Sports', 'Beach BBQ', 'Reggae Nights']
@@ -140,10 +132,10 @@ const Packages = ({ user, onLogout }) => {
 
     const filters = [
         { value: 'all', label: 'All Packages' },
-        { value: 'beach', label: '🏖️ Beach' },
-        { value: 'adventure', label: '🏔️ Adventure' },
-        { value: 'culture', label: '🎎 Culture' },
-        { value: 'luxury', label: '💎 Luxury' }
+        { value: 'beach', label: 'Beach' },
+        { value: 'adventure', label: 'Adventure' },
+        { value: 'culture', label: 'Culture' },
+        { value: 'luxury', label: 'Luxury' }
     ];
 
     const priceFilters = [
@@ -155,11 +147,9 @@ const Packages = ({ user, onLogout }) => {
 
     const getFilteredPackages = () => {
         let filtered = packages;
-
         if (selectedFilter !== 'all') {
             filtered = filtered.filter(pkg => pkg.type === selectedFilter);
         }
-
         if (priceFilter === 'budget') {
             filtered = filtered.filter(pkg => pkg.price < 2000);
         } else if (priceFilter === 'mid') {
@@ -167,56 +157,55 @@ const Packages = ({ user, onLogout }) => {
         } else if (priceFilter === 'luxury') {
             filtered = filtered.filter(pkg => pkg.price > 3500);
         }
-
         return filtered;
     };
 
     const filteredPackages = getFilteredPackages();
 
     return (
-        <div className="page-wrapper">
+        <div className="page-container">
             <Navbar user={user} onLogout={onLogout} />
 
             <div className="content-wrapper">
-                {/* Hero */}
+                {/* Premium Hero Section */}
                 <div style={{
-                    background: 'linear-gradient(135deg, #4f46e5 0%, #7c3aed 50%, #ec4899 100%)',
+                    background: 'var(--charcoal)',
                     color: 'white',
-                    padding: 'var(--spacing-3xl) 0',
+                    padding: '3rem 0',
                     textAlign: 'center',
-                    marginBottom: 'var(--spacing-3xl)'
+                    marginBottom: '2rem',
+                    borderBottom: '4px solid var(--gold)'
                 }}>
                     <div className="container">
                         <h1 style={{
-                            color: 'white',
-                            fontSize: 'clamp(2.5rem, 5vw, 4rem)',
-                            marginBottom: 'var(--spacing-md)'
+                            color: 'var(--gold)',
+                            fontSize: '3rem',
+                            marginBottom: '0.5rem',
+                            fontFamily: 'var(--font-serif)'
                         }}>
-                            Holiday Packages 🎁
+                            Bespoke Holiday Packages
                         </h1>
                         <p style={{
                             fontSize: '1.25rem',
-                            opacity: 0.95,
+                            color: 'var(--cream)',
+                            opacity: 0.9,
                             maxWidth: '700px',
-                            margin: '0 auto var(--spacing-lg)'
+                            margin: '0 auto 2rem'
                         }}>
-                            Curated vacation packages with everything included
+                            Curated luxury travel experiences with uncompromised comfort
                         </p>
-                        <div style={{
-                            display: 'flex',
-                            gap: 'var(--spacing-lg)',
-                            justifyContent: 'center',
-                            flexWrap: 'wrap',
-                            marginTop: 'var(--spacing-xl)'
-                        }}>
-                            {['✈️ Flights', '🏨 Hotels', '🍽️ Meals', '🎯 Activities', '🚐 Transfers'].map((item, i) => (
+                        <div className="flex gap-2 justify-center flex-wrap">
+                            {['Flights', 'Hotels', 'Meals', 'Activities', 'Transfers'].map((item, i) => (
                                 <div key={i} style={{
-                                    background: 'rgba(255,255,255,0.2)',
-                                    padding: '0.5rem 1rem',
+                                    background: 'rgba(184, 134, 11, 0.2)',
+                                    color: 'var(--gold-light)',
+                                    padding: '0.4rem 1rem',
                                     borderRadius: 'var(--radius-full)',
-                                    backdropFilter: 'blur(10px)',
-                                    fontSize: '0.9375rem',
-                                    fontWeight: 600
+                                    border: '1px solid var(--gold)',
+                                    fontSize: '0.75rem',
+                                    textTransform: 'uppercase',
+                                    fontWeight: 700,
+                                    letterSpacing: '0.1em'
                                 }}>
                                     {item}
                                 </div>
@@ -225,204 +214,133 @@ const Packages = ({ user, onLogout }) => {
                     </div>
                 </div>
 
-                <div className="container container-wide">
-                    {/* Filters */}
-                    <div style={{ marginBottom: 'var(--spacing-3xl)' }}>
-                        <div className="card" style={{ padding: 'var(--spacing-xl)' }}>
-                            <div style={{
-                                display: 'grid',
-                                gridTemplateColumns: 'auto 1fr auto',
-                                gap: 'var(--spacing-xl)',
-                                alignItems: 'center'
-                            }}>
-                                <div style={{ fontWeight: 700, fontSize: '1.125rem' }}>
-                                    Filter by:
-                                </div>
-
-                                <div style={{ display: 'flex', gap: 'var(--spacing-sm)', flexWrap: 'wrap' }}>
+                <div className="container section" style={{ paddingTop: 0 }}>
+                    {/* Compact Filters */}
+                    <div className="card mb-4" style={{ padding: '1.25rem' }}>
+                        <div className="flex justify-between items-center gap-4">
+                            <div className="flex items-center gap-3">
+                                <span className="font-bold text-sm uppercase tracking-wider text-warm-gray">Filter:</span>
+                                <div className="flex gap-2">
                                     {filters.map(filter => (
                                         <button
                                             key={filter.value}
                                             onClick={() => setSelectedFilter(filter.value)}
                                             className={`btn btn-sm ${selectedFilter === filter.value ? 'btn-primary' : 'btn-ghost'}`}
-                                            style={{ borderRadius: 'var(--radius-full)' }}
+                                            style={{ fontSize: '0.75rem', padding: '0.4rem 1rem' }}
                                         >
                                             {filter.label}
                                         </button>
                                     ))}
                                 </div>
-
-                                <select
-                                    className="form-select"
-                                    value={priceFilter}
-                                    onChange={(e) => setPriceFilter(e.target.value)}
-                                    style={{ width: '200px' }}
-                                >
-                                    {priceFilters.map(filter => (
-                                        <option key={filter.value} value={filter.value}>
-                                            {filter.label}
-                                        </option>
-                                    ))}
-                                </select>
                             </div>
+
+                            <select
+                                className="form-select"
+                                value={priceFilter}
+                                onChange={(e) => setPriceFilter(e.target.value)}
+                                style={{ width: '180px', fontSize: '0.875rem' }}
+                            >
+                                {priceFilters.map(filter => (
+                                    <option key={filter.value} value={filter.value}>
+                                        {filter.label}
+                                    </option>
+                                ))}
+                            </select>
                         </div>
                     </div>
 
-                    {/* Results */}
-                    <div style={{ marginBottom: 'var(--spacing-md)' }}>
-                        <h3>
-                            {filteredPackages.length} {filteredPackages.length === 1 ? 'Package' : 'Packages'} Available
+                    <div className="mb-3">
+                        <h3 className="font-serif" style={{ fontSize: '1.5rem' }}>
+                            {filteredPackages.length} Exclusive Packages Available
                         </h3>
                     </div>
 
-                    {/* Packages Grid */}
-                    <div className="grid grid-2">
+                    {/* Quality Grid */}
+                    <div className="grid grid-2 gap-4">
                         {filteredPackages.map((pkg, index) => (
                             <div
                                 key={pkg.id}
-                                className="card card-elevated animate-fade-in-up"
+                                className="card p-0 overflow-hidden animate-fade-in-up"
                                 style={{
-                                    padding: 0,
-                                    animationDelay: `${index * 100}ms`,
-                                    position: 'relative'
+                                    animationDelay: `${index * 50}ms`,
+                                    border: '1px solid var(--border-color)',
+                                    display: 'flex',
+                                    flexDirection: 'column'
                                 }}
                             >
-                                {/* Discount Badge */}
-                                {pkg.discount > 0 && (
+                                {/* Image Container */}
+                                <div style={{ height: '220px', position: 'relative', overflow: 'hidden' }}>
+                                    <img
+                                        src={pkg.image}
+                                        alt={pkg.name}
+                                        style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                                    />
                                     <div style={{
                                         position: 'absolute',
-                                        top: '1rem',
-                                        right: '1rem',
-                                        background: 'linear-gradient(135deg, #ef4444, #dc2626)',
-                                        color: 'white',
-                                        padding: '0.5rem 1rem',
-                                        borderRadius: 'var(--radius-full)',
-                                        fontWeight: 800,
-                                        fontSize: '0.875rem',
-                                        zIndex: 10,
-                                        boxShadow: 'var(--shadow-lg)'
+                                        bottom: 0,
+                                        left: 0,
+                                        right: 0,
+                                        padding: '1rem',
+                                        background: 'linear-gradient(to top, rgba(0,0,0,0.8), transparent)',
+                                        color: 'white'
                                     }}>
-                                        {pkg.discount}% OFF
+                                        <div className="flex justify-between items-end">
+                                            <span style={{ fontSize: '0.75rem', fontWeight: 700, textTransform: 'uppercase' }}>
+                                                {pkg.destination}
+                                            </span>
+                                            <span style={{ fontSize: '0.75rem' }}>⭐ {pkg.rating}</span>
+                                        </div>
                                     </div>
-                                )}
-
-                                {/* Image */}
-                                <div style={{
-                                    height: '250px',
-                                    background: `linear-gradient(135deg, var(--primary-gradient-start), var(--primary-gradient-end))`,
-                                    display: 'flex',
-                                    alignItems: 'center',
-                                    justifyContent: 'center',
-                                    fontSize: '6rem',
-                                    position: 'relative'
-                                }}>
-                                    <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(135deg, rgba(0,0,0,0.1), rgba(0,0,0,0.3))' }} />
-                                    <span style={{ position: 'relative', zIndex: 1 }}>{pkg.image}</span>
+                                    {pkg.discount > 0 && (
+                                        <div style={{
+                                            position: 'absolute',
+                                            top: '1rem',
+                                            left: '1rem',
+                                            background: 'var(--danger)',
+                                            color: 'white',
+                                            padding: '0.25rem 0.75rem',
+                                            borderRadius: 'var(--radius-sm)',
+                                            fontWeight: 700,
+                                            fontSize: '0.75rem'
+                                        }}>
+                                            {pkg.discount}% OFF
+                                        </div>
+                                    )}
                                 </div>
 
-                                <div style={{ padding: 'var(--spacing-xl)' }}>
-                                    {/* Header */}
-                                    <div style={{ marginBottom: 'var(--spacing-lg)' }}>
-                                        <h3 style={{
-                                            fontSize: '1.5rem',
-                                            marginBottom: '0.5rem',
-                                            fontWeight: 700
-                                        }}>
-                                            {pkg.name}
-                                        </h3>
-                                        <p style={{
-                                            color: 'var(--text-secondary)',
-                                            display: 'flex',
-                                            alignItems: 'center',
-                                            gap: '0.5rem',
-                                            marginBottom: '0.5rem'
-                                        }}>
-                                            <span>📍</span> {pkg.destination}
-                                        </p>
-                                        <p style={{ color: 'var(--text-muted)', fontSize: '0.9375rem' }}>
-                                            ⏱️ {pkg.duration}
-                                        </p>
+                                <div style={{ padding: '1.25rem', flex: 1, display: 'flex', flexDirection: 'column' }}>
+                                    <h3 style={{ fontSize: '1.25rem', marginBottom: '0.25rem', color: 'var(--charcoal)' }}>{pkg.name}</h3>
+                                    <p className="text-warm-gray mb-3" style={{ fontSize: '0.875rem' }}>⏱️ {pkg.duration}</p>
+
+                                    <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.4rem', marginBottom: '1.25rem' }}>
+                                        {pkg.highlights.map((h, i) => (
+                                            <span key={i} style={{
+                                                fontSize: '0.7rem',
+                                                background: 'var(--cream-light)',
+                                                padding: '0.2rem 0.5rem',
+                                                borderRadius: '4px',
+                                                border: '1px solid var(--border-color)',
+                                                color: 'var(--warm-gray)'
+                                            }}>
+                                                {h}
+                                            </span>
+                                        ))}
                                     </div>
 
-                                    {/* Rating */}
                                     <div style={{
-                                        display: 'flex',
-                                        alignItems: 'center',
-                                        gap: '0.5rem',
-                                        marginBottom: 'var(--spacing-lg)'
-                                    }}>
-                                        <span style={{ color: '#fbbf24', fontSize: '1.125rem' }}>
-                                            {'⭐'.repeat(Math.floor(pkg.rating))}
-                                        </span>
-                                        <span style={{ fontWeight: 700 }}>{pkg.rating}</span>
-                                        <span style={{ color: 'var(--text-muted)', fontSize: '0.875rem' }}>
-                                            ({pkg.reviews} reviews)
-                                        </span>
-                                    </div>
-
-                                    {/* Includes */}
-                                    <div style={{
-                                        background: 'var(--bg-secondary)',
-                                        padding: 'var(--spacing-md)',
-                                        borderRadius: 'var(--radius-lg)',
-                                        marginBottom: 'var(--spacing-lg)'
-                                    }}>
-                                        <div style={{ fontSize: '0.875rem', fontWeight: 700, marginBottom: '0.5rem' }}>
-                                            Package Includes:
-                                        </div>
-                                        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.5rem' }}>
-                                            {pkg.includes.map((item, i) => (
-                                                <span key={i} style={{ fontSize: '0.8125rem', color: 'var(--text-secondary)' }}>
-                                                    {item}
-                                                </span>
-                                            ))}
-                                        </div>
-                                    </div>
-
-                                    {/* Highlights */}
-                                    <div style={{ marginBottom: 'var(--spacing-xl)' }}>
-                                        <div style={{ fontSize: '0.875rem', fontWeight: 700, marginBottom: '0.5rem' }}>
-                                            Highlights:
-                                        </div>
-                                        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.5rem' }}>
-                                            {pkg.highlights.map((highlight, i) => (
-                                                <span key={i} className="badge badge-primary">
-                                                    {highlight}
-                                                </span>
-                                            ))}
-                                        </div>
-                                    </div>
-
-                                    {/* Price & CTA */}
-                                    <div style={{
+                                        marginTop: 'auto',
+                                        paddingTop: '1rem',
+                                        borderTop: '1px solid var(--cream-dark)',
                                         display: 'flex',
                                         justifyContent: 'space-between',
-                                        alignItems: 'center',
-                                        paddingTop: 'var(--spacing-lg)',
-                                        borderTop: '2px solid var(--border-light)'
+                                        alignItems: 'center'
                                     }}>
                                         <div>
-                                            <div style={{
-                                                fontSize: '0.875rem',
-                                                color: 'var(--text-muted)',
-                                                textDecoration: 'line-through'
-                                            }}>
-                                                ${pkg.originalPrice}
-                                            </div>
-                                            <div style={{
-                                                fontSize: '2rem',
-                                                fontWeight: 800,
-                                                color: 'var(--primary-gradient-start)'
-                                            }}>
-                                                ${pkg.price}
-                                            </div>
-                                            <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>
-                                                per person
-                                            </div>
+                                            <span style={{ fontSize: '0.75rem', color: 'var(--warm-gray)', textDecoration: 'line-through' }}>${pkg.originalPrice}</span>
+                                            <div style={{ fontSize: '1.5rem', fontWeight: 800, color: 'var(--gold)' }}>${pkg.price}</div>
+                                            <span style={{ fontSize: '0.65rem', color: 'var(--warm-gray)', textTransform: 'uppercase' }}>per person</span>
                                         </div>
-                                        <button className="btn btn-primary btn-lg">
-                                            Book Now
-                                        </button>
+                                        <button className="btn btn-primary btn-sm">Bespoke Inquiry</button>
                                     </div>
                                 </div>
                             </div>
@@ -442,33 +360,20 @@ const Packages = ({ user, onLogout }) => {
                         </div>
                     )}
 
-                    {/* Why Book With Us */}
-                    <div style={{
-                        marginTop: 'var(--spacing-3xl)',
-                        padding: 'var(--spacing-3xl)',
-                        background: 'linear-gradient(135deg, rgba(79, 70, 229, 0.05), rgba(236, 72, 153, 0.05))',
-                        borderRadius: 'var(--radius-2xl)'
-                    }}>
-                        <h2 style={{ textAlign: 'center', marginBottom: 'var(--spacing-2xl)' }}>
-                            Why Book With Us? 🌟
-                        </h2>
-                        <div className="grid grid-4">
+                    {/* Why Book With Us - Tighter */}
+                    <div className="card mt-5" style={{ background: 'var(--cream-light)', border: '1px solid var(--gold-light)', padding: '2rem' }}>
+                        <h2 className="text-center font-serif mb-4" style={{ fontSize: '1.75rem' }}>The GlobeTrotter Difference</h2>
+                        <div className="grid grid-4 gap-4">
                             {[
-                                { icon: '💰', title: 'Best Price Guarantee', desc: 'Lowest prices or we refund the difference' },
-                                { icon: '✅', title: 'Verified Reviews', desc: 'Real reviews from real travelers' },
-                                { icon: '🛡️', title: 'Secure Booking', desc: 'Your payment is safe and secure' },
-                                { icon: '🎧', title: '24/7 Support', desc: 'We\'re here to help anytime' }
+                                { icon: '💎', title: 'Curated Luxury', desc: 'Hand-picked premium stays' },
+                                { icon: '🛡️', title: 'Full Protection', desc: 'Secure booking & insurance' },
+                                { icon: '✨', title: 'Personalized', desc: 'Tailored to your preferences' },
+                                { icon: '🎧', title: '24/7 Concierge', desc: 'Dedicated travel support' }
                             ].map((item, i) => (
-                                <div key={i} style={{ textAlign: 'center' }}>
-                                    <div style={{ fontSize: '3rem', marginBottom: 'var(--spacing-md)' }}>
-                                        {item.icon}
-                                    </div>
-                                    <h4 style={{ marginBottom: 'var(--spacing-sm)', fontWeight: 700 }}>
-                                        {item.title}
-                                    </h4>
-                                    <p style={{ fontSize: '0.9375rem', color: 'var(--text-secondary)' }}>
-                                        {item.desc}
-                                    </p>
+                                <div key={i} className="text-center">
+                                    <div style={{ fontSize: '2rem', marginBottom: '0.5rem' }}>{item.icon}</div>
+                                    <h4 className="font-serif mb-1" style={{ fontSize: '1.125rem' }}>{item.title}</h4>
+                                    <p className="text-warm-gray" style={{ fontSize: '0.8rem' }}>{item.desc}</p>
                                 </div>
                             ))}
                         </div>

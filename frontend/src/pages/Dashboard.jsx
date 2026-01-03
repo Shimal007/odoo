@@ -108,89 +108,89 @@ const Dashboard = ({ user, onLogout }) => {
             <Navbar user={user} onLogout={onLogout} />
 
             <div className="container section">
-                {/* Welcome Section - Clean & Simple */}
-                <div className="mb-5 animate-fade-in">
-                    <h1 style={{ fontSize: '2.5rem', marginBottom: '0.5rem', fontFamily: 'var(--font-serif)' }}>
+                {/* Welcome Section - Tighter Spacing */}
+                <div className="mb-3 animate-fade-in">
+                    <h1 style={{ fontSize: '2.25rem', marginBottom: '0.25rem', fontFamily: 'var(--font-serif)' }}>
                         Welcome back, {user?.first_name}!
                     </h1>
-                    <p className="text-warm-gray" style={{ fontSize: '1.125rem' }}>
+                    <p className="text-warm-gray" style={{ fontSize: '1rem' }}>
                         Ready to plan your next adventure?
                     </p>
                 </div>
 
-                {/* Stats Cards - Minimal Design */}
-                <div className="grid grid-4 gap-3 mb-5">
-                    <div className="card text-center">
-                        <h3 style={{ fontSize: '2.5rem', marginBottom: '0.5rem', color: 'var(--gold)' }}>
+                {/* Stats Cards - More Compact */}
+                <div className="grid grid-4 gap-2 mb-4">
+                    <div className="card text-center" style={{ padding: '1.25rem' }}>
+                        <h3 style={{ fontSize: '2rem', marginBottom: '0.25rem', color: 'var(--gold)' }}>
                             {stats.totalTrips}
                         </h3>
-                        <p className="text-warm-gray" style={{ fontSize: '0.875rem', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+                        <p className="text-warm-gray" style={{ fontSize: '0.75rem', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
                             Total Trips
                         </p>
                     </div>
 
-                    <div className="card text-center">
-                        <h3 style={{ fontSize: '2.5rem', marginBottom: '0.5rem', color: 'var(--gold)' }}>
+                    <div className="card text-center" style={{ padding: '1.25rem' }}>
+                        <h3 style={{ fontSize: '2rem', marginBottom: '0.25rem', color: 'var(--gold)' }}>
                             {stats.upcomingTrips}
                         </h3>
-                        <p className="text-warm-gray" style={{ fontSize: '0.875rem', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+                        <p className="text-warm-gray" style={{ fontSize: '0.75rem', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
                             Upcoming
                         </p>
                     </div>
 
-                    <div className="card text-center">
-                        <h3 style={{ fontSize: '2.5rem', marginBottom: '0.5rem', color: 'var(--gold)' }}>
+                    <div className="card text-center" style={{ padding: '1.25rem' }}>
+                        <h3 style={{ fontSize: '2rem', marginBottom: '0.25rem', color: 'var(--gold)' }}>
                             {stats.totalDestinations}
                         </h3>
-                        <p className="text-warm-gray" style={{ fontSize: '0.875rem', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+                        <p className="text-warm-gray" style={{ fontSize: '0.75rem', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
                             Destinations
                         </p>
                     </div>
 
-                    <div className="card text-center">
-                        <h3 style={{ fontSize: '2.5rem', marginBottom: '0.5rem', color: 'var(--gold)' }}>
+                    <div className="card text-center" style={{ padding: '1.25rem' }}>
+                        <h3 style={{ fontSize: '2rem', marginBottom: '0.25rem', color: 'var(--gold)' }}>
                             ${stats.totalBudget}
                         </h3>
-                        <p className="text-warm-gray" style={{ fontSize: '0.875rem', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+                        <p className="text-warm-gray" style={{ fontSize: '0.75rem', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
                             Total Budget
                         </p>
                     </div>
                 </div>
 
-                {/* Hero CTA - Clean with subtle gradient */}
+                {/* Hero CTA - Tighter Padding */}
                 <div style={{
-                    padding: '4rem 3rem',
+                    padding: '2.5rem 2rem',
                     background: 'linear-gradient(135deg, rgba(184, 134, 11, 0.1), rgba(139, 105, 20, 0.05))',
                     border: '2px solid rgba(184, 134, 11, 0.2)',
                     borderRadius: 'var(--radius-xl)',
-                    marginBottom: '3rem',
+                    marginBottom: '2rem',
                     textAlign: 'center'
                 }} className="animate-fade-in">
                     <h2 style={{
-                        fontSize: '2rem',
-                        marginBottom: '1rem',
+                        fontSize: '1.75rem',
+                        marginBottom: '0.75rem',
                         fontFamily: 'var(--font-serif)',
                         color: 'var(--charcoal)'
                     }}>
                         Start Planning Your Dream Trip
                     </h2>
-                    <p className="text-warm-gray" style={{ marginBottom: '2rem', fontSize: '1.125rem' }}>
+                    <p className="text-warm-gray" style={{ marginBottom: '1.5rem', fontSize: '1rem' }}>
                         Create a new itinerary and explore amazing destinations
                     </p>
                     <button
                         onClick={handleCreateTrip}
-                        className="btn btn-primary btn-lg"
-                        style={{ fontSize: '1.125rem', padding: '1rem 2.5rem' }}
+                        className="btn btn-primary"
+                        style={{ fontSize: '1rem', padding: '0.75rem 2rem' }}
                     >
                         Plan New Trip
                     </button>
                 </div>
 
-                {/* Recent Trips */}
-                <div style={{ marginBottom: '3rem' }}>
-                    <div className="flex justify-between items-center mb-4">
-                        <h2 style={{ fontSize: '1.75rem', fontFamily: 'var(--font-serif)' }}>Your Trips</h2>
-                        <button onClick={() => navigate('/trips')} className="btn btn-ghost">
+                {/* Recent Trips - Tighter Spacing */}
+                <div style={{ marginBottom: '2rem' }}>
+                    <div className="flex justify-between items-center mb-3">
+                        <h2 style={{ fontSize: '1.5rem', fontFamily: 'var(--font-serif)' }}>Your Trips</h2>
+                        <button onClick={() => navigate('/trips')} className="btn btn-ghost btn-sm">
                             View All →
                         </button>
                     </div>

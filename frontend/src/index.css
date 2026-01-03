@@ -24,6 +24,8 @@
   --charcoal: #2C2C2C;
   --charcoal-light: #4A4A4A;
   --warm-gray: #8B7E74;
+  --brown: #3D2B1F;
+  --brown-dark: #2A1D15;
   --border-color: #D4C5B0;
 
   /* White & Backgrounds */
@@ -49,6 +51,8 @@
   --spacing-lg: 2rem;
   --spacing-xl: 3rem;
   --spacing-2xl: 4rem;
+  --spacing-3xl: 6rem;
+  --spacing-4xl: 8rem;
 
   /* Border Radius */
   --radius-sm: 0.5rem;
@@ -61,6 +65,13 @@
   --font-serif: 'Playfair Display', Georgia, serif;
   --font-sans: 'Inter', system-ui, sans-serif;
   --font-display: 'Montserrat', sans-serif;
+
+  /* Additional Theme Colors */
+  --ocean-blue: #1E3A8A;
+  --sky-gradient-start: #4F46E5;
+  --sky-gradient-end: #06B6D4;
+  --bg-secondary: #F9FAFB;
+  --border-light: #F3F4F6;
 }
 
 /* ============================================
@@ -594,6 +605,23 @@ p {
   }
 }
 
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+
+  50% {
+    transform: scale(1.1);
+    opacity: 0.7;
+  }
+
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
 @keyframes slideIn {
   from {
     opacity: 0;
@@ -686,6 +714,14 @@ p {
 
 .gap-4 {
   gap: var(--spacing-lg);
+}
+
+.gap-6 {
+  gap: var(--spacing-xl);
+}
+
+.gap-8 {
+  gap: 4rem;
 }
 
 .mt-1 {
@@ -797,4 +833,56 @@ p {
   .container {
     padding: 0 var(--spacing-sm);
   }
+}
+
+/* ============================================
+   MARKDOWN CONTENT STYLING
+   ============================================ */
+.markdown-content p {
+  margin-bottom: 0.75rem;
+}
+
+.markdown-content p:last-child {
+  margin-bottom: 0;
+}
+
+.markdown-content ul,
+.markdown-content ol {
+  margin-bottom: 1rem;
+  padding-left: 1.5rem;
+}
+
+.markdown-content li {
+  margin-bottom: 0.5rem;
+}
+
+.markdown-content h1,
+.markdown-content h2,
+.markdown-content h3,
+.markdown-content h4 {
+  font-family: var(--font-serif);
+  margin-top: 1rem;
+  margin-bottom: 0.5rem;
+  color: inherit;
+}
+
+.markdown-content code {
+  background: rgba(0, 0, 0, 0.05);
+  padding: 0.2rem 0.4rem;
+  border-radius: 4px;
+  font-family: monospace;
+  font-size: 0.85em;
+}
+
+.markdown-content pre {
+  background: #f4f4f4;
+  padding: 1rem;
+  border-radius: 8px;
+  overflow-x: auto;
+  margin: 1rem 0;
+}
+
+.markdown-content pre code {
+  background: transparent;
+  padding: 0;
 }

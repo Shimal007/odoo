@@ -90,13 +90,19 @@ const CreateTrip = ({ user, onLogout }) => {
         <div className="page-container">
             <Navbar user={user} onLogout={onLogout} />
 
-            <div className="container container-narrow section">
-                <div className="text-center mb-4 animate-fade-in">
-                    <h1 style={{ fontSize: '3rem' }}>Create New Trip ✈️</h1>
-                    <p className="text-warm-gray" style={{ fontSize: '1.125rem' }}>
-                        Let's start planning your next adventure
+            <div className="container container-medium section">
+                <div className="text-center mb-3 animate-fade-in">
+                    <h1 style={{ fontSize: '2.25rem', marginBottom: '0.25rem' }}>Start New Adventure</h1>
+                    <p className="text-warm-gray">
+                        Plan your trip from scratch or use AI
                     </p>
                 </div>
+
+                {error && (
+                    <div className="card mb-3" style={{ borderColor: 'var(--danger)', background: 'rgba(160, 64, 64, 0.05)', padding: '0.75rem' }}>
+                        <p style={{ color: 'var(--danger)', textAlign: 'center', fontSize: '0.875rem' }}>{error}</p>
+                    </div>
+                )}
 
                 <div className="card">
                     <form onSubmit={handleSubmit}>
