@@ -81,142 +81,200 @@ const Dashboard = ({ user, onLogout }) => {
     };
 
     const recommendedDestinations = [
-        { name: 'Paris', country: 'France', emoji: '🗼', color: '#667eea' },
-        { name: 'Tokyo', country: 'Japan', emoji: '🗾', color: '#f59e0b' },
-        { name: 'Bali', country: 'Indonesia', emoji: '🏝️', color: '#10b981' },
-        { name: 'New York', country: 'USA', emoji: '🗽', color: '#ef4444' }
+        {
+            name: 'Paris',
+            country: 'France',
+            image: 'https://images.unsplash.com/photo-1502602898657-3e91760cbb34?w=800'
+        },
+        {
+            name: 'Tokyo',
+            country: 'Japan',
+            image: 'https://images.unsplash.com/photo-1540959733332-eab4deabeeaf?w=800'
+        },
+        {
+            name: 'Bali',
+            country: 'Indonesia',
+            image: 'https://images.unsplash.com/photo-1537996194471-e657df975ab4?w=800'
+        },
+        {
+            name: 'New York',
+            country: 'USA',
+            image: 'https://images.unsplash.com/photo-1496442226666-8d4d0e62e6e9?w=800'
+        }
     ];
 
     return (
-        <div className="page-wrapper">
+        <div className="page-container">
             <Navbar user={user} onLogout={onLogout} />
 
-            <div className="content-wrapper">
-                <div className="container container-wide">
-                    {/* Welcome Section */}
-                    <div className="animate-fade-in" style={{ marginBottom: 'var(--spacing-2xl)' }}>
-                        <h1 style={{ fontSize: '2.5rem', marginBottom: '0.5rem' }}>
-                            Welcome back, {user?.first_name}! 👋
-                        </h1>
-                        <p className="text-secondary" style={{ fontSize: '1.125rem' }}>
-                            Ready to plan your next adventure?
+            <div className="container section">
+                {/* Welcome Section - Clean & Simple */}
+                <div className="mb-5 animate-fade-in">
+                    <h1 style={{ fontSize: '2.5rem', marginBottom: '0.5rem', fontFamily: 'var(--font-serif)' }}>
+                        Welcome back, {user?.first_name}!
+                    </h1>
+                    <p className="text-warm-gray" style={{ fontSize: '1.125rem' }}>
+                        Ready to plan your next adventure?
+                    </p>
+                </div>
+
+                {/* Stats Cards - Minimal Design */}
+                <div className="grid grid-4 gap-3 mb-5">
+                    <div className="card text-center">
+                        <h3 style={{ fontSize: '2.5rem', marginBottom: '0.5rem', color: 'var(--gold)' }}>
+                            {stats.totalTrips}
+                        </h3>
+                        <p className="text-warm-gray" style={{ fontSize: '0.875rem', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+                            Total Trips
                         </p>
                     </div>
 
-                    {/* Stats Cards */}
-                    <div className="grid grid-4" style={{ marginBottom: 'var(--spacing-2xl)' }}>
-                        <div className="card text-center">
-                            <div style={{ fontSize: '2.5rem', marginBottom: 'var(--spacing-sm)' }}>🌍</div>
-                            <h3 style={{ fontSize: '2rem', marginBottom: '0.25rem' }}>{stats.totalTrips}</h3>
-                            <p className="text-secondary">Total Trips</p>
-                        </div>
-
-                        <div className="card text-center">
-                            <div style={{ fontSize: '2.5rem', marginBottom: 'var(--spacing-sm)' }}>📅</div>
-                            <h3 style={{ fontSize: '2rem', marginBottom: '0.25rem' }}>{stats.upcomingTrips}</h3>
-                            <p className="text-secondary">Upcoming</p>
-                        </div>
-
-                        <div className="card text-center">
-                            <div style={{ fontSize: '2.5rem', marginBottom: 'var(--spacing-sm)' }}>📍</div>
-                            <h3 style={{ fontSize: '2rem', marginBottom: '0.25rem' }}>{stats.totalDestinations}</h3>
-                            <p className="text-secondary">Destinations</p>
-                        </div>
-
-                        <div className="card text-center">
-                            <div style={{ fontSize: '2.5rem', marginBottom: 'var(--spacing-sm)' }}>💰</div>
-                            <h3 style={{ fontSize: '2rem', marginBottom: '0.25rem' }}>${stats.totalBudget}</h3>
-                            <p className="text-secondary">Total Budget</p>
-                        </div>
+                    <div className="card text-center">
+                        <h3 style={{ fontSize: '2.5rem', marginBottom: '0.5rem', color: 'var(--gold)' }}>
+                            {stats.upcomingTrips}
+                        </h3>
+                        <p className="text-warm-gray" style={{ fontSize: '0.875rem', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+                            Upcoming
+                        </p>
                     </div>
 
-                    {/* Quick Actions */}
-                    <div style={{
-                        padding: 'var(--spacing-2xl)',
-                        background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-                        borderRadius: 'var(--radius-xl)',
-                        marginBottom: 'var(--spacing-2xl)',
-                        textAlign: 'center',
-                        color: 'white'
+                    <div className="card text-center">
+                        <h3 style={{ fontSize: '2.5rem', marginBottom: '0.5rem', color: 'var(--gold)' }}>
+                            {stats.totalDestinations}
+                        </h3>
+                        <p className="text-warm-gray" style={{ fontSize: '0.875rem', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+                            Destinations
+                        </p>
+                    </div>
+
+                    <div className="card text-center">
+                        <h3 style={{ fontSize: '2.5rem', marginBottom: '0.5rem', color: 'var(--gold)' }}>
+                            ${stats.totalBudget}
+                        </h3>
+                        <p className="text-warm-gray" style={{ fontSize: '0.875rem', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+                            Total Budget
+                        </p>
+                    </div>
+                </div>
+
+                {/* Hero CTA - Clean with subtle gradient */}
+                <div style={{
+                    padding: '4rem 3rem',
+                    background: 'linear-gradient(135deg, rgba(184, 134, 11, 0.1), rgba(139, 105, 20, 0.05))',
+                    border: '2px solid rgba(184, 134, 11, 0.2)',
+                    borderRadius: 'var(--radius-xl)',
+                    marginBottom: '3rem',
+                    textAlign: 'center'
+                }} className="animate-fade-in">
+                    <h2 style={{
+                        fontSize: '2rem',
+                        marginBottom: '1rem',
+                        fontFamily: 'var(--font-serif)',
+                        color: 'var(--charcoal)'
                     }}>
-                        <h2 style={{ color: 'white', marginBottom: 'var(--spacing-md)' }}>
-                            Start Planning Your Dream Trip
-                        </h2>
-                        <p style={{ marginBottom: 'var(--spacing-lg)', opacity: 0.9 }}>
-                            Create a new itinerary and explore amazing destinations
-                        </p>
-                        <button onClick={handleCreateTrip} className="btn btn-lg" style={{
-                            background: 'white',
-                            color: 'var(--ocean-blue)'
-                        }}>
-                            ✨ Plan New Trip
+                        Start Planning Your Dream Trip
+                    </h2>
+                    <p className="text-warm-gray" style={{ marginBottom: '2rem', fontSize: '1.125rem' }}>
+                        Create a new itinerary and explore amazing destinations
+                    </p>
+                    <button
+                        onClick={handleCreateTrip}
+                        className="btn btn-primary btn-lg"
+                        style={{ fontSize: '1.125rem', padding: '1rem 2.5rem' }}
+                    >
+                        Plan New Trip
+                    </button>
+                </div>
+
+                {/* Recent Trips */}
+                <div style={{ marginBottom: '3rem' }}>
+                    <div className="flex justify-between items-center mb-4">
+                        <h2 style={{ fontSize: '1.75rem', fontFamily: 'var(--font-serif)' }}>Your Trips</h2>
+                        <button onClick={() => navigate('/trips')} className="btn btn-ghost">
+                            View All →
                         </button>
                     </div>
 
-                    {/* Recent Trips */}
-                    <div style={{ marginBottom: 'var(--spacing-2xl)' }}>
-                        <div className="flex justify-between items-center" style={{ marginBottom: 'var(--spacing-lg)' }}>
-                            <h2>Your Trips</h2>
-                            <button onClick={() => navigate('/trips')} className="btn btn-ghost">
-                                View All →
+                    {loading ? (
+                        <div className="text-center p-4">
+                            <p className="text-warm-gray">Loading your trips...</p>
+                        </div>
+                    ) : trips.length === 0 ? (
+                        <div className="card text-center p-5">
+                            <h3 style={{ marginBottom: '1rem', fontSize: '1.5rem' }}>No trips yet</h3>
+                            <p className="text-warm-gray mb-3">
+                                Start planning your first adventure!
+                            </p>
+                            <button onClick={handleCreateTrip} className="btn btn-primary">
+                                Create Your First Trip
                             </button>
                         </div>
-
-                        {loading ? (
-                            <div className="text-center" style={{ padding: 'var(--spacing-2xl)' }}>
-                                <div className="animate-pulse">Loading your trips...</div>
-                            </div>
-                        ) : trips.length === 0 ? (
-                            <div className="card text-center" style={{ padding: 'var(--spacing-2xl)' }}>
-                                <div style={{ fontSize: '4rem', marginBottom: 'var(--spacing-md)', opacity: 0.5 }}>
-                                    ✈️
-                                </div>
-                                <h3 style={{ marginBottom: 'var(--spacing-md)' }}>No trips yet</h3>
-                                <p className="text-secondary" style={{ marginBottom: 'var(--spacing-lg)' }}>
-                                    Start planning your first adventure!
-                                </p>
-                                <button onClick={handleCreateTrip} className="btn btn-primary">
-                                    Create Your First Trip
-                                </button>
-                            </div>
-                        ) : (
-                            <div className="grid grid-3">
-                                {trips.slice(0, 6).map((trip) => (
-                                    <TripCard
-                                        key={trip._id}
-                                        trip={trip}
-                                        onView={handleViewTrip}
-                                        onEdit={handleEditTrip}
-                                        onDelete={handleDeleteTrip}
-                                    />
-                                ))}
-                            </div>
-                        )}
-                    </div>
-
-                    {/* Recommended Destinations */}
-                    <div>
-                        <h2 style={{ marginBottom: 'var(--spacing-lg)' }}>Recommended Destinations</h2>
-                        <div className="grid grid-4">
-                            {recommendedDestinations.map((dest, index) => (
-                                <div
-                                    key={index}
-                                    className="card"
-                                    style={{
-                                        background: `linear-gradient(135deg, ${dest.color}20, ${dest.color}10)`,
-                                        borderLeft: `4px solid ${dest.color}`,
-                                        cursor: 'pointer'
-                                    }}
-                                    onClick={() => navigate('/discover')}
-                                >
-                                    <div style={{ fontSize: '3rem', marginBottom: 'var(--spacing-sm)' }}>
-                                        {dest.emoji}
-                                    </div>
-                                    <h4 style={{ marginBottom: '0.25rem' }}>{dest.name}</h4>
-                                    <p className="text-secondary">{dest.country}</p>
-                                </div>
+                    ) : (
+                        <div className="grid grid-3 gap-3">
+                            {trips.slice(0, 6).map((trip) => (
+                                <TripCard
+                                    key={trip._id}
+                                    trip={trip}
+                                    onView={handleViewTrip}
+                                    onEdit={handleEditTrip}
+                                    onDelete={handleDeleteTrip}
+                                />
                             ))}
                         </div>
+                    )}
+                </div>
+
+                {/* Recommended Destinations - With Real Images */}
+                <div>
+                    <h2 style={{ marginBottom: '2rem', fontSize: '1.75rem', fontFamily: 'var(--font-serif)' }}>
+                        Recommended Destinations
+                    </h2>
+                    <div className="grid grid-4 gap-3">
+                        {recommendedDestinations.map((dest, index) => (
+                            <div
+                                key={index}
+                                style={{
+                                    cursor: 'pointer',
+                                    borderRadius: 'var(--radius-md)',
+                                    overflow: 'hidden',
+                                    boxShadow: 'var(--shadow-sm)',
+                                    transition: 'transform 0.3s ease, box-shadow 0.3s ease'
+                                }}
+                                className="animate-fade-in-up"
+                                onClick={() => navigate('/discover')}
+                                onMouseEnter={(e) => {
+                                    e.currentTarget.style.transform = 'translateY(-4px)';
+                                    e.currentTarget.style.boxShadow = 'var(--shadow-md)';
+                                }}
+                                onMouseLeave={(e) => {
+                                    e.currentTarget.style.transform = 'translateY(0)';
+                                    e.currentTarget.style.boxShadow = 'var(--shadow-sm)';
+                                }}
+                            >
+                                <div style={{
+                                    height: '200px',
+                                    background: `url(${dest.image}) center/cover`,
+                                    position: 'relative'
+                                }}>
+                                    <div style={{
+                                        position: 'absolute',
+                                        bottom: 0,
+                                        left: 0,
+                                        right: 0,
+                                        padding: '1.5rem 1rem',
+                                        background: 'linear-gradient(to top, rgba(0,0,0,0.8), transparent)',
+                                        color: 'white'
+                                    }}>
+                                        <h4 style={{ marginBottom: '0.25rem', fontSize: '1.25rem', color: 'white' }}>
+                                            {dest.name}
+                                        </h4>
+                                        <p style={{ fontSize: '0.875rem', opacity: 0.9, color: 'white' }}>
+                                            {dest.country}
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        ))}
                     </div>
                 </div>
             </div>

@@ -5,6 +5,7 @@ import Login from './pages/Login';
 import Signup from './pages/Signup';
 import Dashboard from './pages/Dashboard';
 import CreateTrip from './pages/CreateTrip';
+import AIPlanGenerator from './pages/AIPlanGenerator';
 import MyTrips from './pages/MyTrips';
 import TripView from './pages/TripView';
 import TripEdit from './pages/TripEdit';
@@ -68,6 +69,10 @@ function App() {
         <Route
           path="/trips/create"
           element={user ? <CreateTrip user={user} onLogout={handleLogout} /> : <Navigate to="/login" />}
+        />
+        <Route
+          path="/ai-plan-generator"
+          element={user ? <AIPlanGenerator user={user} onLogout={handleLogout} /> : <Navigate to="/login" />}
         />
         <Route
           path="/trips/:tripId/edit"
