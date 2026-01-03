@@ -158,7 +158,7 @@ textarea:focus {
   color: var(--text-secondary);
 }
 
-.toggle-link span {
+.toggle-link a {
   color: var(--accent-color);
   cursor: pointer;
   text-decoration: underline;
