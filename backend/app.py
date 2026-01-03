@@ -654,6 +654,119 @@ def save_ai_plan():
             "details": str(e)
         }), 500
 
+@app.route("/api/inspiration", methods=["GET"])
+def get_inspiration():
+    """
+    Generate travel inspiration posts and tips using AI
+    """
+    try:
+        api_key = os.getenv("GROQ_API_KEY")
+        if not api_key:
+            return jsonify({"error": "GROQ_API_KEY not configured"}), 500
+            
+        client = Groq(api_key=api_key)
+        MODEL = "openai/gpt-oss-120b"
+        
+        prompt = """
+        You are a travel editor for a global lifestyle magazine.
+        Generate 9 diverse travel inspiration posts and 4 quick travel tips.
+        
+        For each post, include:
+        - title (compelling, e.g., 'Secrets of the Amalfi Coast')
+        - category (Beach, Adventure, Culture, Food, Luxury, or Budget)
+        - excerpt (1-2 sentences of storytelling)
+        - author (fictional travel journalist name)
+        - readTime (e.g., '6 min read')
+        - views (a realistic number like '12.4K')
+        - query (a specific search term for an image, e.g., 'italy coastal village')
+        
+        For each tip, include:
+        - title
+        - description
+        - icon (a relevant emoji)
+        
+        Output ONLY valid JSON in this structure:
+        {
+            "posts": [
+                { "id": 1, "title": "...", "category": "...", "excerpt": "...", "author": "...", "readTime": "...", "views": "...", "query": "..." },
+                ...
+            ],
+            "tips": [
+                { "title": "...", "description": "...", "icon": "..." },
+                ...
+            ]
+        }
+        """
+
+        chat_completion = client.chat.completions.create(
+            messages=[
+                {
+                    "role": "system",
+                    "content": "You are a precise JSON generator. Always respond with only valid, parseable JSON."
+                },
+                {
+                    "role": "user",
+                    "content": prompt
+                }
+            ],
+            model=MODEL,
+            temperature=0.8,
+            max_tokens=2500,
+        )
+
+        response_text = chat_completion.choices[0].message.content.strip()
+        data = json.loads(response_text)
+        
+        # Category-based high-quality Unsplash images (Fixed and fast)
+        category_images = {
+            "Beach": [
+                "https://images.unsplash.com/photo-1507525428034-b723cf961d3e",
+                "https://images.unsplash.com/photo-1519046904884-53103b34b206",
+                "https://images.unsplash.com/photo-1473116763249-2faaef81ccda"
+            ],
+            "Adventure": [
+                "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b",
+                "https://images.unsplash.com/photo-1533240332313-0db49b459ad6",
+                "https://images.unsplash.com/photo-1501555088652-021faa106b9b"
+            ],
+            "Culture": [
+                "https://images.unsplash.com/photo-1524492707540-c50d87458ec2",
+                "https://images.unsplash.com/photo-1528127269322-539801943592",
+                "https://images.unsplash.com/photo-1533929736458-ca588d08c8be"
+            ],
+            "Food": [
+                "https://images.unsplash.com/photo-1504674900247-0877df9cc836",
+                "https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1",
+                "https://images.unsplash.com/photo-1482049016688-2d3e1b311543"
+            ],
+            "Luxury": [
+                "https://images.unsplash.com/photo-1566073771259-6a8506099945",
+                "https://images.unsplash.com/photo-1582719508461-905c673771fd",
+                "https://images.unsplash.com/photo-1571896349842-33c89424de2d"
+            ],
+            "Budget": [
+                "https://images.unsplash.com/photo-1523906834658-6e24ef2386f9",
+                "https://images.unsplash.com/photo-1506157786151-b8491531f063",
+                "https://images.unsplash.com/photo-1493246507139-91e8fad9978e"
+            ]
+        }
+        
+        # Add dynamic image URLs
+        import random
+        for i, post in enumerate(data['posts']):
+            cat = post.get('category', 'Culture')
+            # Get a random image from the category list or fallback to a general travel one
+            img_list = category_images.get(cat, category_images["Culture"])
+            base_url = random.choice(img_list)
+            post['image'] = f"{base_url}?auto=format&fit=crop&w=800&q=80"
+            
+        return jsonify(data), 200
+        
+    except Exception as e:
+        print(f"Error in get_inspiration: {e}")
+        return jsonify({"error": str(e)}), 500
+
+
 # ------------------ HEALTH CHECK ------------------
 
 @app.route("/api/health", methods=["GET"])
