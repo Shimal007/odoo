@@ -47,25 +47,26 @@ const Login = ({ onLogin }) => {
     };
 
     return (
-        <div className="page-wrapper" style={{
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-            minHeight: '100vh',
-            background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-            padding: 'var(--spacing-xl)'
-        }}>
-            <div className="card animate-fade-in" style={{ maxWidth: '450px', width: '100%' }}>
-                <div className="text-center mb-5">
-                    <h1 className="text-gradient" style={{ fontSize: '3rem', marginBottom: '0.5rem' }}>
-                        ✈️ GlobeTrotter
-                    </h1>
-                    <p className="text-secondary">Welcome back! Plan your next adventure.</p>
+        <div className="page-container flex items-center justify-center" style={{ minHeight: '100vh', padding: '2rem' }}>
+            <div className="card animate-fade-in-up" style={{ maxWidth: '28rem', width: '100%' }}>
+                {/* Header */}
+                <div className="text-center mb-4">
+                    <div className="flex justify-center mb-3">
+                        <div className="profile-avatar">
+                            ✈️
+                        </div>
+                    </div>
+                    <h1 style={{ fontSize: '2.5rem', marginBottom: '0.5rem' }}>Welcome Back</h1>
+                    <p className="text-warm-gray">Sign in to continue your travel journey</p>
                 </div>
 
+                {/* Login Form */}
                 <form onSubmit={handleSubmit}>
+                    {/* Email */}
                     <div className="form-group">
-                        <label htmlFor="email" className="form-label">Email Address</label>
+                        <label htmlFor="email" className="form-label">
+                            Email Address
+                        </label>
                         <input
                             type="email"
                             id="email"
@@ -78,8 +79,11 @@ const Login = ({ onLogin }) => {
                         />
                     </div>
 
+                    {/* Password */}
                     <div className="form-group">
-                        <label htmlFor="password" className="form-label">Password</label>
+                        <label htmlFor="password" className="form-label">
+                            Password
+                        </label>
                         <input
                             type="password"
                             id="password"
@@ -92,37 +96,45 @@ const Login = ({ onLogin }) => {
                         />
                     </div>
 
+                    {/* Error Message */}
                     {error && (
-                        <div className="form-error text-center">{error}</div>
+                        <div className="form-error">
+                            {error}
+                        </div>
                     )}
 
+                    {/* Submit Button */}
                     <button
                         type="submit"
-                        className="btn btn-primary btn-lg"
-                        style={{ width: '100%', marginTop: 'var(--spacing-lg)' }}
+                        className="btn btn-primary w-full mt-4"
                         disabled={loading}
                     >
-                        {loading ? 'Logging in...' : 'Login'}
+                        {loading ? 'Signing in...' : 'Sign In'}
                     </button>
                 </form>
 
-                <div className="text-center mt-4">
-                    <p className="text-secondary">
+                {/* Footer Links */}
+                <div className="mt-4">
+                    <div className="text-center">
+                        <Link
+                            to="/forgot-password"
+                            className="text-gold"
+                            style={{ fontSize: '0.875rem', textDecoration: 'none' }}
+                        >
+                            Forgot your password?
+                        </Link>
+                    </div>
+                    <div style={{ borderTop: '1px solid rgba(184, 134, 11, 0.2)', margin: '1.5rem 0' }}></div>
+                    <p className="text-center text-warm-gray" style={{ fontSize: '0.875rem' }}>
                         Don't have an account?{' '}
-                        <Link to="/signup" style={{ color: 'var(--ocean-blue)', fontWeight: 600 }}>
-                            Sign up
+                        <Link
+                            to="/signup"
+                            className="text-gold"
+                            style={{ fontWeight: 600, textDecoration: 'none' }}
+                        >
+                            Create Account
                         </Link>
                     </p>
-                </div>
-
-                <div className="text-center mt-3">
-                    <Link to="/forgot-password" style={{
-                        color: 'var(--text-muted)',
-                        fontSize: '0.875rem',
-                        textDecoration: 'none'
-                    }}>
-                        Forgot password?
-                    </Link>
                 </div>
             </div>
         </div>

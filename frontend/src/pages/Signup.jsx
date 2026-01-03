@@ -65,26 +65,27 @@ const Signup = () => {
     };
 
     return (
-        <div className="page-wrapper" style={{
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-            minHeight: '100vh',
-            background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-            padding: 'var(--spacing-xl)'
-        }}>
-            <div className="card animate-fade-in" style={{ maxWidth: '600px', width: '100%' }}>
-                <div className="text-center mb-5">
-                    <h1 className="text-gradient" style={{ fontSize: '3rem', marginBottom: '0.5rem' }}>
-                        ✈️ GlobeTrotter
-                    </h1>
-                    <p className="text-secondary">Create your account and start exploring</p>
+        <div className="page-container flex items-center justify-center" style={{ minHeight: '100vh', padding: '2rem' }}>
+            <div className="card animate-fade-in-up" style={{ maxWidth: '48rem', width: '100%' }}>
+                {/* Header */}
+                <div className="text-center mb-4">
+                    <div className="flex justify-center mb-3">
+                        <div className="profile-avatar">
+                            🌍
+                        </div>
+                    </div>
+                    <h1 style={{ fontSize: '2.5rem', marginBottom: '0.5rem' }}>Join GlobeTrotter</h1>
+                    <p className="text-warm-gray">Start planning your dream adventures</p>
                 </div>
 
+                {/* Signup Form */}
                 <form onSubmit={handleSubmit}>
-                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 'var(--spacing-lg)' }}>
+                    {/* Name Fields */}
+                    <div className="grid grid-2 gap-3">
                         <div className="form-group">
-                            <label htmlFor="first_name" className="form-label">First Name</label>
+                            <label htmlFor="first_name" className="form-label">
+                                First Name
+                            </label>
                             <input
                                 type="text"
                                 id="first_name"
@@ -98,7 +99,9 @@ const Signup = () => {
                         </div>
 
                         <div className="form-group">
-                            <label htmlFor="last_name" className="form-label">Last Name</label>
+                            <label htmlFor="last_name" className="form-label">
+                                Last Name
+                            </label>
                             <input
                                 type="text"
                                 id="last_name"
@@ -112,8 +115,11 @@ const Signup = () => {
                         </div>
                     </div>
 
+                    {/* Email */}
                     <div className="form-group">
-                        <label htmlFor="email" className="form-label">Email Address</label>
+                        <label htmlFor="email" className="form-label">
+                            Email Address
+                        </label>
                         <input
                             type="email"
                             id="email"
@@ -126,9 +132,61 @@ const Signup = () => {
                         />
                     </div>
 
-                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 'var(--spacing-lg)' }}>
+                    {/* Phone */}
+                    <div className="form-group">
+                        <label htmlFor="phone" className="form-label">
+                            Phone Number
+                        </label>
+                        <input
+                            type="tel"
+                            id="phone"
+                            name="phone"
+                            className="form-input"
+                            value={formData.phone}
+                            onChange={handleChange}
+                            placeholder="+1 234 567 8900"
+                        />
+                    </div>
+
+                    {/* Location Fields */}
+                    <div className="grid grid-2 gap-3">
                         <div className="form-group">
-                            <label htmlFor="password" className="form-label">Password</label>
+                            <label htmlFor="city" className="form-label">
+                                City
+                            </label>
+                            <input
+                                type="text"
+                                id="city"
+                                name="city"
+                                className="form-input"
+                                value={formData.city}
+                                onChange={handleChange}
+                                placeholder="New York"
+                            />
+                        </div>
+
+                        <div className="form-group">
+                            <label htmlFor="country" className="form-label">
+                                Country
+                            </label>
+                            <input
+                                type="text"
+                                id="country"
+                                name="country"
+                                className="form-input"
+                                value={formData.country}
+                                onChange={handleChange}
+                                placeholder="USA"
+                            />
+                        </div>
+                    </div>
+
+                    {/* Password Fields */}
+                    <div className="grid grid-2 gap-3">
+                        <div className="form-group">
+                            <label htmlFor="password" className="form-label">
+                                Password
+                            </label>
                             <input
                                 type="password"
                                 id="password"
@@ -142,7 +200,9 @@ const Signup = () => {
                         </div>
 
                         <div className="form-group">
-                            <label htmlFor="confirmPassword" className="form-label">Confirm Password</label>
+                            <label htmlFor="confirmPassword" className="form-label">
+                                Confirm Password
+                            </label>
                             <input
                                 type="password"
                                 id="confirmPassword"
@@ -156,66 +216,34 @@ const Signup = () => {
                         </div>
                     </div>
 
-                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 'var(--spacing-lg)' }}>
-                        <div className="form-group">
-                            <label htmlFor="city" className="form-label">City</label>
-                            <input
-                                type="text"
-                                id="city"
-                                name="city"
-                                className="form-input"
-                                value={formData.city}
-                                onChange={handleChange}
-                                placeholder="New York"
-                            />
-                        </div>
-
-                        <div className="form-group">
-                            <label htmlFor="country" className="form-label">Country</label>
-                            <input
-                                type="text"
-                                id="country"
-                                name="country"
-                                className="form-input"
-                                value={formData.country}
-                                onChange={handleChange}
-                                placeholder="USA"
-                            />
-                        </div>
-                    </div>
-
-                    <div className="form-group">
-                        <label htmlFor="phone" className="form-label">Phone (Optional)</label>
-                        <input
-                            type="tel"
-                            id="phone"
-                            name="phone"
-                            className="form-input"
-                            value={formData.phone}
-                            onChange={handleChange}
-                            placeholder="+1 234 567 8900"
-                        />
-                    </div>
-
+                    {/* Error Message */}
                     {error && (
-                        <div className="form-error text-center">{error}</div>
+                        <div className="form-error">
+                            {error}
+                        </div>
                     )}
 
+                    {/* Submit Button */}
                     <button
                         type="submit"
-                        className="btn btn-primary btn-lg"
-                        style={{ width: '100%', marginTop: 'var(--spacing-lg)' }}
+                        className="btn btn-primary w-full mt-4"
                         disabled={loading}
                     >
                         {loading ? 'Creating account...' : 'Create Account'}
                     </button>
                 </form>
 
-                <div className="text-center mt-4">
-                    <p className="text-secondary">
+                {/* Footer Links */}
+                <div className="mt-4">
+                    <div style={{ borderTop: '1px solid rgba(184, 134, 11, 0.2)', margin: '1.5rem 0' }}></div>
+                    <p className="text-center text-warm-gray" style={{ fontSize: '0.875rem' }}>
                         Already have an account?{' '}
-                        <Link to="/login" style={{ color: 'var(--ocean-blue)', fontWeight: 600 }}>
-                            Login
+                        <Link
+                            to="/login"
+                            className="text-gold"
+                            style={{ fontWeight: 600, textDecoration: 'none' }}
+                        >
+                            Sign In
                         </Link>
                     </p>
                 </div>

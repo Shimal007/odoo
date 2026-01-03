@@ -7,7 +7,8 @@ const MyTrips = ({ user, onLogout }) => {
     const navigate = useNavigate();
     const [trips, setTrips] = useState([]);
     const [loading, setLoading] = useState(true);
-    const [filter, setFilter] = useState('all'); // all, upcoming, past
+    const [filter, setFilter] = useState('all');
+    const [searchQuery, setSearchQuery] = useState('');
 
     useEffect(() => {
         if (!user) {
@@ -32,22 +33,15 @@ const MyTrips = ({ user, onLogout }) => {
         }
     };
 
-    const handleViewTrip = (tripId) => {
-        navigate(`/trips/${tripId}`);
-    };
-
-    const handleEditTrip = (tripId) => {
-        navigate(`/trips/${tripId}/edit`);
-    };
+    const handleViewTrip = (tripId) => navigate(`/trips/${tripId}`);
+    const handleEditTrip = (tripId) => navigate(`/trips/${tripId}/edit`);
 
     const handleDeleteTrip = async (tripId) => {
-        if (!confirm('Are you sure you want to delete this trip? This action cannot be undone.')) return;
-
+        if (!confirm('Are you sure you want to delete this trip?')) return;
         try {
             const response = await fetch(`http://localhost:5000/api/trips/${tripId}`, {
                 method: 'DELETE'
             });
-
             if (response.ok) {
                 setTrips(trips.filter(trip => trip._id !== tripId));
             }
@@ -58,110 +52,151 @@ const MyTrips = ({ user, onLogout }) => {
 
     const getFilteredTrips = () => {
         const now = new Date();
+        let filtered = trips;
 
         switch (filter) {
+            case 'ongoing':
+                filtered = trips.filter(trip => {
+                    const start = new Date(trip.start_date);
+                    const end = new Date(trip.end_date);
+                    return now >= start && now <= end;
+                });
+                break;
             case 'upcoming':
-                return trips.filter(trip => new Date(trip.start_date) > now);
-            case 'past':
-                return trips.filter(trip => new Date(trip.end_date) < now);
-            default:
-                return trips;
+                filtered = trips.filter(trip => new Date(trip.start_date) > now);
+                break;
+            case 'completed':
+                filtered = trips.filter(trip => new Date(trip.end_date) < now);
+                break;
         }
+
+        if (searchQuery.trim()) {
+            filtered = filtered.filter(trip =>
+                trip.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                trip.description?.toLowerCase().includes(searchQuery.toLowerCase())
+            );
+        }
+
+        return filtered;
     };
 
     const filteredTrips = getFilteredTrips();
+    const counts = {
+        all: trips.length,
+        ongoing: trips.filter(t => {
+            const now = new Date();
+            return now >= new Date(t.start_date) && now <= new Date(t.end_date);
+        }).length,
+        upcoming: trips.filter(t => new Date(t.start_date) > new Date()).length,
+        completed: trips.filter(t => new Date(t.end_date) < new Date()).length,
+    };
 
     return (
-        <div className="page-wrapper">
+        <div className="page-container">
             <Navbar user={user} onLogout={onLogout} />
 
-            <div className="content-wrapper">
-                <div className="container container-wide">
-                    {/* Header */}
-                    <div className="flex justify-between items-center" style={{ marginBottom: 'var(--spacing-2xl)' }}>
+            <div className="container section">
+                {/* Header */}
+                <div className="card mb-4 animate-fade-in-up">
+                    <div className="flex justify-between items-center">
                         <div>
-                            <h1>My Trips 🗺️</h1>
-                            <p className="text-secondary" style={{ fontSize: '1.125rem' }}>
-                                Manage and view all your travel plans
+                            <h1 className="text-gradient-gold" style={{ fontSize: '2.5rem' }}>
+                                My Trips
+                            </h1>
+                            <p className="text-warm-gray">
+                                Manage and explore your travel adventures
                             </p>
                         </div>
                         <button
                             onClick={() => navigate('/trips/create')}
-                            className="btn btn-primary btn-lg"
+                            className="btn btn-primary"
                         >
                             ✨ Create New Trip
                         </button>
                     </div>
+                </div>
 
-                    {/* Filters */}
-                    <div className="flex gap-2" style={{ marginBottom: 'var(--spacing-xl)' }}>
-                        <button
-                            className={`btn ${filter === 'all' ? 'btn-primary' : 'btn-secondary'}`}
-                            onClick={() => setFilter('all')}
-                        >
-                            All Trips ({trips.length})
-                        </button>
-                        <button
-                            className={`btn ${filter === 'upcoming' ? 'btn-primary' : 'btn-secondary'}`}
-                            onClick={() => setFilter('upcoming')}
-                        >
-                            Upcoming ({trips.filter(t => new Date(t.start_date) > new Date()).length})
-                        </button>
-                        <button
-                            className={`btn ${filter === 'past' ? 'btn-primary' : 'btn-secondary'}`}
-                            onClick={() => setFilter('past')}
-                        >
-                            Past ({trips.filter(t => new Date(t.end_date) < new Date()).length})
-                        </button>
+                {/* Search and Filters */}
+                <div className="mb-4 animate-fade-in">
+                    <div className="search-bar mb-3">
+                        <span style={{ fontSize: '1.25rem' }}>🔍</span>
+                        <input
+                            type="text"
+                            placeholder="Search trips..."
+                            className="search-input"
+                            value={searchQuery}
+                            onChange={(e) => setSearchQuery(e.target.value)}
+                        />
                     </div>
 
-                    {/* Trips Grid */}
-                    {loading ? (
-                        <div className="text-center" style={{ padding: 'var(--spacing-2xl)' }}>
-                            <div className="animate-pulse">Loading your trips...</div>
-                        </div>
-                    ) : filteredTrips.length === 0 ? (
-                        <div className="card text-center" style={{ padding: 'var(--spacing-2xl)' }}>
-                            <div style={{ fontSize: '5rem', marginBottom: 'var(--spacing-lg)', opacity: 0.3 }}>
-                                {filter === 'all' ? '✈️' : filter === 'upcoming' ? '📅' : '📚'}
-                            </div>
-                            <h3 style={{ marginBottom: 'var(--spacing-md)' }}>
-                                {filter === 'all'
-                                    ? 'No trips yet'
-                                    : filter === 'upcoming'
-                                        ? 'No upcoming trips'
-                                        : 'No past trips'}
-                            </h3>
-                            <p className="text-secondary" style={{ marginBottom: 'var(--spacing-xl)', maxWidth: '500px', margin: '0 auto' }}>
-                                {filter === 'all'
-                                    ? 'Start planning your first adventure and create unforgettable memories!'
-                                    : filter === 'upcoming'
-                                        ? 'Plan a new trip to add to your upcoming adventures'
-                                        : 'Complete some trips to see them here'}
-                            </p>
-                            {filter === 'all' && (
-                                <button
-                                    onClick={() => navigate('/trips/create')}
-                                    className="btn btn-primary btn-lg"
-                                >
-                                    Create Your First Trip
-                                </button>
-                            )}
-                        </div>
-                    ) : (
-                        <div className="grid grid-3">
-                            {filteredTrips.map((trip) => (
-                                <TripCard
-                                    key={trip._id}
-                                    trip={trip}
-                                    onView={handleViewTrip}
-                                    onEdit={handleEditTrip}
-                                    onDelete={handleDeleteTrip}
-                                />
-                            ))}
-                        </div>
-                    )}
+                    <div className="filter-chips">
+                        <button
+                            className={`filter-chip ${filter === 'all' ? 'filter-chip-active' : ''}`}
+                            onClick={() => setFilter('all')}
+                        >
+                            All Trips ({counts.all})
+                        </button>
+                        <button
+                            className={`filter-chip ${filter === 'ongoing' ? 'filter-chip-active' : ''}`}
+                            onClick={() => setFilter('ongoing')}
+                        >
+                            Ongoing ({counts.ongoing})
+                        </button>
+                        <button
+                            className={`filter-chip ${filter === 'upcoming' ? 'filter-chip-active' : ''}`}
+                            onClick={() => setFilter('upcoming')}
+                        >
+                            Upcoming ({counts.upcoming})
+                        </button>
+                        <button
+                            className={`filter-chip ${filter === 'completed' ? 'filter-chip-active' : ''}`}
+                            onClick={() => setFilter('completed')}
+                        >
+                            Completed ({counts.completed})
+                        </button>
+                    </div>
                 </div>
+
+                {/* Trips Grid */}
+                {loading ? (
+                    <div className="card text-center p-4">
+                        <p className="text-warm-gray">Loading your trips...</p>
+                    </div>
+                ) : filteredTrips.length === 0 ? (
+                    <div className="card text-center p-4 animate-fade-in-up">
+                        <div style={{ fontSize: '5rem', opacity: 0.3, marginBottom: '1rem' }}>
+                            {searchQuery ? '🔍' : filter === 'all' ? '✈️' : '📭'}
+                        </div>
+                        <h3 style={{ fontSize: '1.75rem', marginBottom: '1rem' }}>
+                            {searchQuery ? 'No trips found' : filter === 'all' ? 'No trips yet' : `No ${filter} trips`}
+                        </h3>
+                        <p className="text-warm-gray mb-3">
+                            {searchQuery ? 'Try adjusting your search terms' :
+                                filter === 'all' ? 'Start planning your first adventure!' :
+                                    'Try selecting a different filter'}
+                        </p>
+                        {filter === 'all' && !searchQuery && (
+                            <button
+                                onClick={() => navigate('/trips/create')}
+                                className="btn btn-primary"
+                            >
+                                Create Your First Trip
+                            </button>
+                        )}
+                    </div>
+                ) : (
+                    <div className="grid grid-3 gap-3">
+                        {filteredTrips.map((trip) => (
+                            <TripCard
+                                key={trip._id}
+                                trip={trip}
+                                onView={handleViewTrip}
+                                onEdit={handleEditTrip}
+                                onDelete={handleDeleteTrip}
+                            />
+                        ))}
+                    </div>
+                )}
             </div>
         </div>
     );

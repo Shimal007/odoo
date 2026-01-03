@@ -11,6 +11,8 @@ import TripEdit from './pages/TripEdit';
 import TripBudget from './pages/TripBudget';
 import Discover from './pages/Discover';
 import ActivitySearch from './pages/ActivitySearch';
+import Inspiration from './pages/Inspiration';
+import Packages from './pages/Packages';
 import SharedTrip from './pages/SharedTrip';
 import Profile from './pages/Profile';
 import './index.css';
@@ -92,6 +94,14 @@ function App() {
         <Route
           path="/activities"
           element={user ? <ActivitySearch user={user} onLogout={handleLogout} /> : <Navigate to="/login" />}
+        />
+        <Route
+          path="/inspiration"
+          element={user ? <Inspiration user={user} onLogout={handleLogout} /> : <Navigate to="/login" />}
+        />
+        <Route
+          path="/packages"
+          element={user ? <Packages user={user} onLogout={handleLogout} /> : <Navigate to="/login" />}
         />
 
         {/* Public Routes - No Auth Required */}

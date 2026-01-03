@@ -14,11 +14,7 @@ const Profile = ({ user, onLogout, onUpdateUser }) => {
         country: '',
         profile_photo: ''
     });
-    const [preferences, setPreferences] = useState({
-        currency: 'USD',
-        language: 'en',
-        privacy: 'public'
-    });
+    const [userStats, setUserStats] = useState({ planned: 0, previous: 0, total: 0 });
     const [loading, setLoading] = useState(false);
     const [message, setMessage] = useState('');
 
@@ -28,6 +24,7 @@ const Profile = ({ user, onLogout, onUpdateUser }) => {
             return;
         }
         loadUserData();
+        fetchTripStats();
     }, [user]);
 
     const loadUserData = async () => {
@@ -43,25 +40,33 @@ const Profile = ({ user, onLogout, onUpdateUser }) => {
                     phone: data.phone || '',
                     city: data.city || '',
                     country: data.country || '',
-                    profile_photo: data.profile_photo || ''
+                    profile_photo: data.profile_photo || '👤'
                 });
-                setPreferences(data.preferences || preferences);
             }
         } catch (err) {
             console.error('Failed to load user data:', err);
         }
     };
 
+    const fetchTripStats = async () => {
+        try {
+            const response = await fetch(`http://localhost:5000/api/trips/user/${user._id}`);
+            const data = await response.json();
+
+            if (response.ok) {
+                const now = new Date();
+                const planned = data.filter(t => new Date(t.start_date) > now).length;
+                const previous = data.filter(t => new Date(t.end_date) < now).length;
+                setUserStats({ planned, previous, total: data.length });
+            }
+        } catch (err) {
+            console.error('Failed to fetch trip stats:', err);
+        }
+    };
+
     const handleChange = (e) => {
         setFormData({
             ...formData,
-            [e.target.name]: e.target.value
-        });
-    };
-
-    const handlePreferenceChange = (e) => {
-        setPreferences({
-            ...preferences,
             [e.target.name]: e.target.value
         });
     };
@@ -75,10 +80,7 @@ const Profile = ({ user, onLogout, onUpdateUser }) => {
             const response = await fetch(`http://localhost:5000/api/user/${user._id}`, {
                 method: 'PUT',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    ...formData,
-                    preferences
-                })
+                body: JSON.stringify(formData)
             });
 
             const data = await response.json();
@@ -87,6 +89,7 @@ const Profile = ({ user, onLogout, onUpdateUser }) => {
                 setMessage('Profile updated successfully!');
                 setIsEditing(false);
                 onUpdateUser({ ...user, ...formData });
+                setTimeout(() => setMessage(''), 3000);
             } else {
                 setMessage(data.error || 'Failed to update profile');
             }
@@ -100,267 +103,231 @@ const Profile = ({ user, onLogout, onUpdateUser }) => {
     const avatarEmojis = ['👤', '👨', '👩', '🧑', '👨‍💼', '👩‍💼', '🧳', '✈️', '🌍'];
 
     return (
-        <div className="page-wrapper">
+        <div className="min-h-screen bg-gradient-luxury">
             <Navbar user={user} onLogout={onLogout} />
 
-            <div className="content-wrapper">
-                <div className="container container-narrow">
-                    {/* Header */}
-                    <div className="text-center mb-5">
-                        <h1>My Profile ⚙️</h1>
-                        <p className="text-secondary">Manage your account settings and preferences</p>
+            <div className="luxury-container max-w-4xl">
+                {/* Header */}
+                <div className="luxury-card mb-12 animate-fadeInUp">
+                    <h1 className="text-4xl font-serif font-bold text-gradient-gold text-center">
+                        My Profile
+                    </h1>
+                    <p className="text-center text-warm-gray mt-2">
+                        Manage your account settings and preferences
+                    </p>
+                </div>
+
+                {/* Profile Section */}
+                <div className="luxury-card mb-8 animate-fadeInUp" style={{ animationDelay: '0.1s' }}>
+                    {/* Avatar and Header */}
+                    <div className="flex flex-col md:flex-row items-center md:items-start gap-8 pb-8 border-b border-gold/20">
+                        <div className="profile-avatar-luxury">
+                            {formData.profile_photo || '👤'}
+                        </div>
+                        <div className="flex-1 text-center md:text-left">
+                            <h2 className="font-serif text-3xl text-charcoal mb-2">
+                                {formData.first_name} {formData.last_name}
+                            </h2>
+                            <p className="text-warm-gray mb-4">
+                                {formData.city && formData.country ? `${formData.city}, ${formData.country}` : 'Location not set'}
+                            </p>
+                            {!isEditing && (
+                                <button
+                                    onClick={() => setIsEditing(true)}
+                                    className="btn-luxury-outline-sm"
+                                >
+                                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                                    </svg>
+                                    Edit Profile
+                                </button>
+                            )}
+                        </div>
                     </div>
 
-                    <div className="grid" style={{ gap: 'var(--spacing-2xl)' }}>
-                        {/* Profile Info Card */}
-                        <div className="card card-elevated">
-                            <div className="card-header flex justify-between items-center">
-                                <h3 className="card-title">Personal Information</h3>
-                                {!isEditing && (
-                                    <button
-                                        onClick={() => setIsEditing(true)}
-                                        className="btn btn-sm btn-outline"
-                                    >
-                                        Edit Profile
-                                    </button>
-                                )}
-                            </div>
+                    {/* User Details */}
+                    <div className="mt-8">
+                        <h3 className="text-xl font-serif font-semibold text-charcoal mb-6">
+                            Personal Information
+                        </h3>
 
-                            <form onSubmit={handleSubmit}>
+                        {isEditing ? (
+                            <form onSubmit={handleSubmit} className="space-y-6">
                                 {/* Avatar Selection */}
-                                <div className="text-center" style={{ marginBottom: 'var(--spacing-xl)' }}>
-                                    <div style={{
-                                        width: '120px',
-                                        height: '120px',
-                                        borderRadius: '50%',
-                                        background: 'linear-gradient(135deg, var(--sky-gradient-start), var(--sky-gradient-end))',
-                                        display: 'flex',
-                                        alignItems: 'center',
-                                        justifyContent: 'center',
-                                        fontSize: '4rem',
-                                        margin: '0 auto var(--spacing-md)'
-                                    }}>
-                                        {formData.profile_photo || '👤'}
+                                <div className="form-group-luxury">
+                                    <label className="label-luxury">Choose Avatar</label>
+                                    <div className="flex flex-wrap gap-3 justify-center">
+                                        {avatarEmojis.map(emoji => (
+                                            <button
+                                                key={emoji}
+                                                type="button"
+                                                onClick={() => setFormData({ ...formData, profile_photo: emoji })}
+                                                className={`text-4xl p-4 rounded-lg border-2 transition-all ${formData.profile_photo === emoji
+                                                        ? 'border-gold bg-gold/10 scale-110'
+                                                        : 'border-gold/20 hover:border-gold/50'
+                                                    }`}
+                                            >
+                                                {emoji}
+                                            </button>
+                                        ))}
                                     </div>
-
-                                    {isEditing && (
-                                        <div style={{
-                                            display: 'flex',
-                                            gap: 'var(--spacing-xs)',
-                                            justifyContent: 'center',
-                                            flexWrap: 'wrap'
-                                        }}>
-                                            {avatarEmojis.map(emoji => (
-                                                <button
-                                                    key={emoji}
-                                                    type="button"
-                                                    onClick={() => setFormData({ ...formData, profile_photo: emoji })}
-                                                    style={{
-                                                        fontSize: '1.5rem',
-                                                        padding: 'var(--spacing-sm)',
-                                                        border: formData.profile_photo === emoji
-                                                            ? '2px solid var(--ocean-blue)'
-                                                            : '1px solid var(--border-light)',
-                                                        borderRadius: 'var(--radius-md)',
-                                                        background: 'transparent',
-                                                        cursor: 'pointer'
-                                                    }}
-                                                >
-                                                    {emoji}
-                                                </button>
-                                            ))}
-                                        </div>
-                                    )}
                                 </div>
 
-                                {/* Form Fields */}
-                                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 'var(--spacing-lg)' }}>
-                                    <div className="form-group">
-                                        <label className="form-label">First Name</label>
+                                {/* Name Fields */}
+                                <div className="grid md:grid-cols-2 gap-6">
+                                    <div className="form-group-luxury">
+                                        <label htmlFor="first_name" className="label-luxury">First Name</label>
                                         <input
                                             type="text"
+                                            id="first_name"
                                             name="first_name"
-                                            className="form-input"
+                                            className="input-luxury"
                                             value={formData.first_name}
                                             onChange={handleChange}
-                                            disabled={!isEditing}
                                             required
                                         />
                                     </div>
-
-                                    <div className="form-group">
-                                        <label className="form-label">Last Name</label>
+                                    <div className="form-group-luxury">
+                                        <label htmlFor="last_name" className="label-luxury">Last Name</label>
                                         <input
                                             type="text"
+                                            id="last_name"
                                             name="last_name"
-                                            className="form-input"
+                                            className="input-luxury"
                                             value={formData.last_name}
                                             onChange={handleChange}
-                                            disabled={!isEditing}
                                             required
                                         />
                                     </div>
                                 </div>
 
-                                <div className="form-group">
-                                    <label className="form-label">Email</label>
+                                {/* Email */}
+                                <div className="form-group-luxury">
+                                    <label htmlFor="email" className="label-luxury">Email Address</label>
                                     <input
                                         type="email"
+                                        id="email"
                                         name="email"
-                                        className="form-input"
+                                        className="input-luxury opacity-60 cursor-not-allowed"
                                         value={formData.email}
                                         disabled
                                     />
-                                    <p className="form-help">Email cannot be changed</p>
+                                    <p className="text-xs text-warm-gray mt-1">Email cannot be changed</p>
                                 </div>
 
-                                <div className="form-group">
-                                    <label className="form-label">Phone</label>
+                                {/* Phone */}
+                                <div className="form-group-luxury">
+                                    <label htmlFor="phone" className="label-luxury">Phone Number</label>
                                     <input
                                         type="tel"
+                                        id="phone"
                                         name="phone"
-                                        className="form-input"
+                                        className="input-luxury"
                                         value={formData.phone}
                                         onChange={handleChange}
-                                        disabled={!isEditing}
                                         placeholder="+1 234 567 8900"
                                     />
                                 </div>
 
-                                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 'var(--spacing-lg)' }}>
-                                    <div className="form-group">
-                                        <label className="form-label">City</label>
+                                {/* Location */}
+                                <div className="grid md:grid-cols-2 gap-6">
+                                    <div className="form-group-luxury">
+                                        <label htmlFor="city" className="label-luxury">City</label>
                                         <input
                                             type="text"
+                                            id="city"
                                             name="city"
-                                            className="form-input"
+                                            className="input-luxury"
                                             value={formData.city}
                                             onChange={handleChange}
-                                            disabled={!isEditing}
                                             placeholder="New York"
                                         />
                                     </div>
-
-                                    <div className="form-group">
-                                        <label className="form-label">Country</label>
+                                    <div className="form-group-luxury">
+                                        <label htmlFor="country" className="label-luxury">Country</label>
                                         <input
                                             type="text"
+                                            id="country"
                                             name="country"
-                                            className="form-input"
+                                            className="input-luxury"
                                             value={formData.country}
                                             onChange={handleChange}
-                                            disabled={!isEditing}
                                             placeholder="USA"
                                         />
                                     </div>
                                 </div>
 
+                                {/* Message */}
                                 {message && (
-                                    <div className={message.includes('success') ? 'text-success' : 'form-error'} style={{ textAlign: 'center' }}>
+                                    <div className={`p-4 rounded-lg text-sm text-center ${message.includes('success')
+                                            ? 'bg-green-50 border border-green-200 text-green-700'
+                                            : 'bg-red-50 border border-red-200 text-red-700'
+                                        }`}>
                                         {message}
                                     </div>
                                 )}
 
-                                {isEditing && (
-                                    <div className="flex gap-3" style={{ marginTop: 'var(--spacing-lg)' }}>
-                                        <button
-                                            type="button"
-                                            onClick={() => {
-                                                setIsEditing(false);
-                                                loadUserData();
-                                            }}
-                                            className="btn btn-secondary"
-                                            style={{ flex: 1 }}
-                                        >
-                                            Cancel
-                                        </button>
-                                        <button
-                                            type="submit"
-                                            className="btn btn-primary"
-                                            style={{ flex: 1 }}
-                                            disabled={loading}
-                                        >
-                                            {loading ? 'Saving...' : 'Save Changes'}
-                                        </button>
-                                    </div>
-                                )}
+                                {/* Action Buttons */}
+                                <div className="flex gap-4">
+                                    <button
+                                        type="button"
+                                        onClick={() => {
+                                            setIsEditing(false);
+                                            loadUserData();
+                                        }}
+                                        className="flex-1 btn-luxury-outline"
+                                    >
+                                        Cancel
+                                    </button>
+                                    <button
+                                        type="submit"
+                                        className="flex-1 btn-luxury"
+                                        disabled={loading}
+                                    >
+                                        {loading ? 'Saving...' : 'Save Changes'}
+                                    </button>
+                                </div>
                             </form>
+                        ) : (
+                            <div className="space-y-4">
+                                <div className="user-info-row">
+                                    <span className="text-warm-gray font-medium">Email</span>
+                                    <span className="text-charcoal">{formData.email}</span>
+                                </div>
+                                <div className="user-info-row">
+                                    <span className="text-warm-gray font-medium">Phone</span>
+                                    <span className="text-charcoal">{formData.phone || 'Not set'}</span>
+                                </div>
+                                <div className="user-info-row">
+                                    <span className="text-warm-gray font-medium">Location</span>
+                                    <span className="text-charcoal">
+                                        {formData.city && formData.country
+                                            ? `${formData.city}, ${formData.country}`
+                                            : 'Not set'}
+                                    </span>
+                                </div>
+                            </div>
+                        )}
+                    </div>
+                </div>
+
+                {/* Trip Statistics */}
+                <div className="luxury-card animate-fadeInUp" style={{ animationDelay: '0.2s' }}>
+                    <h3 className="text-xl font-serif font-semibold text-charcoal mb-6">
+                        Travel Statistics
+                    </h3>
+                    <div className="grid grid-cols-3 gap-6">
+                        <div className="stat-box">
+                            <div className="stat-number">{userStats.total}</div>
+                            <div className="stat-label">Total Trips</div>
                         </div>
-
-                        {/* Preferences Card */}
-                        <div className="card">
-                            <div className="card-header">
-                                <h3 className="card-title">Preferences</h3>
-                            </div>
-
-                            <div className="form-group">
-                                <label className="form-label">Default Currency</label>
-                                <select
-                                    name="currency"
-                                    className="form-select"
-                                    value={preferences.currency}
-                                    onChange={handlePreferenceChange}
-                                    disabled={!isEditing}
-                                >
-                                    <option value="USD">USD - US Dollar</option>
-                                    <option value="EUR">EUR - Euro</option>
-                                    <option value="GBP">GBP - British Pound</option>
-                                    <option value="JPY">JPY - Japanese Yen</option>
-                                    <option value="INR">INR - Indian Rupee</option>
-                                </select>
-                            </div>
-
-                            <div className="form-group">
-                                <label className="form-label">Language</label>
-                                <select
-                                    name="language"
-                                    className="form-select"
-                                    value={preferences.language}
-                                    onChange={handlePreferenceChange}
-                                    disabled={!isEditing}
-                                >
-                                    <option value="en">English</option>
-                                    <option value="es">Español</option>
-                                    <option value="fr">Français</option>
-                                    <option value="de">Deutsch</option>
-                                    <option value="ja">日本語</option>
-                                </select>
-                            </div>
-
-                            <div className="form-group">
-                                <label className="form-label">Privacy</label>
-                                <select
-                                    name="privacy"
-                                    className="form-select"
-                                    value={preferences.privacy}
-                                    onChange={handlePreferenceChange}
-                                    disabled={!isEditing}
-                                >
-                                    <option value="public">Public - Anyone can see your trips</option>
-                                    <option value="private">Private - Only you can see your trips</option>
-                                    <option value="friends">Friends - Only friends can see</option>
-                                </select>
-                            </div>
+                        <div className="stat-box">
+                            <div className="stat-number">{userStats.planned}</div>
+                            <div className="stat-label">Planned</div>
                         </div>
-
-                        {/* Danger Zone */}
-                        <div className="card" style={{ borderLeft: '4px solid var(--error)' }}>
-                            <div className="card-header">
-                                <h3 className="card-title text-error">Danger Zone</h3>
-                            </div>
-                            <p className="text-secondary" style={{ marginBottom: 'var(--spacing-md)' }}>
-                                Once you delete your account, there is no going back. Please be certain.
-                            </p>
-                            <button
-                                className="btn btn-danger"
-                                onClick={() => {
-                                    if (confirm('Are you absolutely sure? This action cannot be undone.')) {
-                                        alert('Account deletion feature coming soon');
-                                    }
-                                }}
-                            >
-                                Delete Account
-                            </button>
+                        <div className="stat-box">
+                            <div className="stat-number">{userStats.previous}</div>
+                            <div className="stat-label">Completed</div>
                         </div>
                     </div>
                 </div>
