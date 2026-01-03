@@ -1,0 +1,60 @@
+@import "tailwindcss";
+
+@theme {
+  --color-primary: #F9F3DF;
+  --color-secondary: #A0C4A1;
+  --color-accent: #FFFFFF;
+  --color-dark: #333333;
+
+  --color-sage-50: #f4f7f4;
+  --color-sage-100: #e1e9e2;
+  --color-sage-200: #c3d3c4;
+  --color-sage-300: #a0c4a1;
+  --color-sage-400: #7caf7d;
+  --color-sage-500: #5e9160;
+  --color-sage-600: #487249;
+  --color-sage-700: #3c5c3d;
+  --color-sage-800: #334a34;
+  --color-sage-900: #2b3e2c;
+
+  --shadow-premium: 0 20px 50px rgba(160, 196, 161, 0.15);
+  --shadow-glass: 0 8px 32px 0 rgba(31, 38, 135, 0.07);
+}
+
+@layer base {
+  body {
+    @apply bg-primary text-dark antialiased;
+    font-family: 'Outfit', 'Inter', sans-serif;
+  }
+}
+
+@layer components {
+  .glass-card {
+    @apply bg-white/70 backdrop-blur-xl border border-white/40 shadow-glass;
+  }
+
+  .input-field {
+    @apply w-full px-5 py-4 rounded-2xl border-2 border-transparent bg-white/80 shadow-sm focus:bg-white focus:border-secondary/20 focus:ring-4 focus:ring-secondary/10 outline-none transition-all duration-300 placeholder:text-gray-300 font-medium;
+  }
+
+  .btn-primary {
+    @apply relative overflow-hidden bg-secondary text-white px-10 py-4 rounded-2xl font-black shadow-lg shadow-secondary/30 hover:shadow-secondary/50 hover:-translate-y-1 transition-all duration-300 active:scale-95 disabled:opacity-50 disabled:pointer-events-none;
+  }
+
+  .section-label {
+    @apply text-[10px] font-black uppercase tracking-[0.2em] text-gray-400 mb-2 block;
+  }
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  @apply bg-primary;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-secondary/30 rounded-full hover:bg-secondary/50 transition-colors;
+}
