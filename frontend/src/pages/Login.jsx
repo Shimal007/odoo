@@ -1,91 +1,132 @@
-import { useState } from 'react'
-import { useNavigate, Link } from 'react-router-dom'
+import { useState } from 'react';
+import { useNavigate, Link } from 'react-router-dom';
 
-function Login() {
+const Login = ({ onLogin }) => {
+    const navigate = useNavigate();
     const [formData, setFormData] = useState({
         email: '',
         password: ''
-    })
-    const [error, setError] = useState('')
-    const [success, setSuccess] = useState('')
-    const navigate = useNavigate()
+    });
+    const [error, setError] = useState('');
+    const [loading, setLoading] = useState(false);
 
-    const handleInputChange = (e) => {
-        const { name, value } = e.target
-        setFormData(prev => ({ ...prev, [name]: value }))
-    }
+    const handleChange = (e) => {
+        setFormData({
+            ...formData,
+            [e.target.name]: e.target.value
+        });
+        setError('');
+    };
 
     const handleSubmit = async (e) => {
-        e.preventDefault()
-        setError('')
-        setSuccess('')
+        e.preventDefault();
+        setLoading(true);
+        setError('');
 
         try {
             const response = await fetch('http://localhost:5000/api/login', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(formData)
-            })
+            });
 
-            const data = await response.json()
+            const data = await response.json();
 
-            if (!response.ok) {
-                throw new Error(data.error || 'Login failed')
+            if (response.ok) {
+                localStorage.setItem('user', JSON.stringify(data.user));
+                onLogin(data.user);
+                navigate('/dashboard');
+            } else {
+                setError(data.error || 'Login failed');
             }
-
-            localStorage.setItem('token', data.token)
-            localStorage.setItem('user', JSON.stringify(data.user))
-            setSuccess(`Welcome back, ${data.user.first_name}!`)
-
-            // Redirect to home or dashboard after a short delay
-            setTimeout(() => navigate('/'), 1500)
         } catch (err) {
-            setError(err.message)
+            setError('Network error. Please check if the server is running.');
+        } finally {
+            setLoading(false);
         }
-    }
+    };
 
     return (
-        <div className="luxury-card">
-            <h1 className="luxury-title">classic luxury</h1>
-            <p className="luxury-subtitle">Sign In to Your Account</p>
-
-            <form onSubmit={handleSubmit}>
-                <div className="form-group">
-                    <label>Email Address</label>
-                    <input
-                        type="email"
-                        name="email"
-                        value={formData.email}
-                        onChange={handleInputChange}
-                        required
-                    />
+        <div className="page-wrapper" style={{
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            minHeight: '100vh',
+            background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+            padding: 'var(--spacing-xl)'
+        }}>
+            <div className="card animate-fade-in" style={{ maxWidth: '450px', width: '100%' }}>
+                <div className="text-center mb-5">
+                    <h1 className="text-gradient" style={{ fontSize: '3rem', marginBottom: '0.5rem' }}>
+                        ✈️ GlobeTrotter
+                    </h1>
+                    <p className="text-secondary">Welcome back! Plan your next adventure.</p>
                 </div>
 
-                <div className="form-group">
-                    <label>Password</label>
-                    <input
-                        type="password"
-                        name="password"
-                        value={formData.password}
-                        onChange={handleInputChange}
-                        required
-                    />
+                <form onSubmit={handleSubmit}>
+                    <div className="form-group">
+                        <label htmlFor="email" className="form-label">Email Address</label>
+                        <input
+                            type="email"
+                            id="email"
+                            name="email"
+                            className="form-input"
+                            value={formData.email}
+                            onChange={handleChange}
+                            required
+                            placeholder="you@example.com"
+                        />
+                    </div>
+
+                    <div className="form-group">
+                        <label htmlFor="password" className="form-label">Password</label>
+                        <input
+                            type="password"
+                            id="password"
+                            name="password"
+                            className="form-input"
+                            value={formData.password}
+                            onChange={handleChange}
+                            required
+                            placeholder="••••••••"
+                        />
+                    </div>
+
+                    {error && (
+                        <div className="form-error text-center">{error}</div>
+                    )}
+
+                    <button
+                        type="submit"
+                        className="btn btn-primary btn-lg"
+                        style={{ width: '100%', marginTop: 'var(--spacing-lg)' }}
+                        disabled={loading}
+                    >
+                        {loading ? 'Logging in...' : 'Login'}
+                    </button>
+                </form>
+
+                <div className="text-center mt-4">
+                    <p className="text-secondary">
+                        Don't have an account?{' '}
+                        <Link to="/signup" style={{ color: 'var(--ocean-blue)', fontWeight: 600 }}>
+                            Sign up
+                        </Link>
+                    </p>
                 </div>
 
-                <button type="submit" className="btn-luxury">
-                    Login
-                </button>
-
-                {error && <p className="error-msg">{error}</p>}
-                {success && <p className="success-msg">{success}</p>}
-
-                <p className="toggle-link">
-                    Don't have an account?{' '}
-                    <Link to="/signup">Sign Up</Link>
-                </p>
-            </form>
+                <div className="text-center mt-3">
+                    <Link to="/forgot-password" style={{
+                        color: 'var(--text-muted)',
+                        fontSize: '0.875rem',
+                        textDecoration: 'none'
+                    }}>
+                        Forgot password?
+                    </Link>
+                </div>
+            </div>
         </div>
-    )
-}
+    );
+};
 
-export default Login
+export default Login;

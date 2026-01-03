@@ -1,191 +1,227 @@
-import { useState, useRef } from 'react'
-import { useNavigate, Link } from 'react-router-dom'
+import { useState } from 'react';
+import { useNavigate, Link } from 'react-router-dom';
 
-function Signup() {
+const Signup = () => {
+    const navigate = useNavigate();
     const [formData, setFormData] = useState({
         first_name: '',
         last_name: '',
         email: '',
+        password: '',
+        confirmPassword: '',
         phone: '',
         city: '',
-        country: '',
-        password: '',
-        additional_info: '',
-        profile_photo: ''
-    })
-    const [error, setError] = useState('')
-    const [success, setSuccess] = useState('')
-    const fileInputRef = useRef(null)
-    const navigate = useNavigate()
+        country: ''
+    });
+    const [error, setError] = useState('');
+    const [loading, setLoading] = useState(false);
 
-    const handleInputChange = (e) => {
-        const { name, value } = e.target
-        setFormData(prev => ({ ...prev, [name]: value }))
-    }
-
-    const handlePhotoChange = (e) => {
-        const file = e.target.files[0]
-        if (file) {
-            const reader = new FileReader()
-            reader.onloadend = () => {
-                setFormData(prev => ({ ...prev, profile_photo: reader.result }))
-            }
-            reader.readAsDataURL(file)
-        }
-    }
+    const handleChange = (e) => {
+        setFormData({
+            ...formData,
+            [e.target.name]: e.target.value
+        });
+        setError('');
+    };
 
     const handleSubmit = async (e) => {
-        e.preventDefault()
-        setError('')
-        setSuccess('')
+        e.preventDefault();
+        setLoading(true);
+        setError('');
+
+        if (formData.password !== formData.confirmPassword) {
+            setError('Passwords do not match');
+            setLoading(false);
+            return;
+        }
+
+        if (formData.password.length < 6) {
+            setError('Password must be at least 6 characters');
+            setLoading(false);
+            return;
+        }
 
         try {
+            const { confirmPassword, ...dataToSend } = formData;
+
             const response = await fetch('http://localhost:5000/api/register', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(formData)
-            })
+                body: JSON.stringify(dataToSend)
+            });
 
-            const data = await response.json()
+            const data = await response.json();
 
-            if (!response.ok) {
-                throw new Error(data.error || 'Registration failed')
+            if (response.ok) {
+                navigate('/login', { state: { message: 'Registration successful! Please login.' } });
+            } else {
+                setError(data.error || 'Registration failed');
             }
-
-            setSuccess('Registration successful! Redirecting to login...')
-            setTimeout(() => navigate('/login'), 2000)
         } catch (err) {
-            setError(err.message)
+            setError('Network error. Please check if the server is running.');
+        } finally {
+            setLoading(false);
         }
-    }
+    };
 
     return (
-        <div className="luxury-card">
-            <h1 className="luxury-title">classic luxury</h1>
-            <p className="luxury-subtitle">Create Your Digital Presence</p>
-
-            <form onSubmit={handleSubmit}>
-                <div className="photo-upload-container">
-                    <div className="photo-preview" onClick={() => fileInputRef.current.click()}>
-                        {formData.profile_photo ? (
-                            <img src={formData.profile_photo} alt="Profile" />
-                        ) : (
-                            <div className="photo-placeholder">+</div>
-                        )}
-                    </div>
-                    <input
-                        type="file"
-                        ref={fileInputRef}
-                        style={{ display: 'none' }}
-                        onChange={handlePhotoChange}
-                        accept="image/*"
-                    />
-                    <label>Profile Photo</label>
+        <div className="page-wrapper" style={{
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            minHeight: '100vh',
+            background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+            padding: 'var(--spacing-xl)'
+        }}>
+            <div className="card animate-fade-in" style={{ maxWidth: '600px', width: '100%' }}>
+                <div className="text-center mb-5">
+                    <h1 className="text-gradient" style={{ fontSize: '3rem', marginBottom: '0.5rem' }}>
+                        ✈️ GlobeTrotter
+                    </h1>
+                    <p className="text-secondary">Create your account and start exploring</p>
                 </div>
 
-                <div className="form-row">
+                <form onSubmit={handleSubmit}>
+                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 'var(--spacing-lg)' }}>
+                        <div className="form-group">
+                            <label htmlFor="first_name" className="form-label">First Name</label>
+                            <input
+                                type="text"
+                                id="first_name"
+                                name="first_name"
+                                className="form-input"
+                                value={formData.first_name}
+                                onChange={handleChange}
+                                required
+                                placeholder="John"
+                            />
+                        </div>
+
+                        <div className="form-group">
+                            <label htmlFor="last_name" className="form-label">Last Name</label>
+                            <input
+                                type="text"
+                                id="last_name"
+                                name="last_name"
+                                className="form-input"
+                                value={formData.last_name}
+                                onChange={handleChange}
+                                required
+                                placeholder="Doe"
+                            />
+                        </div>
+                    </div>
+
                     <div className="form-group">
-                        <label>First Name</label>
+                        <label htmlFor="email" className="form-label">Email Address</label>
                         <input
-                            type="text"
-                            name="first_name"
-                            value={formData.first_name}
-                            onChange={handleInputChange}
+                            type="email"
+                            id="email"
+                            name="email"
+                            className="form-input"
+                            value={formData.email}
+                            onChange={handleChange}
                             required
+                            placeholder="you@example.com"
                         />
                     </div>
+
+                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 'var(--spacing-lg)' }}>
+                        <div className="form-group">
+                            <label htmlFor="password" className="form-label">Password</label>
+                            <input
+                                type="password"
+                                id="password"
+                                name="password"
+                                className="form-input"
+                                value={formData.password}
+                                onChange={handleChange}
+                                required
+                                placeholder="••••••••"
+                            />
+                        </div>
+
+                        <div className="form-group">
+                            <label htmlFor="confirmPassword" className="form-label">Confirm Password</label>
+                            <input
+                                type="password"
+                                id="confirmPassword"
+                                name="confirmPassword"
+                                className="form-input"
+                                value={formData.confirmPassword}
+                                onChange={handleChange}
+                                required
+                                placeholder="••••••••"
+                            />
+                        </div>
+                    </div>
+
+                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 'var(--spacing-lg)' }}>
+                        <div className="form-group">
+                            <label htmlFor="city" className="form-label">City</label>
+                            <input
+                                type="text"
+                                id="city"
+                                name="city"
+                                className="form-input"
+                                value={formData.city}
+                                onChange={handleChange}
+                                placeholder="New York"
+                            />
+                        </div>
+
+                        <div className="form-group">
+                            <label htmlFor="country" className="form-label">Country</label>
+                            <input
+                                type="text"
+                                id="country"
+                                name="country"
+                                className="form-input"
+                                value={formData.country}
+                                onChange={handleChange}
+                                placeholder="USA"
+                            />
+                        </div>
+                    </div>
+
                     <div className="form-group">
-                        <label>Last Name</label>
+                        <label htmlFor="phone" className="form-label">Phone (Optional)</label>
                         <input
-                            type="text"
-                            name="last_name"
-                            value={formData.last_name}
-                            onChange={handleInputChange}
-                            required
+                            type="tel"
+                            id="phone"
+                            name="phone"
+                            className="form-input"
+                            value={formData.phone}
+                            onChange={handleChange}
+                            placeholder="+1 234 567 8900"
                         />
                     </div>
+
+                    {error && (
+                        <div className="form-error text-center">{error}</div>
+                    )}
+
+                    <button
+                        type="submit"
+                        className="btn btn-primary btn-lg"
+                        style={{ width: '100%', marginTop: 'var(--spacing-lg)' }}
+                        disabled={loading}
+                    >
+                        {loading ? 'Creating account...' : 'Create Account'}
+                    </button>
+                </form>
+
+                <div className="text-center mt-4">
+                    <p className="text-secondary">
+                        Already have an account?{' '}
+                        <Link to="/login" style={{ color: 'var(--ocean-blue)', fontWeight: 600 }}>
+                            Login
+                        </Link>
+                    </p>
                 </div>
-
-                <div className="form-group">
-                    <label>Email Address</label>
-                    <input
-                        type="email"
-                        name="email"
-                        value={formData.email}
-                        onChange={handleInputChange}
-                        required
-                    />
-                </div>
-
-                <div className="form-group">
-                    <label>Phone Number</label>
-                    <input
-                        type="text"
-                        name="phone"
-                        value={formData.phone}
-                        onChange={handleInputChange}
-                        required
-                    />
-                </div>
-
-                <div className="form-row">
-                    <div className="form-group">
-                        <label>City</label>
-                        <input
-                            type="text"
-                            name="city"
-                            value={formData.city}
-                            onChange={handleInputChange}
-                            required
-                        />
-                    </div>
-                    <div className="form-group">
-                        <label>Country</label>
-                        <input
-                            type="text"
-                            name="country"
-                            value={formData.country}
-                            onChange={handleInputChange}
-                            required
-                        />
-                    </div>
-                </div>
-
-                <div className="form-group">
-                    <label>Additional Information</label>
-                    <textarea
-                        name="additional_info"
-                        value={formData.additional_info}
-                        onChange={handleInputChange}
-                        rows="3"
-                    />
-                </div>
-
-                <div className="form-group">
-                    <label>Password</label>
-                    <input
-                        type="password"
-                        name="password"
-                        value={formData.password}
-                        onChange={handleInputChange}
-                        required
-                    />
-                </div>
-
-                <button type="submit" className="btn-luxury">
-                    Register User
-                </button>
-
-                {error && <p className="error-msg">{error}</p>}
-                {success && <p className="success-msg">{success}</p>}
-
-                <p className="toggle-link">
-                    Already have an account?{' '}
-                    <Link to="/login">Login</Link>
-                </p>
-            </form>
+            </div>
         </div>
-    )
-}
+    );
+};
 
-export default Signup
+export default Signup;
