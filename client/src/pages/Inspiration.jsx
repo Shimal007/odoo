@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Navbar from '../components/Navbar';
+import { DotLottiePlayer } from '@dotlottie/react-player';
 
 const Inspiration = ({ user, onLogout }) => {
     const navigate = useNavigate();
@@ -55,25 +56,18 @@ const Inspiration = ({ user, onLogout }) => {
 
     if (loading) {
         return (
-            <div className="page-wrapper" style={{ background: 'var(--cream-light)', minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
+            <div className="page-wrapper" style={{ background: 'white', minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
                 <Navbar user={user} onLogout={onLogout} />
-                <div style={{ flex: 1, display: 'flex', alignItems: 'center', justifyCenter: 'center', background: 'white' }}>
-                    <div className="text-center w-full animate-fade-in">
-                        <div className="relative inline-block mb-8">
-                            <div className="w-24 h-24 border-4 border-cream-dark rounded-full"></div>
-                            <div className="absolute inset-0 w-24 h-24 border-4 border-gold rounded-full animate-spin border-t-transparent shadow-lg"></div>
-                            <div className="absolute inset-0 flex items-center justify-center text-2xl">✨</div>
-                        </div>
+                <div style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                    <div className="text-center w-full animate-fade-in" style={{ maxWidth: '400px' }}>
+                        <DotLottiePlayer
+                            src="/loading.lottie"
+                            autoplay
+                            loop
+                            style={{ width: '100%', height: 'auto' }}
+                        />
                         <h2 className="font-serif text-3xl mb-2 text-charcoal">Curating Your Inspiration</h2>
-                        <p className="text-warm-gray animate-pulse">Our AI is traveling the world to find the best stories...</p>
-
-                        <div className="max-w-md mx-auto mt-12 px-6 grid grid-cols-3 gap-2">
-                            {[1, 2, 3].map(i => (
-                                <div key={i} className="h-1 bg-cream-dark rounded-full overflow-hidden">
-                                    <div className="h-full bg-gold animate-shimmer" style={{ animationDelay: `${i * 0.5}s` }}></div>
-                                </div>
-                            ))}
-                        </div>
+                        <p className="text-warm-gray">Our AI is traveling the world to find the best stories...</p>
                     </div>
                 </div>
             </div>
