@@ -130,65 +130,132 @@ const Discover = ({ user, onLogout }) => {
                                 </p>
                             </div>
 
-                            <div className="grid grid-3">
-                                {filteredCities.map((city, index) => (
-                                    <div
-                                        key={index}
-                                        className="card card-elevated"
-                                        style={{ cursor: 'pointer' }}
-                                    >
-                                        {/* City Image/Banner */}
-                                        <div style={{
-                                            height: '150px',
-                                            background: `linear-gradient(135deg, var(--sky-gradient-start), var(--sky-gradient-end))`,
-                                            borderRadius: 'var(--radius-lg)',
-                                            marginBottom: 'var(--spacing-lg)',
-                                            display: 'flex',
-                                            alignItems: 'center',
-                                            justifyContent: 'center',
-                                            fontSize: '4rem'
-                                        }}>
-                                            {city.name === 'Paris' ? '🗼' :
-                                                city.name === 'Tokyo' ? '🗾' :
-                                                    city.name === 'New York' ? '🗽' :
-                                                        city.name === 'Bali' ? '🏝️' :
-                                                            city.name === 'Barcelona' ? '🏖️' :
-                                                                city.name === 'Dubai' ? '🏙️' :
-                                                                    city.name === 'London' ? '🏰' :
-                                                                        city.name === 'Bangkok' ? '🛕' :
-                                                                            city.name === 'Rome' ? '🏛️' :
-                                                                                city.name === 'Istanbul' ? '🕌' : '🌆'}
-                                        </div>
+                            <div className="grid grid-2 gap-4">
+                                {filteredCities.map((city, index) => {
+                                    // Get city-specific image from Unsplash
+                                    const getCityImage = (cityName) => {
+                                        const imageMap = {
+                                            'Paris': 'https://images.unsplash.com/photo-1502602898657-3e91760cbb34?auto=format&fit=crop&q=80&w=800',
+                                            'Tokyo': 'https://images.unsplash.com/photo-1540959733332-eab4deabeeaf?auto=format&fit=crop&q=80&w=800',
+                                            'New York': 'https://images.unsplash.com/photo-1496442226666-8d4d0e62e6e9?auto=format&fit=crop&q=80&w=800',
+                                            'Bali': 'https://images.unsplash.com/photo-1537996194471-e657df975ab4?auto=format&fit=crop&q=80&w=800',
+                                            'Barcelona': 'https://images.unsplash.com/photo-1583422409516-2895a77efded?auto=format&fit=crop&q=80&w=800',
+                                            'Dubai': 'https://images.unsplash.com/photo-1512453979798-5ea266f8880c?auto=format&fit=crop&q=80&w=800',
+                                            'London': 'https://images.unsplash.com/photo-1513635269975-59663e0ac1ad?auto=format&fit=crop&q=80&w=800',
+                                            'Bangkok': 'https://images.unsplash.com/photo-1508009603885-50cf7c579365?auto=format&fit=crop&q=80&w=800',
+                                            'Rome': 'https://images.unsplash.com/photo-1552832230-c0197dd311b5?auto=format&fit=crop&q=80&w=800',
+                                            'Istanbul': 'https://images.unsplash.com/photo-1524231757912-21f4fe3a7200?auto=format&fit=crop&q=80&w=800'
+                                        };
+                                        return imageMap[cityName] || `https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?auto=format&fit=crop&q=80&w=800`;
+                                    };
 
-                                        {/* City Info */}
-                                        <h3 style={{ marginBottom: '0.25rem' }}>{city.name}</h3>
-                                        <p className="text-secondary" style={{ marginBottom: 'var(--spacing-md)' }}>
-                                            {city.country} • {city.region}
-                                        </p>
+                                    const costBadge = getCostBadge(city.cost_index);
 
-                                        {/* Badges */}
-                                        <div className="flex gap-2" style={{ marginBottom: 'var(--spacing-md)', flexWrap: 'wrap' }}>
-                                            <span className={`badge ${getCostBadge(city.cost_index).class}`}>
-                                                💵 {getCostBadge(city.cost_index).text}
-                                            </span>
-                                            <span className="badge badge-primary" title={`Popularity: ${city.popularity}%`}>
-                                                {getPopularityStars(city.popularity)}
-                                            </span>
-                                        </div>
-
-                                        {/* Action */}
-                                        <button
-                                            className="btn btn-outline btn-sm"
-                                            style={{ width: '100%' }}
-                                            onClick={() => {
-                                                // In real app, this would add to current trip or create new one
-                                                alert(`Adding ${city.name} to your trip! (Feature coming soon)`);
+                                    return (
+                                        <div
+                                            key={index}
+                                            className="card p-0 overflow-hidden animate-fade-in-up"
+                                            style={{
+                                                animationDelay: `${index * 0.05}s`,
+                                                cursor: 'pointer',
+                                                border: '1px solid var(--border-color)'
                                             }}
                                         >
-                                            Add to Trip
-                                        </button>
-                                    </div>
-                                ))}
+                                            {/* City Image with Overlay */}
+                                            <div style={{ position: 'relative', height: '200px', overflow: 'hidden' }}>
+                                                <img
+                                                    src={getCityImage(city.name)}
+                                                    alt={city.name}
+                                                    style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                                                    className="hover:scale-105 transition-transform duration-700"
+                                                />
+
+                                                {/* Popularity Badge */}
+                                                <div style={{
+                                                    position: 'absolute',
+                                                    top: '1rem',
+                                                    right: '1rem',
+                                                    background: 'var(--gold)',
+                                                    color: 'white',
+                                                    padding: '0.4rem 0.75rem',
+                                                    borderRadius: 'var(--radius-full)',
+                                                    fontSize: '0.7rem',
+                                                    fontWeight: 700,
+                                                    textTransform: 'uppercase',
+                                                    letterSpacing: '0.05em'
+                                                }}>
+                                                    {city.popularity}% POPULAR
+                                                </div>
+
+                                                {/* Cost Badge Overlay */}
+                                                <div style={{
+                                                    position: 'absolute',
+                                                    bottom: 0,
+                                                    left: 0,
+                                                    right: 0,
+                                                    background: 'linear-gradient(to top, rgba(0,0,0,0.7), transparent)',
+                                                    padding: '1rem',
+                                                    color: 'white'
+                                                }}>
+                                                    <span style={{
+                                                        fontSize: '0.7rem',
+                                                        fontWeight: 700,
+                                                        textTransform: 'uppercase',
+                                                        letterSpacing: '0.1em'
+                                                    }}>
+                                                        {costBadge.text}
+                                                    </span>
+                                                </div>
+                                            </div>
+
+                                            {/* City Details */}
+                                            <div style={{ padding: '1.5rem' }}>
+                                                <div className="flex justify-between items-start mb-2">
+                                                    <div>
+                                                        <h3 style={{ fontSize: '1.5rem', marginBottom: '0.25rem', color: 'var(--charcoal)' }}>
+                                                            {city.name}
+                                                        </h3>
+                                                        <p className="text-warm-gray" style={{ fontSize: '0.875rem', marginBottom: '0' }}>
+                                                            📍 {city.country}, {city.region}
+                                                        </p>
+                                                    </div>
+                                                </div>
+
+                                                {/* Description */}
+                                                <p className="text-warm-gray" style={{
+                                                    fontSize: '0.9rem',
+                                                    lineHeight: '1.5',
+                                                    marginBottom: '1rem',
+                                                    marginTop: '0.75rem'
+                                                }}>
+                                                    Discover the beauty and culture of {city.name}
+                                                </p>
+
+                                                {/* Footer with Rating and Button */}
+                                                <div className="flex justify-between items-center pt-3" style={{ borderTop: '1px solid var(--cream-dark)' }}>
+                                                    <div className="flex items-center gap-2">
+                                                        <span style={{ fontSize: '0.9rem' }}>
+                                                            {getPopularityStars(city.popularity)}
+                                                        </span>
+                                                        <span style={{ fontSize: '0.8rem', color: 'var(--warm-gray)' }}>
+                                                            {(city.popularity / 20).toFixed(1)}
+                                                        </span>
+                                                    </div>
+                                                    <button
+                                                        className="btn btn-primary btn-sm"
+                                                        style={{ padding: '0.5rem 1.25rem', fontSize: '0.8rem' }}
+                                                        onClick={(e) => {
+                                                            e.stopPropagation();
+                                                            alert(`Adding ${city.name} to your journey!`);
+                                                        }}
+                                                    >
+                                                        Add to Journey
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    );
+                                })}
                             </div>
                         </>
                     )}

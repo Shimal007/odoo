@@ -103,42 +103,40 @@ const Profile = ({ user, onLogout, onUpdateUser }) => {
     const avatarEmojis = ['👤', '👨', '👩', '🧑', '👨‍💼', '👩‍💼', '🧳', '✈️', '🌍'];
 
     return (
-        <div className="min-h-screen bg-gradient-luxury">
+        <div className="page-container">
             <Navbar user={user} onLogout={onLogout} />
 
-            <div className="luxury-container max-w-4xl">
+            <div className="container container-narrow section">
                 {/* Header */}
-                <div className="luxury-card mb-12 animate-fadeInUp">
-                    <h1 className="text-4xl font-serif font-bold text-gradient-gold text-center">
+                <div className="card mb-4 animate-fade-in-up">
+                    <h1 className="text-gradient-gold text-center" style={{ fontSize: '2.5rem', marginBottom: '0.5rem' }}>
                         My Profile
                     </h1>
-                    <p className="text-center text-warm-gray mt-2">
+                    <p className="text-center text-warm-gray">
                         Manage your account settings and preferences
                     </p>
                 </div>
 
                 {/* Profile Section */}
-                <div className="luxury-card mb-8 animate-fadeInUp" style={{ animationDelay: '0.1s' }}>
+                <div className="card mb-4 animate-fade-in-up" style={{ animationDelay: '0.1s' }}>
                     {/* Avatar and Header */}
-                    <div className="flex flex-col md:flex-row items-center md:items-start gap-8 pb-8 border-b border-gold/20">
-                        <div className="profile-avatar-luxury">
+                    <div className="flex gap-4 pb-4 mb-4" style={{ borderBottom: '1px solid var(--border-color)', alignItems: 'center' }}>
+                        <div className="profile-avatar">
                             {formData.profile_photo || '👤'}
                         </div>
-                        <div className="flex-1 text-center md:text-left">
-                            <h2 className="font-serif text-3xl text-charcoal mb-2">
+                        <div style={{ flex: 1 }}>
+                            <h2 style={{ fontSize: '1.75rem', marginBottom: '0.25rem' }}>
                                 {formData.first_name} {formData.last_name}
                             </h2>
-                            <p className="text-warm-gray mb-4">
+                            <p className="text-warm-gray" style={{ marginBottom: '1rem' }}>
                                 {formData.city && formData.country ? `${formData.city}, ${formData.country}` : 'Location not set'}
                             </p>
                             {!isEditing && (
                                 <button
                                     onClick={() => setIsEditing(true)}
-                                    className="btn-luxury-outline-sm"
+                                    className="btn btn-outline btn-sm"
                                 >
-                                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
-                                    </svg>
+                                    <span style={{ marginRight: '0.5rem' }}>✏️</span>
                                     Edit Profile
                                 </button>
                             )}
@@ -146,26 +144,31 @@ const Profile = ({ user, onLogout, onUpdateUser }) => {
                     </div>
 
                     {/* User Details */}
-                    <div className="mt-8">
-                        <h3 className="text-xl font-serif font-semibold text-charcoal mb-6">
+                    <div>
+                        <h3 style={{ fontSize: '1.25rem', marginBottom: '1.5rem', color: 'var(--charcoal)' }}>
                             Personal Information
                         </h3>
 
                         {isEditing ? (
-                            <form onSubmit={handleSubmit} className="space-y-6">
+                            <form onSubmit={handleSubmit}>
                                 {/* Avatar Selection */}
-                                <div className="form-group-luxury">
-                                    <label className="label-luxury">Choose Avatar</label>
-                                    <div className="flex flex-wrap gap-3 justify-center">
+                                <div className="form-group">
+                                    <label className="form-label">Choose Avatar</label>
+                                    <div className="flex flex-wrap gap-2 justify-center mb-3">
                                         {avatarEmojis.map(emoji => (
                                             <button
                                                 key={emoji}
                                                 type="button"
                                                 onClick={() => setFormData({ ...formData, profile_photo: emoji })}
-                                                className={`text-4xl p-4 rounded-lg border-2 transition-all ${formData.profile_photo === emoji
-                                                        ? 'border-gold bg-gold/10 scale-110'
-                                                        : 'border-gold/20 hover:border-gold/50'
-                                                    }`}
+                                                style={{
+                                                    fontSize: '2rem',
+                                                    padding: '0.75rem',
+                                                    borderRadius: 'var(--radius-md)',
+                                                    border: formData.profile_photo === emoji ? '2px solid var(--gold)' : '2px solid var(--border-color)',
+                                                    background: formData.profile_photo === emoji ? 'var(--cream-light)' : 'transparent',
+                                                    cursor: 'pointer',
+                                                    transition: 'all 0.2s ease'
+                                                }}
                                             >
                                                 {emoji}
                                             </button>
@@ -174,26 +177,26 @@ const Profile = ({ user, onLogout, onUpdateUser }) => {
                                 </div>
 
                                 {/* Name Fields */}
-                                <div className="grid md:grid-cols-2 gap-6">
-                                    <div className="form-group-luxury">
-                                        <label htmlFor="first_name" className="label-luxury">First Name</label>
+                                <div className="grid grid-2 gap-3 mb-3">
+                                    <div className="form-group">
+                                        <label htmlFor="first_name" className="form-label">First Name</label>
                                         <input
                                             type="text"
                                             id="first_name"
                                             name="first_name"
-                                            className="input-luxury"
+                                            className="form-input"
                                             value={formData.first_name}
                                             onChange={handleChange}
                                             required
                                         />
                                     </div>
-                                    <div className="form-group-luxury">
-                                        <label htmlFor="last_name" className="label-luxury">Last Name</label>
+                                    <div className="form-group">
+                                        <label htmlFor="last_name" className="form-label">Last Name</label>
                                         <input
                                             type="text"
                                             id="last_name"
                                             name="last_name"
-                                            className="input-luxury"
+                                            className="form-input"
                                             value={formData.last_name}
                                             onChange={handleChange}
                                             required
@@ -202,27 +205,28 @@ const Profile = ({ user, onLogout, onUpdateUser }) => {
                                 </div>
 
                                 {/* Email */}
-                                <div className="form-group-luxury">
-                                    <label htmlFor="email" className="label-luxury">Email Address</label>
+                                <div className="form-group">
+                                    <label htmlFor="email" className="form-label">Email Address</label>
                                     <input
                                         type="email"
                                         id="email"
                                         name="email"
-                                        className="input-luxury opacity-60 cursor-not-allowed"
+                                        className="form-input"
+                                        style={{ opacity: 0.6, cursor: 'not-allowed' }}
                                         value={formData.email}
                                         disabled
                                     />
-                                    <p className="text-xs text-warm-gray mt-1">Email cannot be changed</p>
+                                    <p style={{ fontSize: '0.75rem', marginTop: '0.25rem' }}>Email cannot be changed</p>
                                 </div>
 
                                 {/* Phone */}
-                                <div className="form-group-luxury">
-                                    <label htmlFor="phone" className="label-luxury">Phone Number</label>
+                                <div className="form-group">
+                                    <label htmlFor="phone" className="form-label">Phone Number</label>
                                     <input
                                         type="tel"
                                         id="phone"
                                         name="phone"
-                                        className="input-luxury"
+                                        className="form-input"
                                         value={formData.phone}
                                         onChange={handleChange}
                                         placeholder="+1 234 567 8900"
@@ -230,26 +234,26 @@ const Profile = ({ user, onLogout, onUpdateUser }) => {
                                 </div>
 
                                 {/* Location */}
-                                <div className="grid md:grid-cols-2 gap-6">
-                                    <div className="form-group-luxury">
-                                        <label htmlFor="city" className="label-luxury">City</label>
+                                <div className="grid grid-2 gap-3 mb-4">
+                                    <div className="form-group">
+                                        <label htmlFor="city" className="form-label">City</label>
                                         <input
                                             type="text"
                                             id="city"
                                             name="city"
-                                            className="input-luxury"
+                                            className="form-input"
                                             value={formData.city}
                                             onChange={handleChange}
                                             placeholder="New York"
                                         />
                                     </div>
-                                    <div className="form-group-luxury">
-                                        <label htmlFor="country" className="label-luxury">Country</label>
+                                    <div className="form-group">
+                                        <label htmlFor="country" className="form-label">Country</label>
                                         <input
                                             type="text"
                                             id="country"
                                             name="country"
-                                            className="input-luxury"
+                                            className="form-input"
                                             value={formData.country}
                                             onChange={handleChange}
                                             placeholder="USA"
@@ -259,29 +263,28 @@ const Profile = ({ user, onLogout, onUpdateUser }) => {
 
                                 {/* Message */}
                                 {message && (
-                                    <div className={`p-4 rounded-lg text-sm text-center ${message.includes('success')
-                                            ? 'bg-green-50 border border-green-200 text-green-700'
-                                            : 'bg-red-50 border border-red-200 text-red-700'
-                                        }`}>
+                                    <div className={message.includes('success') ? 'form-success mb-3' : 'form-error mb-3'}>
                                         {message}
                                     </div>
                                 )}
 
                                 {/* Action Buttons */}
-                                <div className="flex gap-4">
+                                <div className="flex gap-2">
                                     <button
                                         type="button"
                                         onClick={() => {
                                             setIsEditing(false);
                                             loadUserData();
                                         }}
-                                        className="flex-1 btn-luxury-outline"
+                                        className="btn btn-outline"
+                                        style={{ flex: 1 }}
                                     >
                                         Cancel
                                     </button>
                                     <button
                                         type="submit"
-                                        className="flex-1 btn-luxury"
+                                        className="btn btn-primary"
+                                        style={{ flex: 1 }}
                                         disabled={loading}
                                     >
                                         {loading ? 'Saving...' : 'Save Changes'}
@@ -289,17 +292,17 @@ const Profile = ({ user, onLogout, onUpdateUser }) => {
                                 </div>
                             </form>
                         ) : (
-                            <div className="space-y-4">
+                            <div>
                                 <div className="user-info-row">
-                                    <span className="text-warm-gray font-medium">Email</span>
+                                    <span className="font-bold uppercase tracking-wider text-xs">Email</span>
                                     <span className="text-charcoal">{formData.email}</span>
                                 </div>
                                 <div className="user-info-row">
-                                    <span className="text-warm-gray font-medium">Phone</span>
+                                    <span className="font-bold uppercase tracking-wider text-xs">Phone</span>
                                     <span className="text-charcoal">{formData.phone || 'Not set'}</span>
                                 </div>
                                 <div className="user-info-row">
-                                    <span className="text-warm-gray font-medium">Location</span>
+                                    <span className="font-bold uppercase tracking-wider text-xs">Location</span>
                                     <span className="text-charcoal">
                                         {formData.city && formData.country
                                             ? `${formData.city}, ${formData.country}`
@@ -312,11 +315,11 @@ const Profile = ({ user, onLogout, onUpdateUser }) => {
                 </div>
 
                 {/* Trip Statistics */}
-                <div className="luxury-card animate-fadeInUp" style={{ animationDelay: '0.2s' }}>
-                    <h3 className="text-xl font-serif font-semibold text-charcoal mb-6">
+                <div className="card animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
+                    <h3 style={{ fontSize: '1.25rem', marginBottom: '1.5rem', color: 'var(--charcoal)' }}>
                         Travel Statistics
                     </h3>
-                    <div className="grid grid-cols-3 gap-6">
+                    <div className="grid grid-3 gap-3">
                         <div className="stat-box">
                             <div className="stat-number">{userStats.total}</div>
                             <div className="stat-label">Total Trips</div>

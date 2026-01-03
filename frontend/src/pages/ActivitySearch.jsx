@@ -26,42 +26,30 @@ const ActivitySearch = ({ user, onLogout }) => {
         'nightlife'
     ];
 
-    // Expanded mock activities database
+    // Expanded mock activities database with real images
     const mockActivities = [
         // Paris
-        { name: 'Eiffel Tower Visit', city: 'Paris', country: 'France', type: 'sightseeing', duration: 3, cost: 25, description: 'Visit the iconic Eiffel Tower and enjoy panoramic views of Paris', image: '🗼', rating: 4.8, popularity: 95 },
-        { name: 'Louvre Museum', city: 'Paris', country: 'France', type: 'culture', duration: 4, cost: 17, description: 'Explore the world\'s largest art museum and historic monument', image: '🖼️', rating: 4.9, popularity: 98 },
-        { name: 'Seine River Cruise', city: 'Paris', country: 'France', type: 'experience', duration: 2, cost: 35, description: 'Romantic cruise along the Seine with dinner option', image: '🚢', rating: 4.7, popularity: 85 },
-        { name: 'Montmartre Walking Tour', city: 'Paris', country: 'France', type: 'culture', duration: 3, cost: 15, description: 'Discover the artistic heart of Paris', image: '🎨', rating: 4.6, popularity: 80 },
-        { name: 'French Cooking Class', city: 'Paris', country: 'France', type: 'food', duration: 4, cost: 85, description: 'Learn to cook authentic French cuisine', image: '👨‍🍳', rating: 4.9, popularity: 70 },
+        { name: 'Eiffel Tower Visit', city: 'Paris', country: 'France', type: 'sightseeing', duration: 3, cost: 25, description: 'Visit the iconic Eiffel Tower and enjoy panoramic views of Paris', image: 'https://images.unsplash.com/photo-1511739001486-6bfe100772fc?auto=format&fit=crop&q=80&w=800', rating: 4.8, popularity: 95 },
+        { name: 'Louvre Museum', city: 'Paris', country: 'France', type: 'culture', duration: 4, cost: 17, description: 'Explore the world\'s largest art museum and historic monument', image: 'https://images.unsplash.com/photo-1597923896141-d4de3119853c?auto=format&fit=crop&q=80&w=800', rating: 4.9, popularity: 98 },
+        { name: 'Seine River Cruise', city: 'Paris', country: 'France', type: 'experience', duration: 2, cost: 35, description: 'Romantic cruise along the Seine with dinner option', image: 'https://images.unsplash.com/photo-1499856871958-5b9627545d1a?auto=format&fit=crop&q=80&w=800', rating: 4.7, popularity: 85 },
+        { name: 'Montmartre Walking Tour', city: 'Paris', country: 'France', type: 'culture', duration: 3, cost: 15, description: 'Discover the artistic heart of Paris', image: 'https://images.unsplash.com/photo-1502602898657-3e91760cbb34?auto=format&fit=crop&q=80&w=800', rating: 4.6, popularity: 80 },
+        { name: 'French Cooking Class', city: 'Paris', country: 'France', type: 'food', duration: 4, cost: 85, description: 'Learn to cook authentic French cuisine', image: 'https://images.unsplash.com/photo-1507048331197-7d4ac70811cf?auto=format&fit=crop&q=80&w=800', rating: 4.9, popularity: 70 },
 
         // Tokyo
-        { name: 'Tokyo Skytree', city: 'Tokyo', country: 'Japan', type: 'sightseeing', duration: 2, cost: 20, description: 'Visit Japan\'s tallest structure with observation decks', image: '🗼', rating: 4.7, popularity: 92 },
-        { name: 'Senso-ji Temple', city: 'Tokyo', country: 'Japan', type: 'culture', duration: 2, cost: 0, description: 'Ancient Buddhist temple in Asakusa', image: '⛩️', rating: 4.8, popularity: 90 },
-        { name: 'Tsukiji Fish Market Tour', city: 'Tokyo', country: 'Japan', type: 'food', duration: 3, cost: 50, description: 'Early morning sushi breakfast and market tour', image: '🍣', rating: 4.9, popularity: 85 },
-        { name: 'Shibuya Crossing Experience', city: 'Tokyo', country: 'Japan', type: 'sightseeing', duration: 1, cost: 0, description: 'Visit the world\'s busiest pedestrian crossing', image: '🚸', rating: 4.5, popularity: 88 },
-        { name: 'Mt. Fuji Day Trip', city: 'Tokyo', country: 'Japan', type: 'adventure', duration: 10, cost: 120, description: 'Full day excursion to iconic Mt. Fuji', image: '🗻', rating: 4.9, popularity: 95 },
+        { name: 'Tokyo Skytree', city: 'Tokyo', country: 'Japan', type: 'sightseeing', duration: 2, cost: 20, description: 'Visit Japan\'s tallest structure with observation decks', image: 'https://images.unsplash.com/photo-1540959733332-eab4deabeeaf?auto=format&fit=crop&q=80&w=800', rating: 4.7, popularity: 92 },
+        { name: 'Senso-ji Temple', city: 'Tokyo', country: 'Japan', type: 'culture', duration: 2, cost: 0, description: 'Ancient Buddhist temple in Asakusa', image: 'https://images.unsplash.com/photo-1545569341-9eb8b30979d9?auto=format&fit=crop&q=80&w=800', rating: 4.8, popularity: 90 },
+        { name: 'Tsukiji Fish Market Tour', city: 'Tokyo', country: 'Japan', type: 'food', duration: 3, cost: 50, description: 'Early morning sushi breakfast and market tour', image: 'https://images.unsplash.com/photo-1582450871972-ab5ca641643d?auto=format&fit=crop&q=80&w=800', rating: 4.9, popularity: 85 },
+        { name: 'Shibuya Crossing', city: 'Tokyo', country: 'Japan', type: 'sightseeing', duration: 1, cost: 0, description: 'Visit the world\'s busiest pedestrian crossing', image: 'https://images.unsplash.com/photo-1542051841857-5f90071e7989?auto=format&fit=crop&q=80&w=800', rating: 4.5, popularity: 88 },
+        { name: 'Mt. Fuji Day Trip', city: 'Tokyo', country: 'Japan', type: 'adventure', duration: 10, cost: 120, description: 'Full day excursion to iconic Mt. Fuji', image: 'https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?auto=format&fit=crop&q=80&w=800', rating: 4.9, popularity: 95 },
 
         // New York
-        { name: 'Statue of Liberty Tour', city: 'New York', country: 'USA', type: 'sightseeing', duration: 4, cost: 45, description: 'Ferry ride and tour of Lady Liberty', image: '🗽', rating: 4.7, popularity: 96 },
-        { name: 'Central Park Bike Tour', city: 'New York', country: 'USA', type: 'adventure', duration: 3, cost: 35, description: 'Explore 843 acres of urban park', image: '🚴', rating: 4.6, popularity: 82 },
-        { name: 'Broadway Show', city: 'New York', country: 'USA', type: 'culture', duration: 3, cost: 150, description: 'Watch a world-class theater performance', image: '🎭', rating: 4.9, popularity: 90 },
-        { name: 'Empire State Building', city: 'New York', country: 'USA', type: 'sightseeing', duration: 2, cost: 40, description: 'Iconic skyscraper with observation deck', image: '🏙️', rating: 4.7, popularity: 93 },
-        { name: 'NYC Food Tour', city: 'New York', country: 'USA', type: 'food', duration: 4, cost: 75, description: 'Taste authentic NYC pizza, bagels, and more', image: '🍕', rating: 4.8, popularity: 87 },
+        { name: 'Statue of Liberty', city: 'New York', country: 'USA', type: 'sightseeing', duration: 4, cost: 45, description: 'Ferry ride and tour of Lady Liberty', image: 'https://images.unsplash.com/photo-1485871981521-5b1fd3805eee?auto=format&fit=crop&q=80&w=800', rating: 4.7, popularity: 96 },
+        { name: 'Central Park Bike Tour', city: 'New York', country: 'USA', type: 'adventure', duration: 3, cost: 35, description: 'Explore 843 acres of urban park', image: 'https://images.unsplash.com/photo-1523374228107-6e44bd2b524e?auto=format&fit=crop&q=80&w=800', rating: 4.6, popularity: 82 },
+        { name: 'Broadway Show', city: 'New York', country: 'USA', type: 'culture', duration: 3, cost: 150, description: 'Watch a world-class theater performance', image: 'https://images.unsplash.com/photo-1533105079780-92b9be482077?auto=format&fit=crop&q=80&w=800', rating: 4.9, popularity: 90 },
 
         // Bali
-        { name: 'Ubud Rice Terraces', city: 'Bali', country: 'Indonesia', type: 'sightseeing', duration: 3, cost: 10, description: 'UNESCO World Heritage rice paddies', image: '🌾', rating: 4.8, popularity: 92 },
-        { name: 'Beach Surfing Lesson', city: 'Bali', country: 'Indonesia', type: 'adventure', duration: 2, cost: 30, description: 'Learn to surf on beautiful Bali beaches', image: '🏄', rating: 4.7, popularity: 85 },
-        { name: 'Balinese Cooking Class', city: 'Bali', country: 'Indonesia', type: 'food', duration: 4, cost: 35, description: 'Traditional Indonesian cooking workshop', image: '🍛', rating: 4.9, popularity: 78 },
-        { name: 'Temple Sunset Tour', city: 'Bali', country: 'Indonesia', type: 'culture', duration: 4, cost: 25, description: 'Visit ancient temples at golden hour', image: '🛕', rating: 4.9, popularity: 88 },
-        { name: 'Spa & Wellness Day', city: 'Bali', country: 'Indonesia', type: 'relaxation', duration: 5, cost: 60, description: 'Traditional Balinese massage and spa', image: '💆', rating: 4.8, popularity: 80 },
-
-        // London
-        { name: 'Tower of London', city: 'London', country: 'UK', type: 'culture', duration: 3, cost: 30, description: 'Historic castle and Crown Jewels', image: '🏰', rating: 4.7, popularity: 91 },
-        { name: 'London Eye', city: 'London', country: 'UK', type: 'sightseeing', duration: 1, cost: 35, description: 'Giant Ferris wheel on River Thames', image: '🎡', rating: 4.6, popularity: 89 },
-        { name: 'British Museum', city: 'London', country: 'UK', type: 'culture', duration: 4, cost: 0, description: 'World-famous museum with free entry', image: '🏛️', rating: 4.9, popularity: 94 },
-        { name: 'Afternoon Tea Experience', city: 'London', country: 'UK', type: 'food', duration: 2, cost: 50, description: 'Traditional British afternoon tea', image: '☕', rating: 4.8, popularity: 75 },
-        { name: 'West End Theatre Show', city: 'London', country: 'UK', type: 'nightlife', duration: 3, cost: 80, description: 'London\'s famous theatre district', image: '🎭', rating: 4.8, popularity: 86 }
+        { name: 'Ubud Rice Terraces', city: 'Bali', country: 'Indonesia', type: 'sightseeing', duration: 3, cost: 10, description: 'UNESCO World Heritage rice paddies', image: 'https://images.unsplash.com/photo-1537996194471-e657df975ab4?auto=format&fit=crop&q=80&w=800', rating: 4.8, popularity: 92 },
+        { name: 'Temple Sunset Tour', city: 'Bali', country: 'Indonesia', type: 'culture', duration: 4, cost: 25, description: 'Visit ancient temples at golden hour', image: 'https://images.unsplash.com/photo-1544735716-392fe2489ffa?auto=format&fit=crop&q=80&w=800', rating: 4.9, popularity: 88 }
     ];
 
     useEffect(() => {
@@ -124,39 +112,63 @@ const ActivitySearch = ({ user, onLogout }) => {
     const uniqueCities = [...new Set(activities.map(a => a.city))].sort();
 
     return (
-        <div className="page-wrapper">
+        <div className="page-container">
             <Navbar user={user} onLogout={onLogout} />
 
             <div className="content-wrapper">
-                <div className="container container-wide">
-                    {/* Header */}
-                    <div className="text-center mb-5">
-                        <h1>Discover Activities 🎯</h1>
-                        <p className="text-secondary" style={{ fontSize: '1.125rem' }}>
-                            Find amazing experiences for your trip
+                {/* Premium Hero Section */}
+                <div style={{
+                    background: 'var(--charcoal)',
+                    color: 'white',
+                    padding: '3rem 0',
+                    textAlign: 'center',
+                    marginBottom: '2rem',
+                    borderBottom: '4px solid var(--gold)'
+                }}>
+                    <div className="container">
+                        <h1 style={{
+                            color: 'var(--gold)',
+                            fontSize: '3rem',
+                            marginBottom: '0.5rem',
+                            fontFamily: 'var(--font-serif)'
+                        }}>
+                            Bespoke Activities
+                        </h1>
+                        <p style={{
+                            fontSize: '1.25rem',
+                            color: 'var(--cream)',
+                            opacity: 0.9,
+                            maxWidth: '700px',
+                            margin: '0 auto'
+                        }}>
+                            Extraordinary experiences tailored for your unique journey
                         </p>
                     </div>
+                </div>
 
-                    {/* Filters */}
-                    <div className="card" style={{ marginBottom: 'var(--spacing-2xl)' }}>
-                        <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr 1fr 1fr', gap: 'var(--spacing-lg)' }}>
+                <div className="container container-wide section" style={{ paddingTop: 0 }}>
+                    {/* Compact Filter Card */}
+                    <div className="card mb-4" style={{ padding: '1.25rem' }}>
+                        <div style={{ display: 'grid', gridTemplateColumns: '1.5fr 1fr 1fr 1fr', gap: '1rem', alignItems: 'end' }}>
                             <div>
-                                <label className="form-label">Search Activities</label>
+                                <label className="form-label" style={{ fontSize: '0.75rem', fontWeight: 700, textTransform: 'uppercase', color: 'var(--warm-gray)' }}>Find Experience</label>
                                 <input
                                     type="text"
                                     className="form-input"
-                                    placeholder="Search by name or description... 🔍"
+                                    placeholder="Search by name... 🔍"
                                     value={searchQuery}
                                     onChange={(e) => setSearchQuery(e.target.value)}
+                                    style={{ padding: '0.6rem 1rem', fontSize: '0.875rem' }}
                                 />
                             </div>
 
                             <div>
-                                <label className="form-label">City</label>
+                                <label className="form-label" style={{ fontSize: '0.75rem', fontWeight: 700, textTransform: 'uppercase', color: 'var(--warm-gray)' }}>Destination</label>
                                 <select
                                     className="form-select"
                                     value={selectedCity}
                                     onChange={(e) => setSelectedCity(e.target.value)}
+                                    style={{ padding: '0.6rem 1rem', fontSize: '0.875rem' }}
                                 >
                                     <option value="">All Cities</option>
                                     {uniqueCities.map(city => (
@@ -166,11 +178,12 @@ const ActivitySearch = ({ user, onLogout }) => {
                             </div>
 
                             <div>
-                                <label className="form-label">Type</label>
+                                <label className="form-label" style={{ fontSize: '0.75rem', fontWeight: 700, textTransform: 'uppercase', color: 'var(--warm-gray)' }}>Activity Type</label>
                                 <select
                                     className="form-select"
                                     value={selectedType}
                                     onChange={(e) => setSelectedType(e.target.value)}
+                                    style={{ padding: '0.6rem 1rem', fontSize: '0.875rem' }}
                                 >
                                     {activityTypes.map(type => (
                                         <option key={type} value={type}>{type}</option>
@@ -179,110 +192,107 @@ const ActivitySearch = ({ user, onLogout }) => {
                             </div>
 
                             <div>
-                                <label className="form-label">Price Range</label>
+                                <label className="form-label" style={{ fontSize: '0.75rem', fontWeight: 700, textTransform: 'uppercase', color: 'var(--warm-gray)' }}>Budget</label>
                                 <select
                                     className="form-select"
                                     value={costRange}
                                     onChange={(e) => setCostRange(e.target.value)}
+                                    style={{ padding: '0.6rem 1rem', fontSize: '0.875rem' }}
                                 >
                                     <option value="all">All Prices</option>
-                                    <option value="free">Free</option>
-                                    <option value="budget">Budget ($1-$30)</option>
-                                    <option value="moderate">Moderate ($31-$70)</option>
-                                    <option value="premium">Premium ($70+)</option>
+                                    <option value="free">Complimentary</option>
+                                    <option value="budget">Value ($1-$30)</option>
+                                    <option value="moderate">Premium ($31-$70)</option>
+                                    <option value="premium">Elite ($70+)</option>
                                 </select>
                             </div>
                         </div>
                     </div>
 
-                    {/* Results */}
-                    {loading ? (
-                        <div className="text-center" style={{ padding: 'var(--spacing-2xl)' }}>
-                            <div className="animate-pulse">Loading activities...</div>
-                        </div>
-                    ) : filteredActivities.length === 0 ? (
-                        <div className="card text-center" style={{ padding: 'var(--spacing-2xl)' }}>
-                            <div style={{ fontSize: '4rem', marginBottom: 'var(--spacing-md)', opacity: 0.3 }}>
-                                🔍
-                            </div>
-                            <h3>No activities found</h3>
-                            <p className="text-secondary">Try adjusting your filters</p>
-                        </div>
-                    ) : (
-                        <>
-                            <div style={{ marginBottom: 'var(--spacing-md)' }}>
-                                <p className="text-secondary">
-                                    Found <strong>{filteredActivities.length}</strong> activities
-                                </p>
-                            </div>
+                    {/* Results Count */}
+                    <div className="mb-3">
+                        <p style={{ fontSize: '0.875rem', color: 'var(--warm-gray)', fontWeight: 600 }}>
+                            {filteredActivities.length} Exceptional Experiences Discovered
+                        </p>
+                    </div>
 
-                            <div className="grid grid-3">
-                                {filteredActivities.map((activity, index) => (
-                                    <div key={index} className="card card-elevated">
-                                        {/* Activity Image */}
-                                        <div style={{
-                                            height: '160px',
-                                            background: `linear-gradient(135deg, var(--sky-gradient-start), var(--sky-gradient-end))`,
-                                            borderRadius: 'var(--radius-lg)',
-                                            marginBottom: 'var(--spacing-lg)',
-                                            display: 'flex',
-                                            alignItems: 'center',
-                                            justifyContent: 'center',
-                                            fontSize: '4rem'
-                                        }}>
-                                            {activity.image}
+                    {/* Quality Grid */}
+                    <div className="grid grid-3 gap-4">
+                        {filteredActivities.map((activity, index) => (
+                            <div key={index} className="card p-0 overflow-hidden group hover:shadow-xl transition-all"
+                                style={{
+                                    border: '1px solid var(--border-color)',
+                                    display: 'flex',
+                                    flexDirection: 'column'
+                                }}>
+
+                                {/* Activity Image */}
+                                <div style={{ height: '180px', position: 'relative', overflow: 'hidden' }}>
+                                    <img
+                                        src={activity.image}
+                                        alt={activity.name}
+                                        style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                                        className="group-hover:scale-105 transition-transform duration-500"
+                                    />
+                                    <div style={{
+                                        position: 'absolute',
+                                        top: '0.75rem',
+                                        right: '0.75rem',
+                                        background: 'rgba(255,255,255,0.9)',
+                                        padding: '0.2rem 0.5rem',
+                                        borderRadius: 'var(--radius-sm)',
+                                        fontSize: '0.7rem',
+                                        fontWeight: 700,
+                                        color: 'var(--gold)'
+                                    }}>
+                                        {activity.popularity}% POPULAR
+                                    </div>
+                                    <div style={{
+                                        position: 'absolute',
+                                        bottom: 0,
+                                        left: 0,
+                                        right: 0,
+                                        padding: '1rem',
+                                        background: 'linear-gradient(to top, rgba(0,0,0,0.7), transparent)',
+                                        color: 'white'
+                                    }}>
+                                        <div style={{ fontSize: '0.7rem', textTransform: 'uppercase', fontWeight: 600 }}>{activity.type}</div>
+                                    </div>
+                                </div>
+
+                                {/* Info */}
+                                <div style={{ padding: '1.25rem', flex: 1, display: 'flex', flexDirection: 'column' }}>
+                                    <div className="flex justify-between items-start mb-1">
+                                        <h3 style={{ fontSize: '1.2rem', color: 'var(--charcoal)' }}>{activity.name}</h3>
+                                        <span style={{ fontSize: '0.9rem', fontWeight: 800, color: 'var(--gold)' }}>
+                                            {activity.cost === 0 ? 'FREE' : `$${activity.cost}`}
+                                        </span>
+                                    </div>
+                                    <p className="text-warm-gray mb-3" style={{ fontSize: '0.75rem' }}>
+                                        📍 {activity.city}, {activity.country} • {activity.duration}h duration
+                                    </p>
+
+                                    <p className="text-warm-gray mb-4" style={{ fontSize: '0.85rem', lineHeight: '1.5', flex: 1 }}>
+                                        {activity.description}
+                                    </p>
+
+                                    <div className="flex justify-between items-center mt-auto pt-4 border-t border-cream-dark">
+                                        <div>
+                                            <span style={{ fontSize: '0.8rem' }}>{getStars(activity.rating)}</span>
+                                            <span style={{ fontSize: '0.75rem', marginLeft: '0.4rem', color: 'var(--warm-gray)' }}>{activity.rating}</span>
                                         </div>
-
-                                        {/* Activity Info */}
-                                        <h3 style={{ marginBottom: '0.25rem' }}>{activity.name}</h3>
-                                        <p className="text-secondary" style={{ fontSize: '0.875rem', marginBottom: 'var(--spacing-sm)' }}>
-                                            📍 {activity.city}, {activity.country}
-                                        </p>
-
-                                        <p className="text-secondary" style={{
-                                            fontSize: '0.875rem',
-                                            marginBottom: 'var(--spacing-md)',
-                                            minHeight: '40px'
-                                        }}>
-                                            {activity.description}
-                                        </p>
-
-                                        {/* Details */}
-                                        <div className="flex gap-2" style={{ marginBottom: 'var(--spacing-md)', flexWrap: 'wrap' }}>
-                                            <span className={`badge ${getCostBadge(activity.cost).class}`}>
-                                                {activity.cost === 0 ? 'Free' : `$${activity.cost}`}
-                                            </span>
-                                            <span className="badge badge-primary">
-                                                ⏱️ {activity.duration}h
-                                            </span>
-                                            <span className="badge badge-primary" style={{ textTransform: 'capitalize' }}>
-                                                {activity.type}
-                                            </span>
-                                        </div>
-
-                                        {/* Rating */}
-                                        <div style={{ marginBottom: 'var(--spacing-md)' }}>
-                                            <span style={{ fontSize: '0.875rem' }}>{getStars(activity.rating)}</span>
-                                            <span className="text-secondary" style={{ fontSize: '0.875rem', marginLeft: '0.5rem' }}>
-                                                {activity.rating} · {activity.popularity}% popular
-                                            </span>
-                                        </div>
-
-                                        {/* Actions */}
                                         <button
-                                            className="btn btn-outline btn-sm"
-                                            style={{ width: '100%' }}
-                                            onClick={() => {
-                                                alert(`Adding "${activity.name}" to your trip! (This will integrate with trip builder in production)`);
-                                            }}
+                                            className="btn btn-primary btn-sm"
+                                            onClick={() => alert('Bespoke inquiry started for ' + activity.name)}
+                                            style={{ padding: '0.4rem 1rem', fontSize: '0.75rem' }}
                                         >
-                                            Add to Trip
+                                            Add to Journey
                                         </button>
                                     </div>
-                                ))}
+                                </div>
                             </div>
-                        </>
-                    )}
+                        ))}
+                    </div>
                 </div>
             </div>
         </div>

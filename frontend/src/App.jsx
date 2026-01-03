@@ -16,6 +16,7 @@ import Inspiration from './pages/Inspiration';
 import Packages from './pages/Packages';
 import SharedTrip from './pages/SharedTrip';
 import Profile from './pages/Profile';
+import Chatbot from './pages/Chatbot';
 import './index.css';
 
 function App() {
@@ -121,6 +122,7 @@ function App() {
           element={user ? <Navigate to="/dashboard" /> : <Home />}
         />
       </Routes>
+      <Chatbot user={user} />
     </Router>
   );
 }
