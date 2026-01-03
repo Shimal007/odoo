@@ -1,4 +1,5 @@
 from flask import Flask, request, jsonify
+from flask_cors import CORS
 from groq import Groq
 import os
 from dotenv import load_dotenv
@@ -7,6 +8,7 @@ from datetime import datetime
 load_dotenv()
 
 app = Flask(__name__)
+CORS(app) # Enable CORS for all routes
 
 client = Groq(api_key=os.getenv("GROQ_API_KEY"))
 
@@ -83,6 +85,7 @@ Output ONLY valid JSON in this exact structure (no extra text or markdown):
 
 - Use real month and day names (e.g., "Day 1: June 15")
 - Each day should have 3–5 activities
+- For 'title', use specific, real-world place names (e.g., 'Eiffel Tower' or 'L'Avenue Restaurant') that are easily searchable on Google Maps
 - Time in 12-hour format with AM/PM
 - Ensure JSON is perfectly valid and parseable
 """
