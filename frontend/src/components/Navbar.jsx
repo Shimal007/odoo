@@ -18,7 +18,14 @@ const Navbar = () => {
                     Home
                     <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-[#A68A64] transition-all group-hover:w-full"></span>
                 </button>
-               
+                <button
+                    onClick={() => navigate('/discover')}
+                    className="text-[#5D4037] hover:text-[#A68A64] font-medium transition text-base relative group"
+                >
+                    Discover
+                    <span classNam e="absolute -bottom-1 left-0 w-0 h-0.5 bg-[#A68A64] transition-all group-hover:w-full"></span>
+                </button>
+
             </div>
         </header>
     );
