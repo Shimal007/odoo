@@ -753,10 +753,23 @@ def get_inspiration():
         
         # Add dynamic image URLs
         import random
+        # Normalize keys to lowercase for robust matching
+        normalized_images = {k.lower(): v for k, v in category_images.items()}
+        # Add common variations
+        normalized_images["cultural"] = normalized_images["culture"]
+        
         for i, post in enumerate(data['posts']):
-            cat = post.get('category', 'Culture')
-            # Get a random image from the category list or fallback to a general travel one
-            img_list = category_images.get(cat, category_images["Culture"])
+            cat = post.get('category', 'Culture').strip().lower()
+            
+            # Map common variations to strict categories
+            if "beach" in cat: cat = "beach"
+            elif "culture" in cat or "cultural" in cat: cat = "culture"
+            elif "food" in cat or "dining" in cat: cat = "food"
+            elif "luxury" in cat: cat = "luxury"
+            elif "budget" in cat: cat = "budget"
+            elif "adventure" in cat: cat = "adventure"
+            
+            img_list = normalized_images.get(cat, normalized_images["culture"])
             base_url = random.choice(img_list)
             post['image'] = f"{base_url}?auto=format&fit=crop&w=800&q=80"
             

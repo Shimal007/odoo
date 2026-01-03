@@ -24,6 +24,8 @@
   --charcoal: #2C2C2C;
   --charcoal-light: #4A4A4A;
   --warm-gray: #8B7E74;
+  --brown: #3D2B1F;
+  --brown-dark: #2A1D15;
   --border-color: #D4C5B0;
 
   /* White & Backgrounds */
@@ -49,6 +51,8 @@
   --spacing-lg: 2rem;
   --spacing-xl: 3rem;
   --spacing-2xl: 4rem;
+  --spacing-3xl: 6rem;
+  --spacing-4xl: 8rem;
 
   /* Border Radius */
   --radius-sm: 0.5rem;
@@ -61,6 +65,13 @@
   --font-serif: 'Playfair Display', Georgia, serif;
   --font-sans: 'Inter', system-ui, sans-serif;
   --font-display: 'Montserrat', sans-serif;
+
+  /* Additional Theme Colors */
+  --ocean-blue: #1E3A8A;
+  --sky-gradient-start: #4F46E5;
+  --sky-gradient-end: #06B6D4;
+  --bg-secondary: #F9FAFB;
+  --border-light: #F3F4F6;
 }
 
 /* ============================================
@@ -686,6 +697,14 @@ p {
 
 .gap-4 {
   gap: var(--spacing-lg);
+}
+
+.gap-6 {
+  gap: var(--spacing-xl);
+}
+
+.gap-8 {
+  gap: 4rem;
 }
 
 .mt-1 {

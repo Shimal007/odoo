@@ -143,15 +143,17 @@ const Inspiration = ({ user, onLogout }) => {
 
                             {/* Featured Post */}
                             {selectedCategory === 'all' && featuredPost && (
-                                <div className="card card-elevated animate-fade-in-up" style={{
+                                <div className="card animate-fade-in-up" style={{
                                     padding: 0,
                                     overflow: 'hidden',
-                                    marginBottom: 'var(--spacing-3xl)',
+                                    marginBottom: 'var(--spacing-2xl)',
                                     display: 'grid',
-                                    gridTemplateColumns: '1.5fr 1fr',
-                                    minHeight: '400px',
-                                    border: 'none',
-                                    boxShadow: 'var(--shadow-xl)'
+                                    gridTemplateColumns: 'minmax(300px, 1.2fr) 1fr',
+                                    minHeight: '380px',
+                                    background: 'white',
+                                    border: '1px solid var(--cream-dark)',
+                                    boxShadow: '0 15px 35px -5px rgba(0,0,0,0.05)',
+                                    borderRadius: '1.5rem'
                                 }}>
                                     <div style={{
                                         backgroundImage: `url(${featuredPost.image})`,
@@ -159,26 +161,42 @@ const Inspiration = ({ user, onLogout }) => {
                                         backgroundPosition: 'center',
                                         position: 'relative'
                                     }}>
-                                        <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to right, rgba(0,0,0,0.4), transparent)' }} />
+                                        <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to right, rgba(0,0,0,0.2), transparent)' }} />
                                     </div>
-                                    <div style={{ padding: 'var(--spacing-2xl)', display: 'flex', flexDirection: 'column', justifyContent: 'center', background: 'white' }}>
-                                        <div className="badge badge-gold" style={{ marginBottom: 'var(--spacing-md)', width: 'fit-content' }}>
-                                            ⭐ Trending Now
+                                    <div style={{ padding: 'var(--spacing-2xl)', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+                                        <div className="badge badge-gold" style={{ marginBottom: 'var(--spacing-sm)', width: 'fit-content', fontSize: '0.7rem' }}>
+                                            ⭐ Trending Discovery
                                         </div>
-                                        <h2 style={{ marginBottom: 'var(--spacing-md)', fontSize: '2.25rem', fontFamily: 'var(--font-serif)' }}>
+                                        <h2 style={{
+                                            marginBottom: 'var(--spacing-sm)',
+                                            fontSize: '2rem',
+                                            fontFamily: 'var(--font-serif)',
+                                            color: 'var(--charcoal)',
+                                            lineHeight: 1.2
+                                        }}>
                                             {featuredPost.title}
                                         </h2>
-                                        <p style={{ marginBottom: 'var(--spacing-lg)', lineHeight: 1.7, color: 'var(--warm-gray)' }}>
+                                        <p style={{
+                                            marginBottom: 'var(--spacing-lg)',
+                                            lineHeight: 1.6,
+                                            color: 'var(--warm-gray)',
+                                            fontSize: '1rem'
+                                        }}>
                                             {featuredPost.excerpt}
                                         </p>
-                                        <div style={{ display: 'flex', gap: 'var(--spacing-md)', alignItems: 'center', marginBottom: 'var(--spacing-lg)' }}>
-                                            <span className="badge badge-gray">{featuredPost.readTime}</span>
-                                            <span style={{ color: 'var(--warm-gray)', fontSize: '0.875rem', fontWeight: 600 }}>
+                                        <div style={{ display: 'flex', gap: 'var(--spacing-md)', alignItems: 'center', marginBottom: 'var(--spacing-xl)' }}>
+                                            <div className="flex items-center gap-2">
+                                                <div className="w-6 h-6 rounded-full bg-gold flex items-center justify-center text-[10px] font-bold text-white uppercase">
+                                                    {featuredPost.author.charAt(0)}
+                                                </div>
+                                                <span className="text-xs font-bold text-charcoal">{featuredPost.author}</span>
+                                            </div>
+                                            <span style={{ color: 'var(--warm-gray)', fontSize: '0.75rem', fontWeight: 600 }}>
                                                 👁️ {featuredPost.views} explorers
                                             </span>
                                         </div>
-                                        <button className="btn btn-primary" style={{ alignSelf: 'start' }}>
-                                            Read Feature Story →
+                                        <button className="btn btn-primary btn-sm" style={{ alignSelf: 'start', padding: '0.75rem 1.5rem', borderRadius: 'var(--radius-full)' }}>
+                                            Explore Feature Story →
                                         </button>
                                     </div>
                                 </div>
@@ -186,52 +204,66 @@ const Inspiration = ({ user, onLogout }) => {
 
                             {/* Inspiration Grid */}
                             <div style={{ marginBottom: 'var(--spacing-3xl)' }}>
-                                <h2 className="font-serif" style={{ marginBottom: 'var(--spacing-xl)', fontSize: '2rem' }}>
-                                    {selectedCategory === 'all' ? 'Latest Stories' : `${selectedCategory.charAt(0).toUpperCase() + selectedCategory.slice(1)} Travel`}
-                                </h2>
+                                <div className="flex items-center justify-between mb-8">
+                                    <h2 className="font-serif" style={{ fontSize: '1.75rem', margin: 0 }}>
+                                        {selectedCategory === 'all' ? 'Latest Global Stories' : `${selectedCategory.charAt(0).toUpperCase() + selectedCategory.slice(1)} Escapes`}
+                                    </h2>
+                                    <div style={{ fontSize: '0.9rem', color: 'var(--warm-gray)', fontWeight: 600 }}>
+                                        {filteredPosts.length} Results Found
+                                    </div>
+                                </div>
 
-                                <div className="grid grid-3">
+                                <div className="grid grid-3 gap-8">
                                     {filteredPosts.map((post, index) => (
                                         <div
                                             key={post.id}
-                                            className="card card-elevated animate-fade-in-up group"
+                                            className="card group animate-fade-in-up"
                                             style={{
                                                 padding: 0,
                                                 cursor: 'pointer',
-                                                animationDelay: `${index * 100}ms`,
+                                                animationDelay: `${index * 50}ms`,
                                                 overflow: 'hidden',
-                                                border: '1px solid rgba(184, 134, 11, 0.1)'
+                                                border: '1px solid var(--cream-dark)',
+                                                background: 'white',
+                                                borderRadius: '1.25rem',
+                                                transition: 'all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275)'
                                             }}
                                         >
                                             <div style={{
-                                                height: '240px',
+                                                height: '180px',
                                                 backgroundImage: `url(${post.image})`,
                                                 backgroundSize: 'cover',
                                                 backgroundPosition: 'center',
-                                                transition: 'transform 0.5s ease',
+                                                transition: 'transform 0.6s ease',
                                                 position: 'relative'
-                                            }} className="group-hover:scale-110">
-                                                <div style={{ position: 'absolute', inset: 0, background: 'rgba(0,0,0,0.1)' }} />
-                                                <div className="badge badge-gold" style={{ position: 'absolute', top: '1rem', right: '1rem' }}>
+                                            }} className="group-hover:scale-105">
+                                                <div style={{ position: 'absolute', inset: 0, background: 'rgba(0,0,0,0.05)' }} />
+                                                <div className="badge badge-gold" style={{ position: 'absolute', top: '1rem', right: '1rem', fontSize: '0.65rem', backdropFilter: 'blur(4px)' }}>
                                                     {post.category}
                                                 </div>
                                             </div>
 
-                                            <div style={{ padding: 'var(--spacing-xl)', background: 'white', position: 'relative', zIndex: 1 }}>
+                                            <div style={{ padding: 'var(--spacing-lg)', background: 'white' }}>
                                                 <h3 style={{
-                                                    fontSize: '1.4rem',
-                                                    marginBottom: 'var(--spacing-sm)',
+                                                    fontSize: '1.2rem',
+                                                    marginBottom: '0.5rem',
                                                     lineHeight: 1.3,
-                                                    fontFamily: 'var(--font-serif)'
-                                                }}>
+                                                    fontFamily: 'var(--font-serif)',
+                                                    color: 'var(--charcoal)',
+                                                    transition: 'color 0.3s ease'
+                                                }} className="group-hover:text-gold">
                                                     {post.title}
                                                 </h3>
 
                                                 <p style={{
-                                                    fontSize: '0.9rem',
+                                                    fontSize: '0.85rem',
                                                     color: 'var(--warm-gray)',
-                                                    marginBottom: 'var(--spacing-lg)',
-                                                    lineHeight: 1.6
+                                                    marginBottom: '1.25rem',
+                                                    lineHeight: 1.6,
+                                                    display: '-webkit-box',
+                                                    WebkitLineClamp: 2,
+                                                    WebkitBoxOrient: 'vertical',
+                                                    overflow: 'hidden'
                                                 }}>
                                                     {post.excerpt}
                                                 </p>
@@ -240,23 +272,23 @@ const Inspiration = ({ user, onLogout }) => {
                                                     display: 'flex',
                                                     justifyContent: 'space-between',
                                                     alignItems: 'center',
-                                                    paddingTop: 'var(--spacing-md)',
-                                                    borderTop: '1px solid var(--cream-dark)'
+                                                    paddingTop: '0.75rem',
+                                                    borderTop: '1px solid var(--cream-light)'
                                                 }}>
                                                     <div className="flex items-center gap-2">
-                                                        <div className="w-8 h-8 rounded-full bg-cream-dark flex items-center justify-center text-xs font-bold text-gold">
+                                                        <div className="w-7 h-7 rounded-full bg-cream-dark flex items-center justify-center text-[10px] font-bold text-gold border border-gold/20">
                                                             {post.author.charAt(0)}
                                                         </div>
                                                         <div>
-                                                            <div style={{ fontSize: '0.8rem', fontWeight: 700 }}>
+                                                            <div style={{ fontSize: '0.75rem', fontWeight: 700, color: 'var(--charcoal)' }}>
                                                                 {post.author}
                                                             </div>
-                                                            <div style={{ fontSize: '0.7rem', color: 'var(--warm-gray)' }}>
+                                                            <div style={{ fontSize: '0.65rem', color: 'var(--warm-gray)' }}>
                                                                 {post.readTime}
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    <div style={{ fontSize: '0.75rem', color: 'var(--warm-gray)', fontWeight: 600 }}>
+                                                    <div style={{ fontSize: '0.7rem', color: 'var(--warm-gray)', fontWeight: 600 }}>
                                                         👁️ {post.views}
                                                     </div>
                                                 </div>
@@ -312,23 +344,35 @@ const Inspiration = ({ user, onLogout }) => {
 
                     {/* CTA */}
                     <div className="card" style={{
-                        background: 'linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%)',
+                        background: 'linear-gradient(135deg, var(--charcoal) 0%, #1a1a1a 100%)',
                         color: 'white',
                         textAlign: 'center',
-                        padding: 'var(--spacing-3xl)'
+                        padding: 'var(--spacing-3xl) var(--spacing-xl)',
+                        borderRadius: '2rem',
+                        border: '1px solid var(--gold)',
+                        boxShadow: '0 20px 40px -10px rgba(0,0,0,0.3)',
+                        position: 'relative',
+                        overflow: 'hidden'
                     }}>
-                        <h2 style={{ color: 'white', marginBottom: 'var(--spacing-md)' }}>
-                            Start Planning Your Dream Trip
+                        <div style={{ position: 'absolute', top: '-50px', right: '-50px', width: '200px', height: '200px', background: 'var(--gold)', opacity: 0.1, borderRadius: 'full', filter: 'blur(50px)' }} />
+
+                        <h2 className="font-serif" style={{ color: 'var(--gold)', marginBottom: 'var(--spacing-md)', fontSize: '2.5rem' }}>
+                            Ready for Your Bespoke Escape?
                         </h2>
-                        <p style={{ opacity: 0.95, marginBottom: 'var(--spacing-xl)', fontSize: '1.125rem' }}>
-                            Turn inspiration into reality with our smart trip planner
+                        <p style={{ opacity: 0.8, marginBottom: 'var(--spacing-2xl)', fontSize: '1.2rem', maxWidth: '600px', margin: '0 auto var(--spacing-2xl)' }}>
+                            Let our AI craft a journey that reflects your sophisticated travel style.
                         </p>
                         <button
-                            onClick={() => navigate('/trips/create')}
-                            className="btn btn-lg"
-                            style={{ background: 'white', color: 'var(--primary-gradient-start)' }}
+                            onClick={() => navigate('/plan')}
+                            className="btn btn-primary btn-lg"
+                            style={{
+                                padding: '1rem 3rem',
+                                borderRadius: 'var(--radius-full)',
+                                fontSize: '1.1rem',
+                                boxShadow: '0 10px 20px rgba(184, 134, 11, 0.3)'
+                            }}
                         >
-                            Create Your Itinerary
+                            Start Your AI Itinerary
                         </button>
                     </div>
                 </div>

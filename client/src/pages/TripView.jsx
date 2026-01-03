@@ -94,53 +94,68 @@ const TripView = ({ user, onLogout }) => {
             <div className="content-wrapper">
                 <div className="container container-wide">
                     {/* Trip Header */}
-                    <div className="card card-elevated" style={{
-                        background: 'linear-gradient(135deg, var(--sky-gradient-start), var(--sky-gradient-end))',
+                    <div className="card animate-fade-in" style={{
+                        background: 'linear-gradient(135deg, var(--brown) 0%, var(--brown-dark) 100%)',
                         color: 'white',
-                        marginBottom: 'var(--spacing-2xl)'
+                        padding: 'var(--spacing-2xl)',
+                        borderRadius: '2rem',
+                        marginBottom: 'var(--spacing-xl)',
+                        border: '1px solid var(--gold)',
+                        boxShadow: '0 20px 50px rgba(0,0,0,0.3)',
+                        position: 'relative',
+                        overflow: 'hidden'
                     }}>
-                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'start' }}>
+                        <div style={{ position: 'absolute', top: '-50px', right: '-50px', width: '300px', height: '300px', background: 'var(--gold)', opacity: 0.1, borderRadius: '50%', filter: 'blur(80px)' }} />
+
+                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', position: 'relative', zIndex: 1 }}>
                             <div style={{ flex: 1 }}>
-                                <div style={{ fontSize: '4rem', marginBottom: 'var(--spacing-md)' }}>
+                                <div style={{ fontSize: '4.5rem', marginBottom: 'var(--spacing-sm)', filter: 'drop-shadow(0 5px 15px rgba(0,0,0,0.3))' }}>
                                     {trip.cover_image || '🌍'}
                                 </div>
-                                <h1 style={{ color: 'white', marginBottom: 'var(--spacing-md)' }}>
+                                <h1 style={{ color: 'var(--gold)', marginBottom: 'var(--spacing-xs)', fontSize: '3.5rem', fontFamily: 'var(--font-serif)' }}>
                                     {trip.name}
                                 </h1>
                                 {trip.description && (
-                                    <p style={{ opacity: 0.9, marginBottom: 'var(--spacing-md)', fontSize: '1.125rem' }}>
+                                    <p style={{ opacity: 0.8, marginBottom: 'var(--spacing-lg)', fontSize: '1.1rem', maxWidth: '800px', color: 'var(--cream-light)' }}>
                                         {trip.description}
                                     </p>
                                 )}
                                 <div className="flex gap-3" style={{ flexWrap: 'wrap' }}>
-                                    <div style={{ background: 'rgba(255,255,255,0.2)', padding: '0.5rem 1rem', borderRadius: 'var(--radius-md)' }}>
+                                    <div style={{ background: 'rgba(255,255,255,0.1)', border: '1px solid rgba(184, 134, 11, 0.3)', padding: '0.6rem 1.2rem', borderRadius: 'var(--radius-full)', fontSize: '0.9rem', backdropFilter: 'blur(5px)' }}>
                                         📅 {formatDate(trip.start_date)} → {formatDate(trip.end_date)}
                                     </div>
-                                    <div style={{ background: 'rgba(255,255,255,0.2)', padding: '0.5rem 1rem', borderRadius: 'var(--radius-md)' }}>
+                                    <div style={{ background: 'rgba(255,255,255,0.1)', border: '1px solid rgba(184, 134, 11, 0.3)', padding: '0.6rem 1.2rem', borderRadius: 'var(--radius-full)', fontSize: '0.9rem', backdropFilter: 'blur(5px)' }}>
                                         ⏱️ {totalDays} days
                                     </div>
                                     {trip.destinations && trip.destinations.length > 0 && (
-                                        <div style={{ background: 'rgba(255,255,255,0.2)', padding: '0.5rem 1rem', borderRadius: 'var(--radius-md)' }}>
+                                        <div style={{ background: 'rgba(255,255,255,0.1)', border: '1px solid rgba(184, 134, 11, 0.3)', padding: '0.6rem 1.2rem', borderRadius: 'var(--radius-full)', fontSize: '0.9rem', backdropFilter: 'blur(5px)' }}>
                                             📍 {trip.destinations.length} destinations
-                                        </div>
-                                    )}
-                                    {trip.budget && trip.budget.total > 0 && (
-                                        <div style={{ background: 'rgba(255,255,255,0.2)', padding: '0.5rem 1rem', borderRadius: 'var(--radius-md)' }}>
-                                            💰 ${trip.budget.total}
                                         </div>
                                     )}
                                 </div>
                             </div>
 
-                            <div className="flex flex-col gap-2">
-                                <button onClick={() => navigate(`/trips/${tripId}/edit`)} className="btn" style={{ background: 'white', color: 'var(--ocean-blue)' }}>
-                                    Edit Trip
+                            <div className="flex flex-col gap-3" style={{ minWidth: '200px' }}>
+                                <button
+                                    onClick={() => navigate(`/trips/${tripId}/edit`)}
+                                    className="btn btn-primary"
+                                    style={{ width: '100%', boxShadow: '0 10px 20px rgba(184, 134, 11, 0.2)' }}
+                                >
+                                    ✏️ Edit Itinerary
                                 </button>
-                                <button onClick={() => navigate(`/trips/${tripId}/budget`)} className="btn btn-outline" style={{ borderColor: 'white', color: 'white' }}>
-                                    💰 View Budget
+                                <button
+                                    onClick={() => navigate(`/trips/${tripId}/budget`)}
+                                    className="btn btn-outline"
+                                    style={{ width: '100%', borderColor: 'var(--gold)', color: 'var(--gold)' }}
+                                >
+                                    💰 Budget Analysis
                                 </button>
-                                <button onClick={handleShare} className="btn btn-outline" style={{ borderColor: 'white', color: 'white' }}>
-                                    Share
+                                <button
+                                    onClick={handleShare}
+                                    className="btn btn-ghost"
+                                    style={{ width: '100%', color: 'var(--cream)', border: '1px solid rgba(255,255,255,0.1)' }}
+                                >
+                                    🔗 Share Trip
                                 </button>
                             </div>
                         </div>

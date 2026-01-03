@@ -156,52 +156,62 @@ const SharedTrip = () => {
             <div className="content-wrapper">
                 <div className="container container-wide">
                     {/* Trip Header */}
-                    <div className="card card-elevated animate-fade-in" style={{
-                        background: 'linear-gradient(135deg, var(--sky-gradient-start), var(--sky-gradient-end))',
+                    <div className="card animate-fade-in" style={{
+                        background: 'linear-gradient(135deg, var(--brown) 0%, var(--brown-dark) 100%)',
                         color: 'white',
-                        marginBottom: 'var(--spacing-2xl)'
+                        padding: 'var(--spacing-2xl)',
+                        borderRadius: '2.5rem',
+                        marginBottom: 'var(--spacing-2xl)',
+                        border: '1px solid var(--gold)',
+                        boxShadow: '0 25px 50px -12px rgba(0,0,0,0.5)',
+                        position: 'relative',
+                        overflow: 'hidden'
                     }}>
-                        <div style={{ fontSize: '5rem', marginBottom: 'var(--spacing-md)' }}>
-                            {trip.cover_image || '🌍'}
-                        </div>
-                        <h1 style={{ color: 'white', marginBottom: 'var(--spacing-md)', fontSize: '3rem' }}>
-                            {trip.name}
-                        </h1>
-                        {trip.description && (
-                            <p style={{ opacity: 0.95, marginBottom: 'var(--spacing-lg)', fontSize: '1.25rem' }}>
-                                {trip.description}
-                            </p>
-                        )}
-                        <div className="flex gap-3" style={{ flexWrap: 'wrap', marginBottom: 'var(--spacing-xl)' }}>
-                            <div style={{ background: 'rgba(255,255,255,0.2)', padding: '0.75rem 1.25rem', borderRadius: 'var(--radius-md)' }}>
-                                📅 {formatDate(trip.start_date)} → {formatDate(trip.end_date)}
-                            </div>
-                            <div style={{ background: 'rgba(255,255,255,0.2)', padding: '0.75rem 1.25rem', borderRadius: 'var(--radius-md)' }}>
-                                ⏱️ {totalDays} days
-                            </div>
-                            {trip.destinations && trip.destinations.length > 0 && (
-                                <div style={{ background: 'rgba(255,255,255,0.2)', padding: '0.75rem 1.25rem', borderRadius: 'var(--radius-md)' }}>
-                                    📍 {trip.destinations.length} destinations
-                                </div>
-                            )}
-                        </div>
+                        <div style={{ position: 'absolute', top: '-100px', right: '-100px', width: '400px', height: '400px', background: 'var(--gold)', opacity: 0.1, borderRadius: '50%', filter: 'blur(100px)' }} />
 
-                        {/* Action Buttons */}
-                        <div className="flex gap-3" style={{ flexWrap: 'wrap' }}>
-                            <button
-                                onClick={handleCopyTrip}
-                                className="btn btn-lg"
-                                style={{ background: 'white', color: 'var(--ocean-blue)' }}
-                            >
-                                📋 Copy This Trip
-                            </button>
-                            <button
-                                onClick={handleCopyUrl}
-                                className="btn btn-lg btn-outline"
-                                style={{ borderColor: 'white', color: 'white' }}
-                            >
-                                {copySuccess ? '✅ Link Copied!' : '🔗 Copy Link'}
-                            </button>
+                        <div style={{ position: 'relative', zIndex: 1 }}>
+                            <div style={{ fontSize: '5rem', marginBottom: 'var(--spacing-md)', filter: 'drop-shadow(0 10px 15px rgba(0,0,0,0.4))' }}>
+                                {trip.cover_image || '🌍'}
+                            </div>
+                            <h1 style={{ color: 'var(--gold)', marginBottom: 'var(--spacing-md)', fontSize: '3.5rem', fontFamily: 'var(--font-serif)' }}>
+                                {trip.name}
+                            </h1>
+                            {trip.description && (
+                                <p style={{ opacity: 0.8, marginBottom: 'var(--spacing-lg)', fontSize: '1.25rem', maxWidth: '800px', color: 'var(--cream-light)' }}>
+                                    {trip.description}
+                                </p>
+                            )}
+                            <div className="flex gap-4" style={{ flexWrap: 'wrap', marginBottom: 'var(--spacing-2xl)' }}>
+                                <div style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(184, 134, 11, 0.3)', padding: '0.75rem 1.5rem', borderRadius: 'var(--radius-full)', fontSize: '1rem', backdropFilter: 'blur(10px)' }}>
+                                    📅 {formatDate(trip.start_date)} → {formatDate(trip.end_date)}
+                                </div>
+                                <div style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(184, 134, 11, 0.3)', padding: '0.75rem 1.5rem', borderRadius: 'var(--radius-full)', fontSize: '1rem', backdropFilter: 'blur(10px)' }}>
+                                    ⏱️ {totalDays} days
+                                </div>
+                                {trip.destinations && trip.destinations.length > 0 && (
+                                    <div style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(184, 134, 11, 0.3)', padding: '0.75rem 1.5rem', borderRadius: 'var(--radius-full)', fontSize: '1rem', backdropFilter: 'blur(10px)' }}>
+                                        📍 {trip.destinations.length} destinations
+                                    </div>
+                                )}
+                            </div>
+
+                            {/* Action Buttons */}
+                            <div className="flex gap-4" style={{ flexWrap: 'wrap' }}>
+                                <button
+                                    onClick={handleCopyTrip}
+                                    className="btn btn-primary btn-lg"
+                                    style={{ padding: '1rem 2.5rem', borderRadius: 'var(--radius-full)', boxShadow: '0 10px 20px rgba(184, 134, 11, 0.3)' }}
+                                >
+                                    📋 Save/Copy to My Trips
+                                </button>
+                                <button
+                                    onClick={handleCopyUrl}
+                                    className="btn btn-lg"
+                                    style={{ background: 'rgba(255,255,255,0.1)', color: 'white', border: '1px solid rgba(255,255,255,0.2)', padding: '1rem 2.5rem', borderRadius: 'var(--radius-full)' }}
+                                >
+                                    {copySuccess ? '✅ Link Copied!' : '🔗 Copy Share Link'}
+                                </button>
+                            </div>
                         </div>
                     </div>
 
