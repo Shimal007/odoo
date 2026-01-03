@@ -4,6 +4,7 @@ import CreateTrip from './CreateTrip';
 import BuildItinerary from './BuildItinerary';
 import ItineraryView from './ItineraryView';
 import Profile from './Profile';
+import Home from './components/Home';
 import './index.css';
 
 function App() {
@@ -23,7 +24,7 @@ function App() {
     <Router>
       <div className="App">
         <Routes>
-          <Route path="/" element={<Navigate to="/create-trip" />} />
+          <Route path="/" element={<Home />} />
           <Route path="/create-trip" element={<CreateTrip />} />
           <Route path="/build-itinerary/:tripId" element={<BuildItinerary />} />
           <Route path="/view-itinerary/:tripId" element={<ItineraryView />} />
