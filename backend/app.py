@@ -774,11 +774,60 @@ def get_inspiration():
             post['image'] = f"{base_url}?auto=format&fit=crop&w=800&q=80"
             
         return jsonify(data), 200
-        
     except Exception as e:
         print(f"Error in get_inspiration: {e}")
         return jsonify({"error": str(e)}), 500
+@app.route("/api/chat", methods=["POST"])
+def chat():
+    try:
+        data = request.json
+        user_message = data.get("message")
+        history = data.get("history", [])  # List of previous {"role": "user/system/assistant", "content": "..."}
+        
+        if not user_message:
+            return jsonify({"error": "Message required"}), 400
 
+        api_key = os.getenv("GROQ_API_KEY")
+        if not api_key:
+            return jsonify({"error": "API key missing"}), 500
+
+        client = Groq(api_key=api_key)
+        MODEL = "llama-3.3-70b-versatile"  # Or your preferred model
+
+        # System prompt for travel assistant
+        system_prompt = {
+            "role": "system",
+            "content": """You are a luxury travel concierge for GlobeTrotter. 
+            Your goal is to provide high-end, bespoke travel advice.
+            - Use beautiful descriptive language.
+            - Format your responses using Markdown (bolding, lists, etc.) to make them very readable.
+            - If you suggest a plan, provide a clear structured list.
+            - Only output JSON if the user explicitly asks for a 'data format' or 'technical plan'.
+            - Keep your tone sophisticated but helpful.
+            - Answer in the currency the user prefers (default to USD/INR)."""
+        }
+
+        # Build messages: system + history + new user message
+        messages = [system_prompt] + history + [{"role": "user", "content": user_message}]
+
+        completion = client.chat.completions.create(
+            messages=messages,
+            model=MODEL,
+            temperature=0.7,
+            max_tokens=2000
+        )
+
+        response = completion.choices[0].message.content.strip()
+
+        # If response is a plan, parse as JSON (optional enhancement)
+        try:
+            itinerary = json.loads(response)
+            return jsonify({"response": response, "itinerary": itinerary}), 200
+        except:
+            return jsonify({"response": response}), 200
+
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
 
 # ------------------ HEALTH CHECK ------------------
 
