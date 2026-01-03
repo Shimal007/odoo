@@ -799,12 +799,24 @@ def chat():
             "role": "system",
             "content": """You are a luxury travel concierge for GlobeTrotter. 
             Your goal is to provide high-end, bespoke travel advice.
-            - Use beautiful descriptive language.
-            - Format your responses using Markdown (bolding, lists, etc.) to make them very readable.
-            - If you suggest a plan, provide a clear structured list.
-            - Only output JSON if the user explicitly asks for a 'data format' or 'technical plan'.
-            - Keep your tone sophisticated but helpful.
-            - Answer in the currency the user prefers (default to USD/INR)."""
+            
+            IMPORTANT FORMATTING RULES:
+            - NEVER use JSON format in your responses
+            - ALWAYS use beautiful Markdown formatting (headings, bold, lists, etc.)
+            - Use descriptive, elegant language
+            - Structure travel plans with clear headings and numbered lists
+            - Include emoji icons for visual appeal (✈️ 🏨 🍽️ 🏛️ 🌅)
+            - Keep your tone sophisticated but helpful
+            - Answer in the currency the user prefers (default to USD/INR)
+            
+            Example format for itineraries:
+            ## 🌟 Your Weekend in [City]
+            
+            ### Day 1: [Theme]
+            1. **Morning:** [Activity] - [Description]
+            2. **Afternoon:** [Activity] - [Description]
+            
+            Make every response visually engaging and easy to read!"""
         }
 
         # Build messages: system + history + new user message
@@ -819,12 +831,8 @@ def chat():
 
         response = completion.choices[0].message.content.strip()
 
-        # If response is a plan, parse as JSON (optional enhancement)
-        try:
-            itinerary = json.loads(response)
-            return jsonify({"response": response, "itinerary": itinerary}), 200
-        except:
-            return jsonify({"response": response}), 200
+        # Always return markdown formatted response
+        return jsonify({"response": response}), 200
 
     except Exception as e:
         return jsonify({"error": str(e)}), 500

@@ -155,8 +155,8 @@ const Chatbot = ({ user }) => {
                     }}>
                         {history.length === 0 && (
                             <div style={{ textAlign: 'center', marginTop: '1rem' }}>
-                                <div style={{ fontSize: '3.5rem', marginBottom: '1rem', filter: 'drop-shadow(0 10px 15px rgba(0,0,0,0.1))' }}>🌟</div>
-                                <h4 style={{ color: 'var(--charcoal)', marginBottom: '0.75rem', fontFamily: 'var(--font-serif)', fontSize: '1.5rem' }}>Bespoke Travels</h4>
+                                <div style={{ fontSize: '2.5rem', marginBottom: '0.75rem', filter: 'drop-shadow(0 10px 15px rgba(0,0,0,0.1))' }}>🌟</div>
+                                <h4 style={{ color: 'var(--charcoal)', marginBottom: '0.75rem', fontFamily: 'var(--font-serif)', fontSize: '1.25rem' }}>Bespoke Travels</h4>
                                 <p style={{ fontSize: '0.9rem', color: 'var(--warm-gray)', lineHeight: 1.6, padding: '0 1rem' }}>
                                     Welcome, <span style={{ color: 'var(--gold)', fontWeight: 600 }}>{user?.name || 'Explorer'}</span>.
                                     I am your personal AI concierge. How shall we craft your next journey?
@@ -189,12 +189,13 @@ const Chatbot = ({ user }) => {
                                     alignSelf: msg.role === 'user' ? 'flex-end' : 'flex-start',
                                     padding: '1rem 1.25rem',
                                     borderRadius: msg.role === 'user' ? '1.5rem 1.5rem 0.25rem 1.5rem' : '1.5rem 1.5rem 1.5rem 0.25rem',
-                                    background: msg.role === 'user' ? 'var(--gold)' : 'white',
-                                    color: msg.role === 'user' ? 'white' : 'var(--charcoal)',
+                                    background: msg.role === 'user' ? 'linear-gradient(135deg, #E8E2D5 0%, #D4C5B0 100%)' : 'white',
+                                    color: msg.role === 'user' ? 'var(--charcoal)' : 'var(--charcoal)',
                                     boxShadow: '0 10px 25px rgba(0,0,0,0.05)',
                                     fontSize: '0.95rem',
                                     lineHeight: 1.6,
-                                    border: msg.role === 'user' ? 'none' : '1px solid var(--cream-dark)'
+                                    border: msg.role === 'user' ? '2px solid var(--gold)' : '1px solid var(--cream-dark)',
+                                    fontWeight: msg.role === 'user' ? '500' : 'normal'
                                 }}
                                 className="animate-fade-in"
                             >

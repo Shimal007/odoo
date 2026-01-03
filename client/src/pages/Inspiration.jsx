@@ -169,10 +169,10 @@ const Inspiration = ({ user, onLogout }) => {
                                         </div>
                                         <h2 style={{
                                             marginBottom: 'var(--spacing-sm)',
-                                            fontSize: '2rem',
+                                            fontSize: '1.5rem',
                                             fontFamily: 'var(--font-serif)',
                                             color: 'var(--charcoal)',
-                                            lineHeight: 1.2
+                                            lineHeight: 1.3
                                         }}>
                                             {featuredPost.title}
                                         </h2>
@@ -245,9 +245,9 @@ const Inspiration = ({ user, onLogout }) => {
 
                                             <div style={{ padding: 'var(--spacing-lg)', background: 'white' }}>
                                                 <h3 style={{
-                                                    fontSize: '1.2rem',
+                                                    fontSize: '1rem',
                                                     marginBottom: '0.5rem',
-                                                    lineHeight: 1.3,
+                                                    lineHeight: 1.4,
                                                     fontFamily: 'var(--font-serif)',
                                                     color: 'var(--charcoal)',
                                                     transition: 'color 0.3s ease'
