@@ -14,7 +14,9 @@ import {
     ChevronRight,
     TrendingUp,
     Clock,
-    ArrowLeft
+    ArrowLeft,
+    Sparkles,
+    LayoutGrid
 } from 'lucide-react';
 
 const BuildItinerary = () => {
@@ -22,47 +24,28 @@ const BuildItinerary = () => {
     const location = useLocation();
     const navigate = useNavigate();
 
-    // Initial State
-    const initialTrip = location.state?.trip || {
-        tripName: 'Paris Escape',
+    // Initial State from navigation
+    const tripDetails = location.state?.trip || {
+        tripName: 'Paris Adventure',
         destination: 'Paris',
         startDate: '2024-01-10',
         endDate: '2024-01-15'
     };
 
-    const [stops, setStops] = useState([
-        {
-            id: 'stop-1',
-            title: 'Arrival & City Walk',
-            description: 'Check-in at the boutique hotel and a sunset walk near the Eiffel Tower.',
-            startDate: '2024-01-10',
-            endDate: '2024-01-10',
-            budget: 200,
-            type: 'city',
-            activities: ['Hotel Check-in', 'Eiffel Tower Sunset']
-        },
-        {
-            id: 'stop-2',
-            title: 'Louvre & Art District',
-            description: 'A deep dive into history and art at the Louvre museum followed by Montmartre.',
-            startDate: '2024-01-11',
-            endDate: '2024-01-11',
-            budget: 150,
-            type: 'activity',
-            activities: ['Louvre Tour', 'Montmartre Walk', 'Macaron Workshop']
-        }
-    ]);
+    // State for itinerary sections (Stops)
+    const [stops, setStops] = useState([]);
 
-    const addStop = () => {
+    // Function to add a stop (Section)
+    const addStop = (defaultTitle = 'New Stop', defaultDesc = 'Plan your activities here...') => {
         const newStop = {
-            id: `stop-${Date.now()}`,
-            title: 'New Stop',
-            description: 'Add your activities and plans here...',
-            startDate: initialTrip.startDate,
-            endDate: initialTrip.startDate,
+            id: `stop-${Date.now()}-${Math.random().toString(36).substr(2, 5)}`,
+            title: defaultTitle,
+            description: defaultDesc,
+            startDate: tripDetails.startDate,
+            endDate: tripDetails.startDate,
             budget: 100,
-            type: 'city',
-            activities: []
+            type: 'activity',
+            activities: defaultTitle !== 'New Stop' ? [defaultTitle] : []
         };
         setStops([...stops, newStop]);
     };
@@ -85,207 +68,227 @@ const BuildItinerary = () => {
                     <div className="flex items-center gap-6">
                         <button
                             onClick={() => navigate('/create-trip')}
-                            className="p-2 hover:bg-gray-100 rounded-full transition-colors"
+                            className="flex items-center gap-2 text-gray-400 hover:text-dark font-bold text-sm transition-colors group"
                         >
-                            <ArrowLeft className="w-5 h-5 text-gray-400" />
+                            <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
+                            Back to Blueprint
                         </button>
-                        <div>
-                            <h1 className="text-xl font-black text-dark leading-none">{initialTrip.tripName}</h1>
+                        <div className="hidden sm:block">
+                            <h1 className="text-xl font-black text-dark leading-none">{tripDetails.tripName}</h1>
                             <p className="text-[10px] font-bold text-secondary uppercase tracking-[0.2em] mt-1">Multi-City Planner</p>
                         </div>
                     </div>
 
-                    <div className="hidden md:flex items-center gap-8">
+                    <div className="flex items-center gap-4 md:gap-8">
                         <div className="text-right">
-                            <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest">Total Budget</p>
-                            <p className="text-xl font-black text-secondary">${totalBudget}</p>
+                            <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest leading-none mb-1">Total Budget</p>
+                            <p className="text-lg font-black text-secondary leading-none">${totalBudget}</p>
                         </div>
-                        <button className="bg-dark text-white px-8 py-3 rounded-2xl font-black text-sm shadow-xl active:scale-95 transition-all">
-                            Finalize Trip
+                        <button className="bg-dark text-white px-6 py-2.5 rounded-xl font-bold text-xs shadow-lg active:scale-95 transition-all">
+                            Save Draft
                         </button>
                     </div>
                 </div>
             </nav>
 
-            <div className="max-w-4xl mx-auto px-4 py-12">
-                <header className="mb-12 flex justify-between items-end">
+            <div className="max-w-5xl mx-auto px-4 py-12">
+                <header className="mb-12 flex flex-col md:flex-row justify-between items-start md:items-end gap-6">
                     <div className="space-y-2">
+                        <div className="flex items-center gap-3">
+                            <div className="bg-secondary/10 px-3 py-1 rounded-full text-secondary font-black text-[10px] uppercase tracking-widest border border-secondary/20">
+                                Itinerary Phase
+                            </div>
+                            <span className="text-gray-300 font-bold text-xs uppercase">ID: {tripId}</span>
+                        </div>
                         <h2 className="text-4xl font-black text-dark tracking-tighter italic flex items-center gap-3">
-                            Your Itinerary
+                            Build your Journey
                             <TrendingUp className="text-secondary w-8 h-8" />
                         </h2>
-                        <p className="text-gray-400 font-bold ml-1">Drag to reorder your stops or add new experiences.</p>
                     </div>
                     <div className="flex gap-2">
                         <div className="bg-white px-4 py-2 rounded-xl shadow-sm border border-gray-50 flex items-center gap-2">
                             <Clock className="w-4 h-4 text-secondary" />
-                            <span className="text-xs font-black">6 Days</span>
+                            <span className="text-xs font-black">Plan View</span>
+                        </div>
+                        <div className="bg-white px-4 py-2 rounded-xl shadow-sm border border-gray-50 flex items-center gap-2">
+                            <MapPin className="w-4 h-4 text-secondary" />
+                            <span className="text-xs font-black">{tripDetails.destination}</span>
                         </div>
                     </div>
                 </header>
 
-                {/* Reorderable Stop Sections */}
-                <Reorder.Group
-                    values={stops}
-                    onReorder={setStops}
-                    className="space-y-6 relative"
-                >
-                    {/* Vertical Timeline Path (Unique Feature) */}
-                    <div className="absolute left-[34px] top-10 bottom-10 w-1 bg-gradient-to-b from-secondary/20 via-secondary/10 to-transparent rounded-full -z-10 hidden sm:block"></div>
+                {/* Main Canvas Area */}
+                <div className="min-h-[400px]">
+                    {stops.length === 0 ? (
+                        /* Empty State (The "Blank Canvas") */
+                        <motion.div
+                            initial={{ opacity: 0, y: 20 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            className="bg-white/40 border-4 border-dashed border-gray-100 rounded-[3rem] p-20 flex flex-col items-center justify-center text-center space-y-6"
+                        >
+                            <div className="w-24 h-24 bg-gray-50 rounded-full flex items-center justify-center text-gray-200 shadow-inner">
+                                <LayoutGrid className="w-10 h-10" />
+                            </div>
+                            <div className="space-y-2">
+                                <h4 className="text-2xl font-black text-dark">Your itinerary is a blank canvas</h4>
+                                <p className="text-gray-400 font-medium max-w-sm mx-auto text-sm italic">
+                                    "The world is a book and those who do not travel read only one page."
+                                </p>
+                            </div>
+                            <div className="flex gap-4 pt-4">
+                                <button
+                                    onClick={() => addStop()}
+                                    className="px-10 py-4 bg-secondary text-white rounded-2xl font-black shadow-lg shadow-secondary/20 hover:-translate-y-1 transition-all"
+                                >
+                                    Start Building
+                                </button>
+                            </div>
+                        </motion.div>
+                    ) : (
+                        /* Reorderable Stop Sections */
+                        <Reorder.Group
+                            values={stops}
+                            onReorder={setStops}
+                            className="space-y-8 relative"
+                        >
+                            <div className="absolute left-[34px] top-10 bottom-10 w-1 bg-gradient-to-b from-secondary/20 via-secondary/10 to-transparent rounded-full -z-10 hidden sm:block"></div>
 
-                    <AnimatePresence mode="popLayout">
-                        {stops.map((stop, index) => (
-                            <Reorder.Item
-                                key={stop.id}
-                                value={stop}
-                                initial={{ opacity: 0, scale: 0.95 }}
-                                animate={{ opacity: 1, scale: 1 }}
-                                exit={{ opacity: 0, scale: 0.9 }}
-                                className="relative group"
-                            >
-                                <div className="glass-card rounded-[2.5rem] p-8 flex gap-6 border-white/40 ring-1 ring-black/5 hover:ring-secondary/20 transition-all duration-300">
+                            <AnimatePresence mode="popLayout">
+                                {stops.map((stop, index) => (
+                                    <Reorder.Item
+                                        key={stop.id}
+                                        value={stop}
+                                        initial={{ opacity: 0, scale: 0.95 }}
+                                        animate={{ opacity: 1, scale: 1 }}
+                                        exit={{ opacity: 0, scale: 0.9 }}
+                                        className="relative"
+                                    >
+                                        <div className="glass-card rounded-[2.5rem] p-8 flex flex-col sm:flex-row gap-6 border-white/40 ring-1 ring-black/5 hover:ring-secondary/20 transition-all duration-300">
 
-                                    {/* Reorder Handle & Stop Type Icon */}
-                                    <div className="flex flex-col items-center gap-4 pt-1">
-                                        <GripVertical className="text-gray-200 cursor-grab active:cursor-grabbing hover:text-gray-400 transition-colors" />
-                                        <div className={`w-12 h-12 rounded-2xl flex items-center justify-center shadow-lg transition-transform group-hover:rotate-6 ${stop.type === 'travel' ? 'bg-blue-500 text-white shadow-blue-500/20' :
-                                                stop.type === 'hotel' ? 'bg-orange-500 text-white shadow-orange-500/20' :
-                                                    'bg-secondary text-white shadow-secondary/20'
-                                            }`}>
-                                            {stop.type === 'travel' ? <Plane className="w-6 h-6" /> :
-                                                stop.type === 'hotel' ? <Hotel className="w-6 h-6" /> :
-                                                    <MapPin className="w-6 h-6" />}
-                                        </div>
-                                        <div className="text-[10px] font-black text-gray-300 uppercase tracking-widest mt-2 bg-gray-50 px-2 py-1 rounded-md">
-                                            Stop {index + 1}
-                                        </div>
-                                    </div>
+                                            {/* Section Marker */}
+                                            <div className="flex flex-row sm:flex-col items-center gap-4">
+                                                <GripVertical className="text-gray-200 cursor-grab active:cursor-grabbing hover:text-gray-400 md:block hidden" />
+                                                <div className={`w-12 h-12 rounded-2xl flex items-center justify-center shadow-lg bg-secondary text-white shadow-secondary/20 font-black`}>
+                                                    {index + 1}
+                                                </div>
+                                                <span className="text-[8px] font-black text-gray-300 uppercase tracking-widest">Section</span>
+                                            </div>
 
-                                    {/* Stop Content */}
-                                    <div className="flex-1 space-y-6">
-                                        <div className="flex justify-between items-start">
-                                            <div className="space-y-1 flex-1">
-                                                <input
-                                                    type="text"
-                                                    value={stop.title}
-                                                    onChange={(e) => updateStop(stop.id, 'title', e.target.value)}
-                                                    className="text-2xl font-black text-dark bg-transparent border-none focus:ring-0 p-0 w-full placeholder:text-gray-200"
-                                                />
+                                            <div className="flex-1 space-y-6">
+                                                <div className="flex justify-between items-start">
+                                                    <input
+                                                        type="text"
+                                                        value={stop.title}
+                                                        onChange={(e) => updateStop(stop.id, 'title', e.target.value)}
+                                                        className="text-2xl font-black text-dark bg-transparent border-none focus:ring-0 p-0 w-full"
+                                                    />
+                                                    <button
+                                                        onClick={() => removeStop(stop.id)}
+                                                        className="p-2 text-gray-200 hover:text-red-400 hover:bg-red-50 rounded-xl transition-all"
+                                                    >
+                                                        <Trash2 className="w-4 h-4" />
+                                                    </button>
+                                                </div>
+
                                                 <textarea
                                                     value={stop.description}
                                                     onChange={(e) => updateStop(stop.id, 'description', e.target.value)}
-                                                    className="text-sm font-medium text-gray-400 bg-transparent border-none focus:ring-0 p-0 w-full resize-none h-12 overflow-hidden italic"
+                                                    className="w-full bg-transparent border-none text-gray-400 italic text-sm p-0 focus:ring-0 resize-none h-12"
                                                 />
-                                            </div>
-                                            <button
-                                                onClick={() => removeStop(stop.id)}
-                                                className="p-3 text-gray-300 hover:text-red-500 hover:bg-red-50 rounded-2xl transition-all"
-                                            >
-                                                <Trash2 className="w-5 h-5" />
-                                            </button>
-                                        </div>
 
-                                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                            {/* Date Range Picker Style */}
-                                            <div className="bg-white/50 border border-gray-100/50 rounded-2xl p-4 flex items-center justify-between group/field hover:bg-white transition-colors">
-                                                <div className="flex items-center gap-3">
-                                                    <Calendar className="w-4 h-4 text-secondary" />
-                                                    <div>
-                                                        <p className="text-[8px] font-black text-gray-400 uppercase leading-none mb-1">Date Range</p>
-                                                        <div className="flex items-center gap-1 font-bold text-xs text-dark">
-                                                            <input
-                                                                type="text"
-                                                                value={stop.startDate}
-                                                                onChange={(e) => updateStop(stop.id, 'startDate', e.target.value)}
-                                                                className="bg-transparent border-none p-0 w-20 focus:ring-0 text-xs font-bold"
-                                                            />
-                                                            <span className="text-gray-300 italic">to</span>
-                                                            <input
-                                                                type="text"
-                                                                value={stop.endDate}
-                                                                onChange={(e) => updateStop(stop.id, 'endDate', e.target.value)}
-                                                                className="bg-transparent border-none p-0 w-20 focus:ring-0 text-xs font-bold"
-                                                            />
+                                                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                                    <div className="bg-white/50 border border-gray-100/50 rounded-2xl p-4 flex items-center gap-3">
+                                                        <Calendar className="w-4 h-4 text-secondary" />
+                                                        <div className="flex-1">
+                                                            <p className="text-[8px] font-black text-gray-400 uppercase tracking-widest">Date Range</p>
+                                                            <div className="flex items-center gap-1 font-bold text-xs">
+                                                                <input type="text" value={stop.startDate} onChange={(e) => updateStop(stop.id, 'startDate', e.target.value)} className="w-20 bg-transparent border-none p-0 focus:ring-0" />
+                                                                <span className="text-gray-300">to</span>
+                                                                <input type="text" value={stop.endDate} onChange={(e) => updateStop(stop.id, 'endDate', e.target.value)} className="w-20 bg-transparent border-none p-0 focus:ring-0" />
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div className="bg-white/50 border border-gray-100/50 rounded-2xl p-4 flex items-center gap-3">
+                                                        <DollarSign className="w-4 h-4 text-orange-400" />
+                                                        <div className="flex-1">
+                                                            <p className="text-[8px] font-black text-gray-400 uppercase tracking-widest">Section Budget</p>
+                                                            <div className="flex items-center gap-1 font-black text-xs">
+                                                                <span>$</span>
+                                                                <input type="number" value={stop.budget} onChange={(e) => updateStop(stop.id, 'budget', e.target.value)} className="w-20 bg-transparent border-none p-0 focus:ring-0" />
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
-                                            </div>
 
-                                            {/* Budget Field Style */}
-                                            <div className="bg-white/50 border border-gray-100/50 rounded-2xl p-4 flex items-center justify-between group/field hover:bg-white transition-colors">
-                                                <div className="flex items-center gap-3">
-                                                    <DollarSign className="w-4 h-4 text-orange-400" />
-                                                    <div>
-                                                        <p className="text-[8px] font-black text-gray-400 uppercase leading-none mb-1">Stop Budget</p>
-                                                        <div className="flex items-center">
-                                                            <span className="text-dark font-black text-xs">$</span>
-                                                            <input
-                                                                type="number"
-                                                                value={stop.budget}
-                                                                onChange={(e) => updateStop(stop.id, 'budget', e.target.value)}
-                                                                className="bg-transparent border-none p-0 w-20 focus:ring-0 text-xs font-black"
-                                                            />
-                                                        </div>
-                                                    </div>
+                                                {/* Activity Tags */}
+                                                <div className="flex flex-wrap gap-2 pt-2">
+                                                    {stop.activities.map((act, i) => (
+                                                        <span key={i} className="bg-secondary/5 text-secondary px-3 py-1.5 rounded-xl text-[10px] font-black border border-secondary/10 capitalize">
+                                                            {act}
+                                                        </span>
+                                                    ))}
+                                                    <button className="text-[10px] font-black text-gray-300 uppercase hover:text-secondary transition-colors">+ Add Item</button>
                                                 </div>
                                             </div>
                                         </div>
+                                    </Reorder.Item>
+                                ))}
+                            </AnimatePresence>
 
-                                        {/* Activities Mini-Tags (Unique Feature) */}
-                                        <div className="flex flex-wrap gap-2 pt-2">
-                                            {stop.activities.map((act, i) => (
-                                                <div key={i} className="flex items-center gap-2 bg-secondary/5 border border-secondary/10 px-3 py-1.5 rounded-xl text-[10px] font-bold text-secondary capitalize group/act hover:bg-secondary hover:text-white transition-all cursor-default">
-                                                    {act}
-                                                    <button className="opacity-0 group-hover/act:opacity-100 transition-opacity">
-                                                        <Plus className="w-3 h-3 rotate-45" />
-                                                    </button>
-                                                </div>
-                                            ))}
-                                            <button className="flex items-center gap-1 px-3 py-1.5 rounded-xl text-[10px] font-black text-gray-400 hover:bg-gray-100 hover:text-dark transition-all uppercase border border-dashed border-gray-200">
-                                                <Plus className="w-3 h-3" /> Add Activity
-                                            </button>
-                                        </div>
-                                    </div>
+                            {/* Add Button */}
+                            <button
+                                onClick={() => addStop()}
+                                className="w-full py-8 border-2 border-dashed border-gray-100 rounded-[2.5rem] flex items-center justify-center gap-3 text-gray-300 hover:border-secondary/20 hover:text-secondary hover:bg-secondary/5 transition-all group"
+                            >
+                                <div className="bg-white rounded-full p-2 shadow-sm group-hover:rotate-90 transition-transform">
+                                    <Plus className="w-5 h-5" />
                                 </div>
-                            </Reorder.Item>
+                                <span className="font-black italic">Add another Section</span>
+                            </button>
+                        </Reorder.Group>
+                    )}
+                </div>
+
+                {/* Dynamic Suggestion Strip */}
+                <section className="mt-20 space-y-6">
+                    <div className="flex items-center justify-between border-b border-gray-100 pb-4">
+                        <h3 className="section-label !mb-0">Suggested for your {tripDetails.destination} Journey</h3>
+                        <Sparkles className="text-secondary w-4 h-4 animate-pulse" />
+                    </div>
+
+                    <div className="flex gap-4 overflow-x-auto pb-6 -mx-4 px-4 no-scrollbar">
+                        {[
+                            { name: 'Louvre Museum', color: 'bg-orange-50' },
+                            { name: 'Eiffel Tower', color: 'bg-blue-50' },
+                            { name: 'Seine River Cruise', color: 'bg-cyan-50' },
+                            { name: 'Montmartre Walk', color: 'bg-purple-50' },
+                            { name: 'Macaron Workshop', color: 'bg-pink-50' },
+                            { name: 'Luxury Stay', color: 'bg-yellow-50' }
+                        ].map(item => (
+                            <motion.button
+                                key={item.name}
+                                whileHover={{ y: -5, scale: 1.02 }}
+                                whileTap={{ scale: 0.98 }}
+                                onClick={() => addStop(item.name, `Exploring the wonders of ${item.name} in ${tripDetails.destination}.`)}
+                                className="flex-shrink-0 bg-white px-6 py-5 rounded-[2rem] shadow-sm border border-gray-50 flex items-center gap-4 shadow-gray-200/20 hover:shadow-xl hover:shadow-secondary/10 transition-all text-left group"
+                            >
+                                <div className={`w-10 h-10 ${item.color} rounded-2xl flex items-center justify-center`}>
+                                    <Plus className="w-5 h-5 text-gray-400 group-hover:text-secondary transition-colors" />
+                                </div>
+                                <div>
+                                    <p className="font-bold text-sm text-dark whitespace-nowrap">{item.name}</p>
+                                    <p className="text-[9px] font-black text-gray-300 uppercase tracking-widest mt-0.5">Add to Plan</p>
+                                </div>
+                            </motion.button>
                         ))}
-                    </AnimatePresence>
-                </Reorder.Group>
-
-                {/* Add Another Section Button */}
-                <motion.button
-                    whileHover={{ scale: 1.02, y: -2 }}
-                    whileTap={{ scale: 0.98 }}
-                    onClick={addStop}
-                    className="w-full mt-10 py-10 rounded-[2.5rem] border-4 border-dashed border-gray-100 flex flex-col items-center justify-center text-gray-300 hover:border-secondary/20 hover:text-secondary hover:bg-secondary/5 transition-all duration-300 space-y-3 shadow-sm hover:shadow-xl shadow-gray-200/50"
-                >
-                    <div className="w-16 h-16 bg-white rounded-full flex items-center justify-center text-gray-200 shadow-md transform group-hover:rotate-12">
-                        <Plus className="w-8 h-8" />
                     </div>
-                    <span className="text-xl font-black italic tracking-tight">Add another Stop to your Journey</span>
-                    <p className="text-xs font-bold uppercase tracking-widest text-gray-400 opacity-60">Multi-city planning enabled</p>
-                </motion.button>
+                </section>
 
-                {/* Quick Tips / AI Insight (Extra Uniqueness) */}
-                <div className="mt-20 p-8 glass-card rounded-[3rem] border-orange-100 bg-orange-50/20">
-                    <div className="flex items-center gap-3 mb-4">
-                        <Camera className="text-orange-400 w-5 h-5" />
-                        <h4 className="font-extrabold text-dark tracking-tight">Travel Insights</h4>
-                    </div>
-                    <p className="text-sm font-medium text-gray-500 leading-relaxed italic">
-                        "Based on your 5-day stop in Paris, we recommend visiting the **Sacré-Cœur** at dawn for the best photography light. Your current budget is well-balanced for local experiences!"
-                    </p>
-                </div>
-
-                {/* Footer Navigation */}
-                <div className="mt-12 flex justify-end">
-                    <button className="flex items-center gap-3 group">
-                        <span className="text-gray-400 font-bold group-hover:text-dark transition-colors">See Full Overview</span>
-                        <div className="bg-white p-3 rounded-full shadow-lg group-hover:translate-x-1 transition-transform border border-gray-50">
-                            <ChevronRight className="w-5 h-5 text-secondary" />
-                        </div>
-                    </button>
-                </div>
+                {/* Footer Info */}
+                <footer className="mt-20 flex flex-col items-center">
+                    <div className="w-16 h-1 bg-gray-100 rounded-full mb-8"></div>
+                    <p className="text-[10px] font-black text-gray-300 uppercase tracking-[0.4em]">Finishing touches for globaltrotter</p>
+                </footer>
             </div>
         </div>
     );
